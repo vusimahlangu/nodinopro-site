@@ -4,12 +4,302 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nodinopro - AI K53 Learner's License Preparation</title>
-    <link rel="icon" href="favicon.ico">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .sign-card { transition: transform 0.3s ease; }
+        .sign-card:hover { transform: translateY(-5px); }
+        body { font-family: system-ui, -apple-system, sans-serif; }
+        .quiz-option { cursor: pointer; }
+        .max-w-content { max-width: fit-content; }
+        .overflow-visible { overflow: visible !important; }
+    </style>
 </head>
-<body>
-    <h1 style="text-align:center;margin-top:50px;">Nodinopro Website Ready</h1>
-    <p style="text-align:center;">This is your complete HTML site, ready to publish on GitHub Pages.</p>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                        <span class="text-white font-bold text-xl">N</span>
+                    </div>
+                    <span class="ml-3 text-xl font-bold text-gray-800">Nodinopro</span>
+                </div>
+                <div class="flex items-center space-x-6">
+                    <a href="#learn" class="text-gray-700 hover:text-blue-600 font-medium">Learn</a>
+                    <a href="#test" class="text-gray-700 hover:text-blue-600 font-medium">Test</a>
+                    <a href="#pricing" class="text-gray-700 hover:text-blue-600 font-medium">Get Access</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-20">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h1 class="text-5xl font-bold mb-6">Master Your K53 Learner's License</h1>
+            <p class="text-xl mb-8 max-w-3xl mx-auto">AI-powered road sign learning and assessment platform. Pass your test with confidence using our intelligent learning system.</p>
+            <button onclick="scrollToPayment()" class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold text-lg hover:bg-gray-100 transition">Start Learning Now</button>
+        </div>
+    </section>
+
+    <!-- Learning Modules -->
+    <section id="learn" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-4">Interactive Learning Experience</h2>
+            <p class="text-xl text-gray-600 text-center mb-12">Master all South African road signs with our AI-powered system</p>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+                <div class="bg-white rounded-xl shadow-lg p-6 sign-card">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-traffic-light text-2xl text-blue-600"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Road Signs Library</h3>
+                    <p class="text-gray-600 mb-4">Complete database of all official South African road signs</p>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-lg p-6 sign-card">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-brain text-2xl text-green-600"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">AI Smart Tests</h3>
+                    <p class="text-gray-600 mb-4">Adaptive tests that focus on your weak areas</p>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-lg p-6 sign-card">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-gamepad text-2xl text-purple-600"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Gamified Learning</h3>
+                    <p class="text-gray-600 mb-4">Speed challenges and memory games</p>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-lg p-6 sign-card">
+                    <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-chart-line text-2xl text-orange-600"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Progress Tracking</h3>
+                    <p class="text-gray-600 mb-4">Real-time dashboard showing your mastery level</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Payment Section -->
+    <section id="pricing" class="py-20 bg-white">
+        <div class="max-w-4xl mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-4">Choose Your Plan</h2>
+            <p class="text-xl text-gray-600 text-center mb-12">Flexible access options to suit your learning journey</p>
+            
+            <div class="grid md:grid-cols-3 gap-8 mb-8">
+                <!-- 1 Month Plan -->
+                <div class="bg-white rounded-2xl shadow-lg border-2 border-gray-100 p-6 text-center">
+                    <div class="mb-6">
+                        <div class="text-2xl font-bold text-gray-800 mb-2">1 Month</div>
+                        <div class="text-4xl font-bold text-blue-600">R149</div>
+                        <div class="text-gray-500 text-sm">Perfect for quick preparation</div>
+                    </div>
+                    <ul class="text-left space-y-3 mb-6">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>All road signs access</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>Basic practice tests</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>Mobile friendly</span>
+                        </li>
+                    </ul>
+                    <button onclick="selectPlan('1-month')" class="w-full bg-gray-100 text-gray-800 py-3 rounded-lg font-semibold hover:bg-gray-200 transition">Select Plan</button>
+                </div>
+
+                <!-- 3 Months Plan - Recommended -->
+                <div class="bg-gradient-to-b from-blue-500 to-purple-600 rounded-2xl shadow-2xl p-6 text-center text-white relative overflow-visible">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 w-full max-w-content">
+                        <span class="bg-green-500 text-white px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap">MOST POPULAR</span>
+                    </div>
+                    <div class="mt-4 mb-6">
+                        <div class="text-2xl font-bold mb-2">3 Months</div>
+                        <div class="text-4xl font-bold mb-1">R389</div>
+                        <div class="text-blue-100 text-sm">Save R58 vs monthly</div>
+                    </div>
+                    <ul class="text-left space-y-3 mb-6">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-300 mr-3"></i>
+                            <span>All road signs access</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-300 mr-3"></i>
+                            <span>AI-powered practice tests</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-300 mr-3"></i>
+                            <span>Progress tracking</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-300 mr-3"></i>
+                            <span>Gamified learning</span>
+                        </li>
+                    </ul>
+                    <button onclick="selectPlan('3-months')" class="w-full bg-white text-blue-600 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">Select Plan</button>
+                </div>
+
+                <!-- 12 Months Plan -->
+                <div class="bg-white rounded-2xl shadow-lg border-2 border-yellow-300 p-6 text-center">
+                    <div class="mb-6">
+                        <div class="text-2xl font-bold text-gray-800 mb-2">12 Months</div>
+                        <div class="text-4xl font-bold text-blue-600">R999</div>
+                        <div class="text-gray-500 text-sm">Best value - 44% savings</div>
+                    </div>
+                    <ul class="text-left space-y-3 mb-6">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>All road signs access</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>Full AI assessment suite</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>Advanced progress analytics</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>Priority support</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>Certificate of completion</span>
+                        </li>
+                    </ul>
+                    <button onclick="selectPlan('12-months')" class="w-full bg-yellow-500 text-white py-3 rounded-lg font-semibold hover:bg-yellow-600 transition">Best Value</button>
+                </div>
+            </div>
+
+            <!-- Payment Instructions -->
+            <div class="bg-gray-50 rounded-xl p-6 border border-gray-200">
+                <h3 class="text-xl font-semibold mb-4 text-center">Payment Instructions</h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-semibold mb-3">Bank Details:</h4>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span>Bank:</span>
+                                <span class="font-semibold">FNB</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Account Name:</span>
+                                <span class="font-semibold">Nodinopro</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Account Number:</span>
+                                <span class="font-semibold">63152615523</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Reference:</span>
+                                <span class="font-semibold">Your Cellphone Number</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold mb-3">After Payment:</h4>
+                        <button onclick="openWhatsApp()" class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-semibold flex items-center justify-center w-full transition mb-3">
+                            <i class="fab fa-whatsapp text-xl mr-3"></i>
+                            Send Proof via WhatsApp
+                        </button>
+                        <p class="text-sm text-gray-600 text-center">Send to: <strong>062 801 0124</strong></p>
+                        <p class="text-xs text-gray-500 text-center mt-1">Include your selected plan and cell number</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Quiz -->
+    <section id="test" class="py-20 bg-gray-50">
+        <div class="max-w-4xl mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-4">Try Free Demo</h2>
+            
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                <div class="text-center mb-8">
+                    <div class="text-2xl font-semibold mb-6">What does this sign mean?</div>
+                    <div class="w-32 h-32 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-6 text-4xl">
+                        🛑
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 max-w-md mx-auto">
+                        <button class="quiz-option bg-gray-100 hover:bg-blue-100 p-4 rounded-lg border-2 border-transparent hover:border-blue-300 transition">Stop Sign</button>
+                        <button class="quiz-option bg-gray-100 hover:bg-blue-100 p-4 rounded-lg border-2 border-transparent hover:border-blue-300 transition">Yield Sign</button>
+                        <button class="quiz-option bg-gray-100 hover:bg-blue-100 p-4 rounded-lg border-2 border-transparent hover:border-blue-300 transition">No Entry</button>
+                        <button class="quiz-option bg-gray-100 hover:bg-blue-100 p-4 rounded-lg border-2 border-transparent hover:border-blue-300 transition">Speed Limit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-gray-400">© 2025 Nodinopro. All rights reserved.</p>
+            <p class="text-gray-400 mt-2">WhatsApp: 062 801 0124 | Email: nodinopro@gmail.com</p>
+        </div>
+    </footer>
+
+    <script>
+        let selectedPlan = '3-months';
+
+        function scrollToPayment() {
+            document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function selectPlan(plan) {
+            selectedPlan = plan;
+            document.querySelectorAll('button').forEach(btn => {
+                btn.classList.remove('ring-2', 'ring-blue-500', 'ring-offset-2');
+            });
+            event.target.classList.add('ring-2', 'ring-blue-500', 'ring-offset-2');
+        }
+
+        function openWhatsApp() {
+            const planDetails = {
+                '1-month': { price: 149, duration: '1 month' },
+                '3-months': { price: 389, duration: '3 months' },
+                '12-months': { price: 999, duration: '12 months' }
+            };
+            
+            const plan = planDetails[selectedPlan];
+            const message = `Hello Nodinopro, I want to purchase the ${plan.duration} plan for R${plan.price}. My cellphone number is: `;
+            window.open(`https://wa.me/27628010124?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        // Quiz functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.quiz-option').forEach(button => {
+                button.addEventListener('click', function() {
+                    document.querySelectorAll('.quiz-option').forEach(btn => {
+                        btn.classList.remove('bg-green-100', 'border-green-500', 'bg-red-100', 'border-red-500');
+                    });
+                    
+                    if (this.textContent === 'Stop Sign') {
+                        this.classList.add('bg-green-100', 'border-green-500');
+                        setTimeout(() => {
+                            alert('Correct! 🎉 This is a Stop Sign. You must come to a complete stop.');
+                        }, 300);
+                    } else {
+                        this.classList.add('bg-red-100', 'border-red-500');
+                        setTimeout(() => {
+                            alert('Incorrect. This is a Stop Sign. You must come to a complete stop.');
+                        }, 300);
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
