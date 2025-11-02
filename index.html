@@ -27,14 +27,92 @@
                     </div>
                     <span class="ml-3 text-xl font-bold text-gray-800">Nodinopro</span>
                 </div>
-                <div class="flex items-center space-x-6">
-                    <a href="#learn" class="text-gray-700 hover:text-blue-600 font-medium">Learn</a>
-                    <a href="#test" class="text-gray-700 hover:text-blue-600 font-medium">Test</a>
-                    <a href="#pricing" class="text-gray-700 hover:text-blue-600 font-medium">Get Access</a>
+                
+                <!-- Dynamic Navigation -->
+                <div id="auth-nav" class="flex items-center space-x-6">
+                    <!-- Shows when user is logged out -->
+                    <div id="logged-out-nav">
+                        <a href="#learn" class="text-gray-700 hover:text-blue-600 font-medium">Learn</a>
+                        <a href="#test" class="text-gray-700 hover:text-blue-600 font-medium">Test</a>
+                        <a href="#pricing" class="text-gray-700 hover:text-blue-600 font-medium">Get Access</a>
+                        <button onclick="showLoginModal()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Login</button>
+                    </div>
+                    
+                    <!-- Shows when user is logged in -->
+                    <div id="logged-in-nav" class="hidden">
+                        <a href="#dashboard" class="text-gray-700 hover:text-blue-600 font-medium">Dashboard</a>
+                        <a href="#learn" class="text-gray-700 hover:text-blue-600 font-medium">Learn</a>
+                        <a href="#test" class="text-gray-700 hover:text-blue-600 font-medium">Test</a>
+                        <span id="user-email" class="text-gray-700"></span>
+                        <button onclick="logout()" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">Logout</button>
+                    </div>
                 </div>
             </div>
         </div>
     </nav>
+
+    <!-- User Dashboard -->
+    <section id="dashboard" class="hidden py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-8">My Learning Dashboard</h2>
+            
+            <div class="grid md:grid-cols-3 gap-8 mb-8">
+                <div class="bg-white rounded-xl p-6 shadow-lg">
+                    <h3 class="text-xl font-semibold mb-4">Progress Overview</h3>
+                    <div class="space-y-3">
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>Road Signs Mastery</span>
+                                <span id="signs-progress">0%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div id="signs-progress-bar" class="bg-blue-600 h-2 rounded-full" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 shadow-lg">
+                    <h3 class="text-xl font-semibold mb-4">Quick Actions</h3>
+                    <div class="space-y-3">
+                        <button onclick="startLearning()" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">Continue Learning</button>
+                        <button onclick="takeTest()" class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700">Take Practice Test</button>
+                        <button onclick="viewProgress()" class="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700">View Detailed Progress</button>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 shadow-lg">
+                    <h3 class="text-xl font-semibold mb-4">Subscription Status</h3>
+                    <div id="subscription-status" class="text-lg font-semibold text-orange-600">Free Trial</div>
+                    <p class="text-gray-600 mt-2">Upgrade to access all features</p>
+                    <button onclick="scrollToPayment()" class="w-full bg-yellow-500 text-white py-2 rounded-lg hover:bg-yellow-600 mt-4">Upgrade Now</button>
+                </div>
+            </div>
+            
+            <!-- Learning Modules will go here -->
+            <div id="learning-content" class="bg-white rounded-xl p-6 shadow-lg">
+                <h3 class="text-2xl font-semibold mb-6">Road Signs Learning Modules</h3>
+                <div id="modules-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Modules will be loaded dynamically -->
+                    <div class="bg-blue-50 p-4 rounded-lg border-2 border-blue-200">
+                        <h4 class="font-semibold mb-2">Regulatory Signs</h4>
+                        <p class="text-sm text-gray-600 mb-3">Signs that give orders</p>
+                        <button class="bg-blue-600 text-white px-3 py-1 rounded text-sm">Start Learning</button>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-lg border-2 border-green-200">
+                        <h4 class="font-semibold mb-2">Warning Signs</h4>
+                        <p class="text-sm text-gray-600 mb-3">Signs that warn of hazards</p>
+                        <button class="bg-green-600 text-white px-3 py-1 rounded text-sm">Start Learning</button>
+                    </div>
+                    <div class="bg-red-50 p-4 rounded-lg border-2 border-red-200">
+                        <h4 class="font-semibold mb-2">Prohibition Signs</h4>
+                        <p class="text-sm text-gray-600 mb-3">Signs that prohibit actions</p>
+                        <button class="bg-red-600 text-white px-3 py-1 rounded text-sm">Start Learning</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Hero Section -->
     <section class="gradient-bg text-white py-20">
@@ -243,6 +321,40 @@
         </div>
     </section>
 
+    <!-- Login/Signup Modals -->
+    <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
+        <div class="bg-white rounded-xl p-8 max-w-md w-full mx-4">
+            <h3 class="text-2xl font-bold mb-6">Login to Your Account</h3>
+            <form onsubmit="handleLogin(event)">
+                <input type="email" id="loginEmail" placeholder="Email" class="w-full p-3 border rounded-lg mb-4" required>
+                <input type="password" id="loginPassword" placeholder="Password" class="w-full p-3 border rounded-lg mb-6" required>
+                <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700">Login</button>
+            </form>
+            <p class="text-center mt-4">
+                Don't have an account? 
+                <button onclick="showSignupModal()" class="text-blue-600 hover:underline">Sign up</button>
+            </p>
+            <button onclick="hideLoginModal()" class="absolute top-4 right-4 text-gray-500">✕</button>
+        </div>
+    </div>
+
+    <div id="signupModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
+        <div class="bg-white rounded-xl p-8 max-w-md w-full mx-4">
+            <h3 class="text-2xl font-bold mb-6">Create Your Account</h3>
+            <form onsubmit="handleSignup(event)">
+                <input type="text" id="signupName" placeholder="Full Name" class="w-full p-3 border rounded-lg mb-4" required>
+                <input type="email" id="signupEmail" placeholder="Email" class="w-full p-3 border rounded-lg mb-4" required>
+                <input type="password" id="signupPassword" placeholder="Password" class="w-full p-3 border rounded-lg mb-6" required>
+                <button type="submit" class="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700">Create Account</button>
+            </form>
+            <p class="text-center mt-4">
+                Already have an account? 
+                <button onclick="showLoginModal()" class="text-blue-600 hover:underline">Login</button>
+            </p>
+            <button onclick="hideSignupModal()" class="absolute top-4 right-4 text-gray-500">✕</button>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="bg-gray-800 text-white py-12">
         <div class="max-w-7xl mx-auto px-4 text-center">
@@ -251,29 +363,120 @@
         </div>
     </footer>
 
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
     <script>
-        // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+        // Your Firebase configuration - REPLACE WITH YOUR ACTUAL KEYS
+        const firebaseConfig = {
+            apiKey: "AIzaSyA5iMAkumEn63he362LdlgSlph47PI2M-8",
+            authDomain: "nodinopro-f8619.firebaseapp.com",
+            databaseURL: "https://nodinopro-f8619-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "nodinopro-f8619",
+            storageBucket: "nodinopro-f8619.firebasestorage.app",
+            messagingSenderId: "986804565375",
+            appId: "1:986804565375:web:3867091cc598f86b56564a"
+        };
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyA5iMAkumEn63he362LdlgSlph47PI2M-8",
-  authDomain: "nodinopro-f8619.firebaseapp.com",
-  databaseURL: "https://nodinopro-f8619-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "nodinopro-f8619",
-  storageBucket: "nodinopro-f8619.firebasestorage.app",
-  messagingSenderId: "986804565375",
-  appId: "1:986804565375:web:3867091cc598f86b56564a",
-  measurementId: "G-30GPFGGGS5"
-};
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.database();
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+        // Authentication Functions
+        function showLoginModal() {
+            document.getElementById('loginModal').classList.remove('hidden');
+        }
+
+        function hideLoginModal() {
+            document.getElementById('loginModal').classList.add('hidden');
+        }
+
+        function showSignupModal() {
+            document.getElementById('signupModal').classList.remove('hidden');
+            hideLoginModal();
+        }
+
+        function hideSignupModal() {
+            document.getElementById('signupModal').classList.add('hidden');
+        }
+
+        async function handleSignup(event) {
+            event.preventDefault();
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+
+            try {
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+                
+                // Save user data to Realtime Database
+                await db.ref('users/' + user.uid).set({
+                    name: name,
+                    email: email,
+                    createdAt: firebase.database.ServerValue.TIMESTAMP,
+                    subscription: 'none',
+                    progress: {}
+                });
+                
+                hideSignupModal();
+                alert('Account created successfully!');
+            } catch (error) {
+                alert('Error creating account: ' + error.message);
+            }
+        }
+
+        async function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            try {
+                await auth.signInWithEmailAndPassword(email, password);
+                hideLoginModal();
+            } catch (error) {
+                alert('Error logging in: ' + error.message);
+            }
+        }
+
+        async function logout() {
+            try {
+                await auth.signOut();
+            } catch (error) {
+                alert('Error logging out: ' + error.message);
+            }
+        }
+
+        // Auth State Listener
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                // User is signed in
+                document.getElementById('logged-out-nav').classList.add('hidden');
+                document.getElementById('logged-in-nav').classList.remove('hidden');
+                document.getElementById('user-email').textContent = user.email;
+                
+                // Show dashboard, hide public sections
+                document.getElementById('dashboard').classList.remove('hidden');
+                document.querySelectorAll('section:not(#dashboard)').forEach(section => {
+                    section.classList.add('hidden');
+                });
+            } else {
+                // User is signed out
+                document.getElementById('logged-out-nav').classList.remove('hidden');
+                document.getElementById('logged-in-nav').classList.add('hidden');
+                
+                // Show public sections, hide dashboard
+                document.getElementById('dashboard').classList.add('hidden');
+                document.querySelectorAll('section:not(#dashboard)').forEach(section => {
+                    section.classList.remove('hidden');
+                });
+            }
+        });
+
+        // Your existing functions
         let selectedPlan = '3-months';
 
         function scrollToPayment() {
@@ -298,6 +501,18 @@ const analytics = getAnalytics(app);
             const plan = planDetails[selectedPlan];
             const message = `Hello Nodinopro, I want to purchase the ${plan.duration} plan for R${plan.price}. My cellphone number is: `;
             window.open(`https://wa.me/27628010124?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        function startLearning() {
+            alert('Starting learning modules...');
+        }
+
+        function takeTest() {
+            alert('Starting practice test...');
+        }
+
+        function viewProgress() {
+            alert('Showing detailed progress...');
         }
 
         // Quiz functionality
