@@ -69,6 +69,15 @@
                                 <div id="signs-progress-bar" class="bg-blue-600 h-2 rounded-full" style="width: 0%"></div>
                             </div>
                         </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>Test Readiness</span>
+                                <span id="test-readiness">0%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div id="test-readiness-bar" class="bg-green-600 h-2 rounded-full" style="width: 0%"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
@@ -89,33 +98,26 @@
                 </div>
             </div>
             
-            <!-- Learning Modules will go here -->
+            <!-- Learning Modules -->
             <div id="learning-content" class="bg-white rounded-xl p-6 shadow-lg">
                 <h3 class="text-2xl font-semibold mb-6">Road Signs Learning Modules</h3>
                 <div id="modules-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <!-- Modules will be loaded dynamically -->
-                    <div class="bg-blue-50 p-4 rounded-lg border-2 border-blue-200">
-                        <h4 class="font-semibold mb-2">Regulatory Signs</h4>
-                        <p class="text-sm text-gray-600 mb-3">Signs that give orders</p>
-                        <button class="bg-blue-600 text-white px-3 py-1 rounded text-sm">Start Learning</button>
-                    </div>
-                    <div class="bg-green-50 p-4 rounded-lg border-2 border-green-200">
-                        <h4 class="font-semibold mb-2">Warning Signs</h4>
-                        <p class="text-sm text-gray-600 mb-3">Signs that warn of hazards</p>
-                        <button class="bg-green-600 text-white px-3 py-1 rounded text-sm">Start Learning</button>
-                    </div>
-                    <div class="bg-red-50 p-4 rounded-lg border-2 border-red-200">
-                        <h4 class="font-semibold mb-2">Prohibition Signs</h4>
-                        <p class="text-sm text-gray-600 mb-3">Signs that prohibit actions</p>
-                        <button class="bg-red-600 text-white px-3 py-1 rounded text-sm">Start Learning</button>
-                    </div>
+                    <!-- Modules loaded dynamically -->
+                </div>
+            </div>
+
+            <!-- Road Signs Library -->
+            <div class="bg-white rounded-xl p-6 shadow-lg mt-8">
+                <h3 class="text-2xl font-semibold mb-6">Road Signs Library</h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4" id="road-signs-container">
+                    <!-- Road signs loaded dynamically -->
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Hero Section -->
-    <section class="gradient-bg text-white py-20">
+    <section id="hero" class="gradient-bg text-white py-20">
         <div class="max-w-7xl mx-auto px-4 text-center">
             <h1 class="text-5xl font-bold mb-6">Master Your K53 Learner's License</h1>
             <p class="text-xl mb-8 max-w-3xl mx-auto">AI-powered road sign learning and assessment platform. Pass your test with confidence using our intelligent learning system.</p>
@@ -385,6 +387,65 @@
         const auth = firebase.auth();
         const db = firebase.database();
 
+        // Road Signs Database
+        const roadSigns = [
+            {
+                id: 1,
+                name: "Stop Sign",
+                emoji: "🛑",
+                meaning: "Come to a complete stop",
+                category: "Regulatory",
+                description: "You must bring your vehicle to a complete stop behind the stop line."
+            },
+            {
+                id: 2,
+                name: "Yield Sign",
+                emoji: "⚠️",
+                meaning: "Give way to other vehicles",
+                category: "Regulatory", 
+                description: "Slow down and give way to traffic on the major road."
+            },
+            {
+                id: 3,
+                name: "No Entry",
+                emoji: "🚫",
+                meaning: "Do not enter this road",
+                category: "Prohibition",
+                description: "Vehicles are prohibited from entering this road."
+            },
+            {
+                id: 4,
+                name: "Speed Limit 60",
+                emoji: "60",
+                meaning: "Maximum speed 60 km/h",
+                category: "Regulatory",
+                description: "Do not exceed 60 kilometers per hour."
+            },
+            {
+                id: 5,
+                name: "Pedestrian Crossing",
+                emoji: "🚶",
+                meaning: "Pedestrian crossing ahead",
+                category: "Warning",
+                description: "Be prepared to stop for pedestrians crossing the road."
+            },
+            {
+                id: 6,
+                name: "School Zone",
+                emoji: "🏫",
+                meaning: "School area ahead",
+                category: "Warning",
+                description: "Reduce speed and watch for children crossing."
+            }
+        ];
+
+        const learningModules = [
+            { id: 1, name: "Regulatory Signs", description: "Signs that give orders", color: "blue", completed: false },
+            { id: 2, name: "Warning Signs", description: "Signs that warn of hazards", color: "orange", completed: false },
+            { id: 3, name: "Information Signs", description: "Signs that provide information", color: "green", completed: false },
+            { id: 4, name: "Prohibition Signs", description: "Signs that prohibit actions", color: "red", completed: false }
+        ];
+
         // Authentication Functions
         function showLoginModal() {
             document.getElementById('loginModal').classList.remove('hidden');
@@ -413,17 +474,24 @@
                 const userCredential = await auth.createUserWithEmailAndPassword(email, password);
                 const user = userCredential.user;
                 
-                // Save user data to Realtime Database
+                // Send email verification
+                await user.sendEmailVerification();
+                
+                // Save user data
                 await db.ref('users/' + user.uid).set({
                     name: name,
                     email: email,
+                    emailVerified: false,
                     createdAt: firebase.database.ServerValue.TIMESTAMP,
-                    subscription: 'none',
-                    progress: {}
+                    subscription: 'trial',
+                    progress: {},
+                    completedModules: [],
+                    testScores: {}
                 });
                 
                 hideSignupModal();
-                alert('Account created successfully!');
+                alert('Account created successfully! Please check your email for verification link.');
+                
             } catch (error) {
                 alert('Error creating account: ' + error.message);
             }
@@ -450,6 +518,58 @@
             }
         }
 
+        // Load Learning Content
+        function loadLearningContent(userId) {
+            // Load modules
+            const modulesContainer = document.getElementById('modules-container');
+            modulesContainer.innerHTML = '';
+            
+            learningModules.forEach(module => {
+                const moduleElement = document.createElement('div');
+                moduleElement.className = `bg-${module.color}-50 p-4 rounded-lg border-2 border-${module.color}-200`;
+                moduleElement.innerHTML = `
+                    <h4 class="font-semibold mb-2">${module.name}</h4>
+                    <p class="text-sm text-gray-600 mb-3">${module.description}</p>
+                    <button onclick="startModule(${module.id})" class="bg-${module.color}-600 text-white px-3 py-1 rounded text-sm">Start Learning</button>
+                `;
+                modulesContainer.appendChild(moduleElement);
+            });
+
+            // Load road signs
+            const signsContainer = document.getElementById('road-signs-container');
+            signsContainer.innerHTML = '';
+            
+            roadSigns.forEach(sign => {
+                const signElement = document.createElement('div');
+                signElement.className = 'bg-white p-4 rounded-lg border-2 border-gray-200 text-center';
+                signElement.innerHTML = `
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3 text-2xl">
+                        ${sign.emoji}
+                    </div>
+                    <h4 class="font-semibold mb-1">${sign.name}</h4>
+                    <p class="text-sm text-gray-600 mb-2">${sign.meaning}</p>
+                    <span class="inline-block bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">${sign.category}</span>
+                `;
+                signsContainer.appendChild(signElement);
+            });
+        }
+
+        function startModule(moduleId) {
+            alert(`Starting module ${moduleId} - This would open the detailed learning interface`);
+        }
+
+        function startLearning() {
+            alert('Opening learning interface with all modules...');
+        }
+
+        function takeTest() {
+            alert('Starting comprehensive practice test...');
+        }
+
+        function viewProgress() {
+            alert('Showing detailed progress analytics...');
+        }
+
         // Auth State Listener
         auth.onAuthStateChanged((user) => {
             if (user) {
@@ -458,11 +578,16 @@
                 document.getElementById('logged-in-nav').classList.remove('hidden');
                 document.getElementById('user-email').textContent = user.email;
                 
+                // Load user-specific content
+                loadLearningContent(user.uid);
+                
                 // Show dashboard, hide public sections
                 document.getElementById('dashboard').classList.remove('hidden');
-                document.querySelectorAll('section:not(#dashboard)').forEach(section => {
-                    section.classList.add('hidden');
-                });
+                document.getElementById('hero').classList.add('hidden');
+                document.getElementById('learn').classList.add('hidden');
+                document.getElementById('pricing').classList.add('hidden');
+                document.getElementById('test').classList.add('hidden');
+                
             } else {
                 // User is signed out
                 document.getElementById('logged-out-nav').classList.remove('hidden');
@@ -470,9 +595,10 @@
                 
                 // Show public sections, hide dashboard
                 document.getElementById('dashboard').classList.add('hidden');
-                document.querySelectorAll('section:not(#dashboard)').forEach(section => {
-                    section.classList.remove('hidden');
-                });
+                document.getElementById('hero').classList.remove('hidden');
+                document.getElementById('learn').classList.remove('hidden');
+                document.getElementById('pricing').classList.remove('hidden');
+                document.getElementById('test').classList.remove('hidden');
             }
         });
 
@@ -501,18 +627,6 @@
             const plan = planDetails[selectedPlan];
             const message = `Hello Nodinopro, I want to purchase the ${plan.duration} plan for R${plan.price}. My cellphone number is: `;
             window.open(`https://wa.me/27628010124?text=${encodeURIComponent(message)}`, '_blank');
-        }
-
-        function startLearning() {
-            alert('Starting learning modules...');
-        }
-
-        function takeTest() {
-            alert('Starting practice test...');
-        }
-
-        function viewProgress() {
-            alert('Showing detailed progress...');
         }
 
         // Quiz functionality
