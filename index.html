@@ -3,375 +3,586 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nodinopro - AI K53 Learner's License Preparation</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Nodinopro - Master Your Learner's Licence</title>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-storage-compat.js"></script>
+    
     <style>
-        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-        .sign-card { transition: transform 0.3s ease; }
-        .sign-card:hover { transform: translateY(-5px); }
-        body { font-family: system-ui, -apple-system, sans-serif; }
-        .quiz-option { cursor: pointer; }
-        .max-w-content { max-width: fit-content; }
-        .overflow-visible { overflow: visible !important; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            position: relative;
+            min-height: 90vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: flex;
+            min-height: 600px;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-right: 2px solid #e0e0e0;
+        }
+
+        .content-area {
+            flex: 1;
+            padding: 40px;
+        }
+
+        .progress-section {
+            margin-bottom: 30px;
+        }
+
+        .progress-section h3 {
+            margin-bottom: 15px;
+            color: #2a5298;
+        }
+
+        .progress-item {
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .progress-green {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+        }
+
+        .progress-yellow {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+        }
+
+        .progress-red {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+        }
+
+        .affiliate-section {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .affiliate-section h4 {
+            color: #1976d2;
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: #2a5298;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1e3c72;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+
+        .login-form, .register-form, .payment-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #2a5298;
+        }
+
+        .road-sign {
+            width: 150px;
+            height: 150px;
+            border: 4px solid #333;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 15px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            background: white;
+            font-size: 13px;
+            font-weight: bold;
+            text-align: center;
+            padding: 15px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+            position: relative;
+        }
+        
+        .road-sign.octagon {
+            clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+        }
+        
+        .road-sign.triangle {
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        }
+        
+        .road-sign.circle {
+            border-radius: 50%;
+        }
+        
+        .road-sign.rectangle {
+            border-radius: 8px;
+        }
+        
+        .road-sign.diamond {
+            transform: rotate(45deg);
+        }
+        
+        .road-sign.diamond .sign-content {
+            transform: rotate(-45deg);
+        }
+
+        .road-sign:hover {
+            transform: scale(1.05);
+        }
+
+        .road-sign.selected {
+            border-color: #2a5298;
+            background: #e3f2fd;
+        }
+
+        .sign-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .quiz-options {
+            margin-top: 20px;
+        }
+
+        .quiz-option {
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .quiz-option:hover {
+            background: #f8f9fa;
+            border-color: #2a5298;
+        }
+
+        .quiz-option.selected {
+            background: #e3f2fd;
+            border-color: #2a5298;
+        }
+
+        .payment-info {
+            background: #fff3cd;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #ffc107;
+        }
+
+        .payment-info h3 {
+            color: #856404;
+            margin-bottom: 15px;
+        }
+
+        .payment-info p {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+
+        .footer {
+            background: #2a2a2a;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .score-display {
+            font-size: 2em;
+            text-align: center;
+            padding: 20px;
+            margin: 20px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .assessment-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .assessment-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            text-align: center;
+        }
+
+        .assessment-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .assessment-card h3 {
+            margin-bottom: 10px;
+        }
+
+        .logo {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #ffd700;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2em;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #dc3545;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #28a745;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
+        }
+
+        .guide-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .guide-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
     </style>
 </head>
-<body class="bg-gray-50">
-    <!-- Navigation -->
-    <nav class="bg-white shadow-lg sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="flex justify-between items-center py-4">
-                <div class="flex items-center">
-                    <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-                        <span class="text-white font-bold text-xl">N</span>
-                    </div>
-                    <span class="ml-3 text-xl font-bold text-gray-800">Nodinopro</span>
-                </div>
-                
-                <!-- Dynamic Navigation -->
-                <div id="auth-nav" class="flex items-center space-x-6">
-                    <!-- Shows when user is logged out -->
-                    <div id="logged-out-nav">
-                        <a href="#learn" class="text-gray-700 hover:text-blue-600 font-medium">Learn</a>
-                        <a href="#test" class="text-gray-700 hover:text-blue-600 font-medium">Test</a>
-                        <a href="#pricing" class="text-gray-700 hover:text-blue-600 font-medium">Get Access</a>
-                        <button onclick="showLoginModal()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Login</button>
-                    </div>
-                    
-                    <!-- Shows when user is logged in -->
-                    <div id="logged-in-nav" class="hidden">
-                        <a href="#dashboard" class="text-gray-700 hover:text-blue-600 font-medium">Dashboard</a>
-                        <a href="#learn" class="text-gray-700 hover:text-blue-600 font-medium">Learn</a>
-                        <a href="#test" class="text-gray-700 hover:text-blue-600 font-medium">Test</a>
-                        <span id="user-email" class="text-gray-700"></span>
-                        <button onclick="logout()" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">Logout</button>
-                    </div>
-                </div>
+<body>
+    <div class="container">
+        <!-- Guide Overlay -->
+        <div id="guideOverlay" class="guide-overlay">
+            <div class="guide-content">
+                <h2>🚗 Welcome to Nodinopro!</h2>
+                <p style="margin: 20px 0; line-height: 1.6;">Your guided path to mastering the South African Learner's Licence test. We'll take you step-by-step through everything you need to know.</p>
+                <button class="btn btn-primary" onclick="startGuidedTour()">Start Guided Tour</button>
             </div>
         </div>
-    </nav>
 
-    <!-- User Dashboard -->
-    <section id="dashboard" class="hidden py-20 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4">
-            <h2 class="text-3xl font-bold mb-8">My Learning Dashboard</h2>
-            
-            <div class="grid md:grid-cols-3 gap-8 mb-8">
-                <div class="bg-white rounded-xl p-6 shadow-lg">
-                    <h3 class="text-xl font-semibold mb-4">Progress Overview</h3>
-                    <div class="space-y-3">
-                        <div>
-                            <div class="flex justify-between mb-1">
-                                <span>Road Signs Mastery</span>
-                                <span id="signs-progress">0%</span>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-2">
-                                <div id="signs-progress-bar" class="bg-blue-600 h-2 rounded-full" style="width: 0%"></div>
-                            </div>
+        <div class="header">
+            <div class="logo">NODINOPRO</div>
+            <h1>Master Your Learner's Licence</h1>
+            <p>The Smart Way to Prepare for Your SA Driver's Licence Test</p>
+        </div>
+
+        <!-- Login Screen -->
+        <div id="loginScreen" class="content-area">
+            <h2 style="text-align: center; margin-bottom: 30px;">Welcome Back</h2>
+            <div id="loginMessage"></div>
+            <div class="login-form">
+                <div class="form-group">
+                    <label>Cellphone Number</label>
+                    <input type="tel" id="loginPhone" placeholder="0xx xxx xxxx">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password">
+                </div>
+                <button class="btn btn-primary" style="width: 100%; margin-bottom: 15px;" onclick="handleLogin()">Login</button>
+                <p style="text-align: center;">Don't have an account? <a href="#" onclick="showRegister()">Register Now</a></p>
+            </div>
+        </div>
+
+        <!-- Registration Screen -->
+        <div id="registerScreen" class="content-area hidden">
+            <h2 style="text-align: center; margin-bottom: 30px;">Create Your Account</h2>
+            <div id="registerMessage"></div>
+            <div class="register-form">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="regName" placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label>Cellphone Number</label>
+                    <input type="tel" id="regPhone" placeholder="0xx xxx xxxx">
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="regEmail" placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="regPassword" placeholder="Create a password">
+                </div>
+                <div class="form-group">
+                    <label>Affiliate Code (Optional)</label>
+                    <input type="text" id="affiliateCode" placeholder="Enter referral code if you have one">
+                </div>
+                <button class="btn btn-primary" style="width: 100%;" onclick="showPayment()">Proceed to Payment</button>
+                <p style="text-align: center; margin-top: 15px;">Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
+            </div>
+        </div>
+
+        <!-- Payment Screen -->
+        <div id="paymentScreen" class="content-area hidden">
+            <h2 style="text-align: center; margin-bottom: 30px;">Payment Information</h2>
+            <div class="payment-form">
+                <div class="payment-info">
+                    <h3>Registration Fee: R289.00</h3>
+                    <p><strong>Bank:</strong> FNB</p>
+                    <p><strong>Account Number:</strong> 63152615523</p>
+                    <p><strong>Reference:</strong> Use your cellphone number</p>
+                    <p style="margin-top: 15px;"><strong>Important:</strong> After making payment, please send proof of payment to:</p>
+                    <p>📱 WhatsApp: 062 801 0124</p>
+                    <p>✉️ Email: nodinopro@gmail.com</p>
+                </div>
+                <div class="form-group">
+                    <label>Upload Proof of Payment</label>
+                    <input type="file" id="paymentProof" accept="image/*,.pdf">
+                </div>
+                <div class="form-group">
+                    <label>Verification Code (2FA - Sent to your phone)</label>
+                    <input type="text" id="verificationCode" placeholder="Enter 6-digit code">
+                </div>
+                <button class="btn btn-success" style="width: 100%;" onclick="completeRegistration()">Complete Registration</button>
+            </div>
+        </div>
+
+        <!-- Dashboard Screen -->
+        <div id="dashboardScreen" class="main-content hidden">
+            <div class="sidebar">
+                <div class="progress-section">
+                    <h3>Your Learning Path</h3>
+                    <div id="progressContainer">
+                        <div class="progress-item progress-green" onclick="startAssessment('learn')">
+                            <span>📚 Learn Road Signs</span>
+                            <strong id="learnProgress">0%</strong>
                         </div>
-                        <div>
-                            <div class="flex justify-between mb-1">
-                                <span>Test Readiness</span>
-                                <span id="test-readiness">0%</span>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-2">
-                                <div id="test-readiness-bar" class="bg-green-600 h-2 rounded-full" style="width: 0%"></div>
-                            </div>
+                        <div class="progress-item progress-yellow" onclick="startAssessment('memory')">
+                            <span>🧠 Memory Challenge</span>
+                            <strong id="memoryProgress">0%</strong>
                         </div>
-                    </div>
-                </div>
-                
-                <div class="bg-white rounded-xl p-6 shadow-lg">
-                    <h3 class="text-xl font-semibold mb-4">Quick Actions</h3>
-                    <div class="space-y-3">
-                        <button onclick="startLearning()" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">Continue Learning</button>
-                        <button onclick="takeTest()" class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700">Take Practice Test</button>
-                        <button onclick="viewProgress()" class="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700">View Detailed Progress</button>
-                    </div>
-                </div>
-                
-                <div class="bg-white rounded-xl p-6 shadow-lg">
-                    <h3 class="text-xl font-semibold mb-4">Subscription Status</h3>
-                    <div id="subscription-status" class="text-lg font-semibold text-orange-600">Free Trial</div>
-                    <p class="text-gray-600 mt-2">Upgrade to access all features</p>
-                    <button onclick="scrollToPayment()" class="w-full bg-yellow-500 text-white py-2 rounded-lg hover:bg-yellow-600 mt-4">Upgrade Now</button>
-                </div>
-            </div>
-            
-            <!-- Learning Modules -->
-            <div id="learning-content" class="bg-white rounded-xl p-6 shadow-lg">
-                <h3 class="text-2xl font-semibold mb-6">Road Signs Learning Modules</h3>
-                <div id="modules-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <!-- Modules loaded dynamically -->
-                </div>
-            </div>
-
-            <!-- Road Signs Library -->
-            <div class="bg-white rounded-xl p-6 shadow-lg mt-8">
-                <h3 class="text-2xl font-semibold mb-6">Road Signs Library</h3>
-                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4" id="road-signs-container">
-                    <!-- Road signs loaded dynamically -->
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Hero Section -->
-    <section id="hero" class="gradient-bg text-white py-20">
-        <div class="max-w-7xl mx-auto px-4 text-center">
-            <h1 class="text-5xl font-bold mb-6">Master Your K53 Learner's License</h1>
-            <p class="text-xl mb-8 max-w-3xl mx-auto">AI-powered road sign learning and assessment platform. Pass your test with confidence using our intelligent learning system.</p>
-            <button onclick="scrollToPayment()" class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold text-lg hover:bg-gray-100 transition">Start Learning Now</button>
-        </div>
-    </section>
-
-    <!-- Learning Modules -->
-    <section id="learn" class="py-20 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-4">Interactive Learning Experience</h2>
-            <p class="text-xl text-gray-600 text-center mb-12">Master all South African road signs with our AI-powered system</p>
-            
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-                <div class="bg-white rounded-xl shadow-lg p-6 sign-card">
-                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-                        <i class="fas fa-traffic-light text-2xl text-blue-600"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-3">Road Signs Library</h3>
-                    <p class="text-gray-600 mb-4">Complete database of all official South African road signs</p>
-                </div>
-                
-                <div class="bg-white rounded-xl shadow-lg p-6 sign-card">
-                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
-                        <i class="fas fa-brain text-2xl text-green-600"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-3">AI Smart Tests</h3>
-                    <p class="text-gray-600 mb-4">Adaptive tests that focus on your weak areas</p>
-                </div>
-                
-                <div class="bg-white rounded-xl shadow-lg p-6 sign-card">
-                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-4">
-                        <i class="fas fa-gamepad text-2xl text-purple-600"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-3">Gamified Learning</h3>
-                    <p class="text-gray-600 mb-4">Speed challenges and memory games</p>
-                </div>
-                
-                <div class="bg-white rounded-xl shadow-lg p-6 sign-card">
-                    <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-4">
-                        <i class="fas fa-chart-line text-2xl text-orange-600"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-3">Progress Tracking</h3>
-                    <p class="text-gray-600 mb-4">Real-time dashboard showing your mastery level</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Payment Section -->
-    <section id="pricing" class="py-20 bg-white">
-        <div class="max-w-4xl mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-4">Choose Your Plan</h2>
-            <p class="text-xl text-gray-600 text-center mb-12">Flexible access options to suit your learning journey</p>
-            
-            <div class="grid md:grid-cols-3 gap-8 mb-8">
-                <!-- 1 Month Plan -->
-                <div class="bg-white rounded-2xl shadow-lg border-2 border-gray-100 p-6 text-center">
-                    <div class="mb-6">
-                        <div class="text-2xl font-bold text-gray-800 mb-2">1 Month</div>
-                        <div class="text-4xl font-bold text-blue-600">R149</div>
-                        <div class="text-gray-500 text-sm">Perfect for quick preparation</div>
-                    </div>
-                    <ul class="text-left space-y-3 mb-6">
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-500 mr-3"></i>
-                            <span>All road signs access</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-500 mr-3"></i>
-                            <span>Basic practice tests</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-500 mr-3"></i>
-                            <span>Mobile friendly</span>
-                        </li>
-                    </ul>
-                    <button onclick="selectPlan('1-month')" class="w-full bg-gray-100 text-gray-800 py-3 rounded-lg font-semibold hover:bg-gray-200 transition">Select Plan</button>
-                </div>
-
-                <!-- 3 Months Plan - Recommended -->
-                <div class="bg-gradient-to-b from-blue-500 to-purple-600 rounded-2xl shadow-2xl p-6 text-center text-white relative overflow-visible">
-                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 w-full max-w-content">
-                        <span class="bg-green-500 text-white px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap">MOST POPULAR</span>
-                    </div>
-                    <div class="mt-4 mb-6">
-                        <div class="text-2xl font-bold mb-2">3 Months</div>
-                        <div class="text-4xl font-bold mb-1">R389</div>
-                        <div class="text-blue-100 text-sm">Save R58 vs monthly</div>
-                    </div>
-                    <ul class="text-left space-y-3 mb-6">
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-300 mr-3"></i>
-                            <span>All road signs access</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-300 mr-3"></i>
-                            <span>AI-powered practice tests</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-300 mr-3"></i>
-                            <span>Progress tracking</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-300 mr-3"></i>
-                            <span>Gamified learning</span>
-                        </li>
-                    </ul>
-                    <button onclick="selectPlan('3-months')" class="w-full bg-white text-blue-600 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">Select Plan</button>
-                </div>
-
-                <!-- 12 Months Plan -->
-                <div class="bg-white rounded-2xl shadow-lg border-2 border-yellow-300 p-6 text-center">
-                    <div class="mb-6">
-                        <div class="text-2xl font-bold text-gray-800 mb-2">12 Months</div>
-                        <div class="text-4xl font-bold text-blue-600">R999</div>
-                        <div class="text-gray-500 text-sm">Best value - 44% savings</div>
-                    </div>
-                    <ul class="text-left space-y-3 mb-6">
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-500 mr-3"></i>
-                            <span>All road signs access</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-500 mr-3"></i>
-                            <span>Full AI assessment suite</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-500 mr-3"></i>
-                            <span>Advanced progress analytics</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-500 mr-3"></i>
-                            <span>Priority support</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-500 mr-3"></i>
-                            <span>Certificate of completion</span>
-                        </li>
-                    </ul>
-                    <button onclick="selectPlan('12-months')" class="w-full bg-yellow-500 text-white py-3 rounded-lg font-semibold hover:bg-yellow-600 transition">Best Value</button>
-                </div>
-            </div>
-
-            <!-- Payment Instructions -->
-            <div class="bg-gray-50 rounded-xl p-6 border border-gray-200">
-                <h3 class="text-xl font-semibold mb-4 text-center">Payment Instructions</h3>
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div>
-                        <h4 class="font-semibold mb-3">Bank Details:</h4>
-                        <div class="space-y-2 text-sm">
-                            <div class="flex justify-between">
-                                <span>Bank:</span>
-                                <span class="font-semibold">FNB</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span>Account Name:</span>
-                                <span class="font-semibold">Nodinopro</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span>Account Number:</span>
-                                <span class="font-semibold">63152615523</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span>Reference:</span>
-                                <span class="font-semibold">Your Cellphone Number</span>
-                            </div>
+                        <div class="progress-item progress-red" onclick="startAssessment('missing')">
+                            <span>🔍 Find Missing Sign</span>
+                            <strong id="missingProgress">0%</strong>
+                        </div>
+                        <div class="progress-item progress-yellow" onclick="startAssessment('quiz')">
+                            <span>✅ Practice Quiz</span>
+                            <strong id="quizProgress">0%</strong>
                         </div>
                     </div>
-                    <div>
-                        <h4 class="font-semibold mb-3">After Payment:</h4>
-                        <button onclick="openWhatsApp()" class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-semibold flex items-center justify-center w-full transition mb-3">
-                            <i class="fab fa-whatsapp text-xl mr-3"></i>
-                            Send Proof via WhatsApp
-                        </button>
-                        <p class="text-sm text-gray-600 text-center">Send to: <strong>062 801 0124</strong></p>
-                        <p class="text-xs text-gray-500 text-center mt-1">Include your selected plan and cell number</p>
+                </div>
+
+                <div class="progress-section">
+                    <h3>Overall Progress</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="overallProgressBar" style="width: 0%"></div>
                     </div>
+                    <p style="text-align: center; font-weight: bold;" id="overallProgressText">0% Complete</p>
+                </div>
+
+                <div class="affiliate-section">
+                    <h4>🎁 Refer & Earn</h4>
+                    <p style="font-size: 14px; margin-bottom: 10px;">Your unique code:</p>
+                    <p style="font-weight: bold; font-size: 18px; color: #1976d2;" id="userAffiliateCode">NODI12345</p>
+                    <button class="btn btn-success" style="width: 100%; margin-top: 10px; font-size: 14px;" onclick="copyAffiliateCode()">Copy Code</button>
+                    <p style="font-size: 12px; margin-top: 10px; color: #666;">Earn R50 for each referral!</p>
+                </div>
+            </div>
+
+            <div class="content-area" id="mainContent">
+                <h2>Welcome to Your Dashboard, <span id="userName">User</span>!</h2>
+                <p style="margin-bottom: 30px; color: #666;">Follow the guided learning path below to master your learner's licence test.</p>
+                
+                <div class="assessment-types">
+                    <div class="assessment-card" onclick="startAssessment('learn')">
+                        <h3>📚 Learn Road Signs</h3>
+                        <p>Study all South African road signs with descriptions</p>
+                        <div class="progress-bar" style="margin-top: 15px;">
+                            <div class="progress-fill" id="learnProgressBar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="assessment-card" onclick="startAssessment('memory')">
+                        <h3>🧠 Memory Challenge</h3>
+                        <p>Remember the signs you saw in sequence</p>
+                        <div class="progress-bar" style="margin-top: 15px;">
+                            <div class="progress-fill" id="memoryProgressBar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="assessment-card" onclick="startAssessment('missing')">
+                        <h3>🔍 Find the Missing Sign</h3>
+                        <p>Identify which sign wasn't in the sequence</p>
+                        <div class="progress-bar" style="margin-top: 15px;">
+                            <div class="progress-fill" id="missingProgressBar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="assessment-card" onclick="startAssessment('quiz')">
+                        <h3>✅ Multiple Choice Quiz</h3>
+                        <p>Test your knowledge with quiz questions</p>
+                        <div class="progress-bar" style="margin-top: 15px;">
+                            <div class="progress-fill" id="quizProgressBar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 40px;">
+                    <button class="btn btn-primary" onclick="startGuidedLearning()">Start Guided Learning</button>
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- Demo Quiz -->
-    <section id="test" class="py-20 bg-gray-50">
-        <div class="max-w-4xl mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-4">Try Free Demo</h2>
-            
-            <div class="bg-white rounded-xl shadow-lg p-8">
-                <div class="text-center mb-8">
-                    <div class="text-2xl font-semibold mb-6">What does this sign mean?</div>
-                    <div class="w-32 h-32 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-6 text-4xl">
-                        🛑
-                    </div>
-                    <div class="grid grid-cols-2 gap-4 max-w-md mx-auto">
-                        <button class="quiz-option bg-gray-100 hover:bg-blue-100 p-4 rounded-lg border-2 border-transparent hover:border-blue-300 transition">Stop Sign</button>
-                        <button class="quiz-option bg-gray-100 hover:bg-blue-100 p-4 rounded-lg border-2 border-transparent hover:border-blue-300 transition">Yield Sign</button>
-                        <button class="quiz-option bg-gray-100 hover:bg-blue-100 p-4 rounded-lg border-2 border-transparent hover:border-blue-300 transition">No Entry</button>
-                        <button class="quiz-option bg-gray-100 hover:bg-blue-100 p-4 rounded-lg border-2 border-transparent hover:border-blue-300 transition">Speed Limit</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Login/Signup Modals -->
-    <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
-        <div class="bg-white rounded-xl p-8 max-w-md w-full mx-4">
-            <h3 class="text-2xl font-bold mb-6">Login to Your Account</h3>
-            <form onsubmit="handleLogin(event)">
-                <input type="email" id="loginEmail" placeholder="Email" class="w-full p-3 border rounded-lg mb-4" required>
-                <input type="password" id="loginPassword" placeholder="Password" class="w-full p-3 border rounded-lg mb-6" required>
-                <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700">Login</button>
-            </form>
-            <p class="text-center mt-4">
-                Don't have an account? 
-                <button onclick="showSignupModal()" class="text-blue-600 hover:underline">Sign up</button>
-            </p>
-            <button onclick="hideLoginModal()" class="absolute top-4 right-4 text-gray-500">✕</button>
+        <div class="footer">
+            <p>&copy; 2024 Nodinopro. All Rights Reserved.</p>
+            <p style="font-size: 12px; margin-top: 5px;">South African Learner's Licence Preparation Platform</p>
         </div>
     </div>
-
-    <div id="signupModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
-        <div class="bg-white rounded-xl p-8 max-w-md w-full mx-4">
-            <h3 class="text-2xl font-bold mb-6">Create Your Account</h3>
-            <form onsubmit="handleSignup(event)">
-                <input type="text" id="signupName" placeholder="Full Name" class="w-full p-3 border rounded-lg mb-4" required>
-                <input type="email" id="signupEmail" placeholder="Email" class="w-full p-3 border rounded-lg mb-4" required>
-                <input type="password" id="signupPassword" placeholder="Password" class="w-full p-3 border rounded-lg mb-6" required>
-                <button type="submit" class="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700">Create Account</button>
-            </form>
-            <p class="text-center mt-4">
-                Already have an account? 
-                <button onclick="showLoginModal()" class="text-blue-600 hover:underline">Login</button>
-            </p>
-            <button onclick="hideSignupModal()" class="absolute top-4 right-4 text-gray-500">✕</button>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-12">
-        <div class="max-w-7xl mx-auto px-4 text-center">
-            <p class="text-gray-400">© 2025 Nodinopro. All rights reserved.</p>
-            <p class="text-gray-400 mt-2">WhatsApp: 062 801 0124 | Email: nodinopro@gmail.com</p>
-        </div>
-    </footer>
-
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 
     <script>
-        // Your Firebase configuration - REPLACE WITH YOUR ACTUAL KEYS
+        // Firebase Configuration - REPLACE WITH YOUR ACTUAL CONFIG
         const firebaseConfig = {
             apiKey: "AIzaSyA5iMAkumEn63he362LdlgSlph47PI2M-8",
             authDomain: "nodinopro-f8619.firebaseapp.com",
@@ -385,272 +596,472 @@
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
-        const db = firebase.database();
+        const db = firebase.firestore();
+        const storage = firebase.storage();
 
-        // Road Signs Database
+        // Application State
+        let currentUser = null;
+        let userData = null;
+        let currentAssessment = null;
+        let currentQuestion = 0;
+        let score = 0;
+        let shownSigns = [];
+        let currentStep = 0;
+
         const roadSigns = [
-            {
-                id: 1,
-                name: "Stop Sign",
-                emoji: "🛑",
-                meaning: "Come to a complete stop",
-                category: "Regulatory",
-                description: "You must bring your vehicle to a complete stop behind the stop line."
-            },
-            {
-                id: 2,
-                name: "Yield Sign",
-                emoji: "⚠️",
-                meaning: "Give way to other vehicles",
-                category: "Regulatory", 
-                description: "Slow down and give way to traffic on the major road."
-            },
-            {
-                id: 3,
-                name: "No Entry",
-                emoji: "🚫",
-                meaning: "Do not enter this road",
-                category: "Prohibition",
-                description: "Vehicles are prohibited from entering this road."
-            },
-            {
-                id: 4,
-                name: "Speed Limit 60",
-                emoji: "60",
-                meaning: "Maximum speed 60 km/h",
-                category: "Regulatory",
-                description: "Do not exceed 60 kilometers per hour."
-            },
-            {
-                id: 5,
-                name: "Pedestrian Crossing",
-                emoji: "🚶",
-                meaning: "Pedestrian crossing ahead",
-                category: "Warning",
-                description: "Be prepared to stop for pedestrians crossing the road."
-            },
-            {
-                id: 6,
-                name: "School Zone",
-                emoji: "🏫",
-                meaning: "School area ahead",
-                category: "Warning",
-                description: "Reduce speed and watch for children crossing."
-            }
+            {name: 'STOP', type: 'regulatory', color: '#DC143C', shape: 'octagon', textColor: 'white', icon: 'STOP', description: 'Come to complete stop'},
+            {name: 'YIELD', type: 'regulatory', color: '#DC143C', shape: 'triangle', textColor: 'white', icon: '⚠', description: 'Give way to other vehicles'},
+            {name: 'NO ENTRY', type: 'regulatory', color: '#DC143C', shape: 'circle', textColor: 'white', icon: '⊘', description: 'Do not enter this road'},
+            {name: 'SPEED 60', type: 'regulatory', color: '#DC143C', shape: 'circle', textColor: 'white', icon: '60', description: 'Maximum speed 60km/h'},
+            {name: 'SPEED 80', type: 'regulatory', color: '#DC143C', shape: 'circle', textColor: 'white', icon: '80', description: 'Maximum speed 80km/h'},
+            {name: 'SPEED 120', type: 'regulatory', color: '#DC143C', shape: 'circle', textColor: 'white', icon: '120', description: 'Maximum speed 120km/h'},
+            {name: 'ONE WAY', type: 'regulatory', color: '#0047AB', shape: 'rectangle', textColor: 'white', icon: '→', description: 'One-way traffic only'},
+            {name: 'NO PARKING', type: 'regulatory', color: '#DC143C', shape: 'circle', textColor: 'white', icon: 'P', description: 'No parking allowed'},
+            {name: 'NO U-TURN', type: 'regulatory', color: '#DC143C', shape: 'circle', textColor: 'white', icon: '↶', description: 'U-turns prohibited'},
+            {name: 'PED CROSSING', type: 'warning', color: '#FFD700', shape: 'diamond', textColor: 'black', icon: '🚶', description: 'Pedestrian crossing ahead'},
+            {name: 'CHILDREN', type: 'warning', color: '#FFD700', shape: 'triangle', textColor: 'black', icon: '👶', description: 'Children crossing area'},
+            {name: 'CURVE AHEAD', type: 'warning', color: '#FFD700', shape: 'diamond', textColor: 'black', icon: '↷', description: 'Curve in road ahead'},
+            {name: 'T-JUNCTION', type: 'warning', color: '#FFD700', shape: 'triangle', textColor: 'black', icon: '⊤', description: 'T-junction ahead'},
+            {name: 'TRAFFIC CIRCLE', type: 'warning', color: '#FFD700', shape: 'triangle', textColor: 'black', icon: '⟲', description: 'Roundabout ahead'},
+            {name: 'SLIPPERY ROAD', type: 'warning', color: '#FFD700', shape: 'triangle', textColor: 'black', icon: '🌊', description: 'Slippery road conditions'},
+            {name: 'NARROW BRIDGE', type: 'warning', color: '#FFD700', shape: 'triangle', textColor: 'black', icon: '⫴', description: 'Narrow bridge ahead'},
+            {name: 'RAILWAY', type: 'warning', color: '#FFD700', shape: 'triangle', textColor: 'black', icon: '🚂', description: 'Railway crossing ahead'},
+            {name: 'HOSPITAL', type: 'information', color: '#0047AB', shape: 'rectangle', textColor: 'white', icon: 'H', description: 'Hospital nearby'},
+            {name: 'PARKING', type: 'information', color: '#0047AB', shape: 'rectangle', textColor: 'white', icon: 'P', description: 'Parking area'},
+            {name: 'RESTAURANT', type: 'information', color: '#0047AB', shape: 'rectangle', textColor: 'white', icon: '🍴', description: 'Restaurant facilities'},
+            {name: 'PETROL', type: 'information', color: '#0047AB', shape: 'rectangle', textColor: 'white', icon: '⛽', description: 'Petrol station ahead'},
+            {name: 'REST AREA', type: 'information', color: '#0047AB', shape: 'rectangle', textColor: 'white', icon: '☕', description: 'Rest area available'}
         ];
 
-        const learningModules = [
-            { id: 1, name: "Regulatory Signs", description: "Signs that give orders", color: "blue", completed: false },
-            { id: 2, name: "Warning Signs", description: "Signs that warn of hazards", color: "orange", completed: false },
-            { id: 3, name: "Information Signs", description: "Signs that provide information", color: "green", completed: false },
-            { id: 4, name: "Prohibition Signs", description: "Signs that prohibit actions", color: "red", completed: false }
+        // Guided Learning Steps
+        const learningSteps = [
+            { title: "Welcome!", message: "Let's start by learning all the road signs you need to know for your test." },
+            { title: "Road Signs", message: "Study each sign carefully. Pay attention to shapes and colors - they indicate the sign type." },
+            { title: "Memory Test", message: "Now let's test your memory! Try to remember the sequence of signs shown." },
+            { title: "Missing Sign", message: "Can you spot which sign is missing? This tests your observation skills." },
+            { title: "Final Quiz", message: "Time for the practice quiz! Answer multiple choice questions about road signs." }
         ];
+
+        // Initialize Application
+        function initApp() {
+            // Check if user is already logged in
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    loadUserData(user.uid);
+                } else {
+                    showLogin();
+                }
+            });
+        }
 
         // Authentication Functions
-        function showLoginModal() {
-            document.getElementById('loginModal').classList.remove('hidden');
-        }
-
-        function hideLoginModal() {
-            document.getElementById('loginModal').classList.add('hidden');
-        }
-
-        function showSignupModal() {
-            document.getElementById('signupModal').classList.remove('hidden');
-            hideLoginModal();
-        }
-
-        function hideSignupModal() {
-            document.getElementById('signupModal').classList.add('hidden');
-        }
-
-        async function handleSignup(event) {
-            event.preventDefault();
-            const name = document.getElementById('signupName').value;
-            const email = document.getElementById('signupEmail').value;
-            const password = document.getElementById('signupPassword').value;
-
-            try {
-                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-                const user = userCredential.user;
-                
-                // Send email verification
-                await user.sendEmailVerification();
-                
-                // Save user data
-                await db.ref('users/' + user.uid).set({
-                    name: name,
-                    email: email,
-                    emailVerified: false,
-                    createdAt: firebase.database.ServerValue.TIMESTAMP,
-                    subscription: 'trial',
-                    progress: {},
-                    completedModules: [],
-                    testScores: {}
-                });
-                
-                hideSignupModal();
-                alert('Account created successfully! Please check your email for verification link.');
-                
-            } catch (error) {
-                alert('Error creating account: ' + error.message);
-            }
-        }
-
-        async function handleLogin(event) {
-            event.preventDefault();
-            const email = document.getElementById('loginEmail').value;
+        async function handleLogin() {
+            const phone = document.getElementById('loginPhone').value;
             const password = document.getElementById('loginPassword').value;
+            const messageDiv = document.getElementById('loginMessage');
+
+            if (!phone || !password) {
+                showMessage('Please enter your phone number and password', 'error', messageDiv);
+                return;
+            }
 
             try {
-                await auth.signInWithEmailAndPassword(email, password);
-                hideLoginModal();
+                // For demo purposes - in production, use Firebase Auth with phone/email
+                const userCredential = await auth.signInWithEmailAndPassword(phone + '@nodinopro.com', password);
+                currentUser = userCredential.user;
+                showMessage('Login successful!', 'success', messageDiv);
+                setTimeout(() => loadUserData(currentUser.uid), 1000);
             } catch (error) {
-                alert('Error logging in: ' + error.message);
+                showMessage('Login failed. Please check your credentials.', 'error', messageDiv);
             }
         }
 
-        async function logout() {
+        async function completeRegistration() {
+            const verificationCode = document.getElementById('verificationCode').value;
+            const paymentProof = document.getElementById('paymentProof').files[0];
+
+            if (!verificationCode) {
+                alert('Please enter a verification code (you can use any 6-digit number for testing)');
+                return;
+            }
+
             try {
-                await auth.signOut();
+                const name = document.getElementById('regName').value;
+                const phone = document.getElementById('regPhone').value;
+                const email = document.getElementById('regEmail').value;
+                const password = document.getElementById('regPassword').value;
+
+                // Create user account
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                currentUser = userCredential.user;
+
+                // Save user data to Firestore
+                await db.collection('users').doc(currentUser.uid).set({
+                    name: name,
+                    phone: phone,
+                    email: email,
+                    affiliateCode: 'NODI' + Math.floor(10000 + Math.random() * 90000),
+                    progress: {
+                        learn: 0,
+                        memory: 0,
+                        missing: 0,
+                        quiz: 0,
+                        overall: 0
+                    },
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    status: 'active'
+                });
+
+                alert('✅ Registration successful! Your account is now active. Welcome to Nodinopro!');
+                loadUserData(currentUser.uid);
             } catch (error) {
-                alert('Error logging out: ' + error.message);
+                alert('Registration failed: ' + error.message);
             }
         }
 
-        // Load Learning Content
-        function loadLearningContent(userId) {
-            // Load modules
-            const modulesContainer = document.getElementById('modules-container');
-            modulesContainer.innerHTML = '';
+        async function loadUserData(uid) {
+            try {
+                const doc = await db.collection('users').doc(uid).get();
+                if (doc.exists) {
+                    userData = doc.data();
+                    showDashboard();
+                    updateProgressBars();
+                }
+            } catch (error) {
+                console.error('Error loading user data:', error);
+            }
+        }
+
+        // UI Navigation Functions
+        function showLogin() {
+            hideAllScreens();
+            document.getElementById('loginScreen').classList.remove('hidden');
+        }
+
+        function showRegister() {
+            hideAllScreens();
+            document.getElementById('registerScreen').classList.remove('hidden');
+        }
+
+        function showPayment() {
+            const name = document.getElementById('regName').value;
+            const phone = document.getElementById('regPhone').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+
+            if (!name || !phone || !email || !password) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            hideAllScreens();
+            document.getElementById('paymentScreen').classList.remove('hidden');
             
-            learningModules.forEach(module => {
-                const moduleElement = document.createElement('div');
-                moduleElement.className = `bg-${module.color}-50 p-4 rounded-lg border-2 border-${module.color}-200`;
-                moduleElement.innerHTML = `
-                    <h4 class="font-semibold mb-2">${module.name}</h4>
-                    <p class="text-sm text-gray-600 mb-3">${module.description}</p>
-                    <button onclick="startModule(${module.id})" class="bg-${module.color}-600 text-white px-3 py-1 rounded text-sm">Start Learning</button>
-                `;
-                modulesContainer.appendChild(moduleElement);
-            });
+            alert('A 6-digit verification code has been sent to your phone via SMS');
+        }
 
-            // Load road signs
-            const signsContainer = document.getElementById('road-signs-container');
-            signsContainer.innerHTML = '';
+        function showDashboard() {
+            hideAllScreens();
+            document.getElementById('dashboardScreen').classList.remove('hidden');
+            
+            if (userData) {
+                document.getElementById('userName').textContent = userData.name;
+                document.getElementById('userAffiliateCode').textContent = userData.affiliateCode;
+            }
+        }
+
+        function hideAllScreens() {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('registerScreen').classList.add('hidden');
+            document.getElementById('paymentScreen').classList.add('hidden');
+            document.getElementById('dashboardScreen').classList.add('hidden');
+        }
+
+        // Progress Tracking
+        async function updateProgress(module, percentage) {
+            if (!userData || !currentUser) return;
+
+            try {
+                userData.progress[module] = Math.max(userData.progress[module], percentage);
+                
+                // Calculate overall progress
+                const progresses = Object.values(userData.progress).filter(val => typeof val === 'number');
+                userData.progress.overall = Math.round(progresses.reduce((a, b) => a + b, 0) / progresses.length);
+
+                await db.collection('users').doc(currentUser.uid).update({
+                    progress: userData.progress
+                });
+
+                updateProgressBars();
+            } catch (error) {
+                console.error('Error updating progress:', error);
+            }
+        }
+
+        function updateProgressBars() {
+            if (!userData) return;
+
+            const progress = userData.progress;
+            
+            // Update percentage displays
+            document.getElementById('learnProgress').textContent = progress.learn + '%';
+            document.getElementById('memoryProgress').textContent = progress.memory + '%';
+            document.getElementById('missingProgress').textContent = progress.missing + '%';
+            document.getElementById('quizProgress').textContent = progress.quiz + '%';
+            
+            // Update progress bars
+            document.getElementById('learnProgressBar').style.width = progress.learn + '%';
+            document.getElementById('memoryProgressBar').style.width = progress.memory + '%';
+            document.getElementById('missingProgressBar').style.width = progress.missing + '%';
+            document.getElementById('quizProgressBar').style.width = progress.quiz + '%';
+            document.getElementById('overallProgressBar').style.width = progress.overall + '%';
+            document.getElementById('overallProgressText').textContent = progress.overall + '% Complete';
+        }
+
+        // Guided Learning Functions
+        function startGuidedTour() {
+            document.getElementById('guideOverlay').classList.add('hidden');
+            showRegister();
+        }
+
+        function startGuidedLearning() {
+            currentStep = 0;
+            showNextLearningStep();
+        }
+
+        function showNextLearningStep() {
+            if (currentStep >= learningSteps.length) {
+                startAssessment('learn');
+                return;
+            }
+
+            const step = learningSteps[currentStep];
+            const content = document.getElementById('mainContent');
+            
+            content.innerHTML = `
+                <div style="text-align: center; padding: 40px;">
+                    <h2>${step.title}</h2>
+                    <p style="font-size: 1.2em; margin: 30px 0; line-height: 1.6;">${step.message}</p>
+                    <div class="navigation-buttons">
+                        ${currentStep > 0 ? '<button class="btn btn-secondary" onclick="currentStep--; showNextLearningStep()">Previous</button>' : '<div></div>'}
+                        <button class="btn btn-primary" onclick="currentStep++; showNextLearningStep()">
+                            ${currentStep === learningSteps.length - 1 ? 'Start Learning' : 'Continue'}
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Assessment Functions (same as before, but with progress tracking)
+        function startAssessment(type) {
+            currentAssessment = type;
+            currentQuestion = 0;
+            score = 0;
+            const content = document.getElementById('mainContent');
+
+            if (type === 'learn') {
+                showLearningMode(content);
+            } else if (type === 'memory') {
+                showMemoryChallenge(content);
+            } else if (type === 'missing') {
+                showMissingSignTest(content);
+            } else if (type === 'quiz') {
+                showMultipleChoiceQuiz(content);
+            }
+        }
+
+        function showLearningMode(content) {
+            let html = '<h2>📚 Learn Road Signs</h2>';
+            html += '<p style="margin-bottom: 30px;">Study these South African road signs carefully. Click on any sign to learn more.</p>';
+            html += '<div class="sign-grid">';
             
             roadSigns.forEach(sign => {
-                const signElement = document.createElement('div');
-                signElement.className = 'bg-white p-4 rounded-lg border-2 border-gray-200 text-center';
-                signElement.innerHTML = `
-                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3 text-2xl">
-                        ${sign.emoji}
+                html += `<div class="road-sign ${sign.shape}" style="background: ${sign.color}; border-color: ${sign.shape === 'triangle' || sign.shape === 'diamond' ? '#000' : sign.color}; color: ${sign.textColor};" onclick="alert('${sign.description}')">
+                    <div class="sign-content" style="font-size: ${sign.icon.length > 3 ? '16px' : '36px'}; line-height: 1.2;">
+                        ${sign.icon}<br>
+                        <span style="font-size: 11px; margin-top: 5px; display: block;">${sign.name}</span>
                     </div>
-                    <h4 class="font-semibold mb-1">${sign.name}</h4>
-                    <p class="text-sm text-gray-600 mb-2">${sign.meaning}</p>
-                    <span class="inline-block bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">${sign.category}</span>
-                `;
-                signsContainer.appendChild(signElement);
+                </div>`;
             });
-        }
-
-        function startModule(moduleId) {
-            alert(`Starting module ${moduleId} - This would open the detailed learning interface`);
-        }
-
-        function startLearning() {
-            alert('Opening learning interface with all modules...');
-        }
-
-        function takeTest() {
-            alert('Starting comprehensive practice test...');
-        }
-
-        function viewProgress() {
-            alert('Showing detailed progress analytics...');
-        }
-
-        // Auth State Listener
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                // User is signed in
-                document.getElementById('logged-out-nav').classList.add('hidden');
-                document.getElementById('logged-in-nav').classList.remove('hidden');
-                document.getElementById('user-email').textContent = user.email;
-                
-                // Load user-specific content
-                loadLearningContent(user.uid);
-                
-                // Show dashboard, hide public sections
-                document.getElementById('dashboard').classList.remove('hidden');
-                document.getElementById('hero').classList.add('hidden');
-                document.getElementById('learn').classList.add('hidden');
-                document.getElementById('pricing').classList.add('hidden');
-                document.getElementById('test').classList.add('hidden');
-                
-            } else {
-                // User is signed out
-                document.getElementById('logged-out-nav').classList.remove('hidden');
-                document.getElementById('logged-in-nav').classList.add('hidden');
-                
-                // Show public sections, hide dashboard
-                document.getElementById('dashboard').classList.add('hidden');
-                document.getElementById('hero').classList.remove('hidden');
-                document.getElementById('learn').classList.remove('hidden');
-                document.getElementById('pricing').classList.remove('hidden');
-                document.getElementById('test').classList.remove('hidden');
-            }
-        });
-
-        // Your existing functions
-        let selectedPlan = '3-months';
-
-        function scrollToPayment() {
-            document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function selectPlan(plan) {
-            selectedPlan = plan;
-            document.querySelectorAll('button').forEach(btn => {
-                btn.classList.remove('ring-2', 'ring-blue-500', 'ring-offset-2');
-            });
-            event.target.classList.add('ring-2', 'ring-blue-500', 'ring-offset-2');
-        }
-
-        function openWhatsApp() {
-            const planDetails = {
-                '1-month': { price: 149, duration: '1 month' },
-                '3-months': { price: 389, duration: '3 months' },
-                '12-months': { price: 999, duration: '12 months' }
-            };
             
-            const plan = planDetails[selectedPlan];
-            const message = `Hello Nodinopro, I want to purchase the ${plan.duration} plan for R${plan.price}. My cellphone number is: `;
-            window.open(`https://wa.me/27628010124?text=${encodeURIComponent(message)}`, '_blank');
+            html += '</div>';
+            html += '<div style="text-align: center; margin-top: 30px;">';
+            html += '<button class="btn btn-primary" onclick="updateProgress(\'learn\', 100); startAssessment(\'memory\')">I\'ve Learned These Signs</button>';
+            html += '</div>';
+            content.innerHTML = html;
         }
 
-        // Quiz functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.quiz-option').forEach(button => {
-                button.addEventListener('click', function() {
-                    document.querySelectorAll('.quiz-option').forEach(btn => {
-                        btn.classList.remove('bg-green-100', 'border-green-500', 'bg-red-100', 'border-red-500');
-                    });
-                    
-                    if (this.textContent === 'Stop Sign') {
-                        this.classList.add('bg-green-100', 'border-green-500');
-                        setTimeout(() => {
-                            alert('Correct! 🎉 This is a Stop Sign. You must come to a complete stop.');
-                        }, 300);
-                    } else {
-                        this.classList.add('bg-red-100', 'border-red-500');
-                        setTimeout(() => {
-                            alert('Incorrect. This is a Stop Sign. You must come to a complete stop.');
-                        }, 300);
-                    }
-                });
+        function showMemoryChallenge(content) {
+            shownSigns = [];
+            for (let i = 0; i < 5; i++) {
+                shownSigns.push(roadSigns[Math.floor(Math.random() * roadSigns.length)]);
+            }
+
+            let html = '<h2>🧠 Memory Challenge</h2>';
+            html += '<p>Study these 5 signs for 10 seconds...</p>';
+            html += '<div class="sign-grid">';
+            
+            shownSigns.forEach(sign => {
+                html += `<div class="road-sign ${sign.shape}" style="background: ${sign.color}; border-color: ${sign.shape === 'triangle' || sign.shape === 'diamond' ? '#000' : sign.color}; color: ${sign.textColor};">
+                    <div class="sign-content" style="font-size: ${sign.icon.length > 3 ? '16px' : '36px'};">
+                        ${sign.icon}<br>
+                        <span style="font-size: 11px; margin-top: 5px; display: block;">${sign.name}</span>
+                    </div>
+                </div>`;
             });
-        });
+            
+            html += '</div>';
+            content.innerHTML = html;
+
+            setTimeout(() => {
+                askMemoryQuestion(content);
+            }, 10000);
+        }
+
+        function askMemoryQuestion(content) {
+            const allSigns = [...roadSigns];
+            const options = [...shownSigns.slice(0, 3)];
+            const notShown = allSigns.filter(s => !shownSigns.includes(s));
+            options.push(notShown[Math.floor(Math.random() * notShown.length)]);
+            options.sort(() => Math.random() - 0.5);
+
+            let html = '<h2>Which sign did you see?</h2>';
+            html += '<div class="quiz-options">';
+            
+            options.forEach((sign, idx) => {
+                html += `<div class="quiz-option" onclick="checkMemoryAnswer('${sign.name}', ${shownSigns.some(s => s.name === sign.name)})">${sign.name}</div>`;
+            });
+            
+            html += '</div>';
+            content.innerHTML = html;
+        }
+
+        function checkMemoryAnswer(answer, isCorrect) {
+            if (isCorrect) {
+                score += 10;
+                alert('Correct! Well done!');
+                updateProgress('memory', Math.min(100, userData.progress.memory + 25));
+            } else {
+                alert('Incorrect. Study the signs again.');
+            }
+            startAssessment('memory');
+        }
+
+        function showMissingSignTest(content) {
+            shownSigns = [];
+            for (let i = 0; i < 5; i++) {
+                shownSigns.push(roadSigns[Math.floor(Math.random() * roadSigns.length)]);
+            }
+
+            let html = '<h2>🔍 Find the Missing Sign</h2>';
+            html += '<p>Remember these 5 signs...</p>';
+            html += '<div class="sign-grid">';
+            
+            shownSigns.forEach(sign => {
+                html += `<div class="road-sign ${sign.shape}" style="background: ${sign.color}; border-color: ${sign.shape === 'triangle' || sign.shape === 'diamond' ? '#000' : sign.color}; color: ${sign.textColor};">
+                    <div class="sign-content" style="font-size: ${sign.icon.length > 3 ? '16px' : '36px'};">
+                        ${sign.icon}<br>
+                        <span style="font-size: 11px; margin-top: 5px; display: block;">${sign.name}</span>
+                    </div>
+                </div>`;
+            });
+            
+            html += '</div>';
+            content.innerHTML = html;
+
+            setTimeout(() => {
+                askMissingSignQuestion(content);
+            }, 8000);
+        }
+
+        function askMissingSignQuestion(content) {
+            const removedSign = shownSigns[Math.floor(Math.random() * shownSigns.length)];
+            const displaySigns = shownSigns.filter(s => s !== removedSign);
+
+            let html = '<h2>Which sign is missing?</h2>';
+            html += '<p>One sign has been removed. Can you identify it?</p>';
+            html += '<div class="sign-grid">';
+            
+            displaySigns.forEach(sign => {
+                html += `<div class="road-sign ${sign.shape}" style="background: ${sign.color}; border-color: ${sign.shape === 'triangle' || sign.shape === 'diamond' ? '#000' : sign.color}; color: ${sign.textColor};">
+                    <div class="sign-content" style="font-size: ${sign.icon.length > 3 ? '16px' : '36px'};">
+                        ${sign.icon}<br>
+                        <span style="font-size: 11px; margin-top: 5px; display: block;">${sign.name}</span>
+                    </div>
+                </div>`;
+            });
+            
+            html += '</div>';
+            html += '<div class="quiz-options">';
+            
+            const options = [...shownSigns].sort(() => Math.random() - 0.5);
+            options.forEach(sign => {
+                html += `<div class="quiz-option" onclick="checkMissingAnswer('${sign.name}', '${removedSign.name}')">${sign.name}</div>`;
+            });
+            
+            html += '</div>';
+            content.innerHTML = html;
+        }
+
+        function checkMissingAnswer(answer, correct) {
+            if (answer === correct) {
+                score += 15;
+                alert('Excellent! You found the missing sign!');
+                updateProgress('missing', Math.min(100, userData.progress.missing + 25));
+            } else {
+                alert('Not quite. The missing sign was: ' + correct);
+            }
+            startAssessment('missing');
+        }
+
+        function showMultipleChoiceQuiz(content) {
+            const sign = roadSigns[Math.floor(Math.random() * roadSigns.length)];
+            const wrongAnswers = roadSigns.filter(s => s !== sign).slice(0, 3);
+            const options = [sign, ...wrongAnswers].sort(() => Math.random() - 0.5);
+
+            let html = '<h2>✅ Multiple Choice Quiz</h2>';
+            html += '<div class="score-display">Score: ' + score + '</div>';
+            html += `<div class="road-sign ${sign.shape}" style="background: ${sign.color}; border-color: ${sign.shape === 'triangle' || sign.shape === 'diamond' ? '#000' : sign.color}; color: ${sign.textColor}; width: 200px; height: 200px; font-size: 20px; margin: 30px auto;">
+                <div class="sign-content" style="font-size: 48px;">
+                    ${sign.icon}<br>
+                    <span style="font-size: 14px; margin-top: 10px; display: block;">${sign.name}</span>
+                </div>
+            </div>`;
+            html += '<div class="quiz-options">';
+            html += `<div class="quiz-option" onclick="checkQuizAnswer('${sign.description}')">${sign.description}</div>`;
+            wrongAnswers.forEach(wrong => {
+                html += `<div class="quiz-option" onclick="checkQuizAnswer('${wrong.description}')">${wrong.description}</div>`;
+            });
+            html += '</div>';
+            content.innerHTML = html;
+        }
+
+        function checkQuizAnswer(selected) {
+            const currentSign = shownSigns[shownSigns.length - 1] || roadSigns[0];
+            if (selected === currentSign.description) {
+                score += 10;
+                alert('Correct! 🎉');
+                updateProgress('quiz', Math.min(100, userData.progress.quiz + 20));
+            } else {
+                alert('Incorrect. The correct answer is: ' + currentSign.description);
+            }
+            startAssessment('quiz');
+        }
+
+        // Utility Functions
+        function showMessage(message, type, container) {
+            container.innerHTML = `<div class="${type === 'error' ? 'error-message' : 'success-message'}">${message}</div>`;
+        }
+
+        function copyAffiliateCode() {
+            const code = document.getElementById('userAffiliateCode').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                alert('Affiliate code copied to clipboard!');
+            });
+        }
+
+        // Initialize the application when page loads
+        window.onload = initApp;
     </script>
 </body>
 </html>
