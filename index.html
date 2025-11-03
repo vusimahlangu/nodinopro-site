@@ -301,7 +301,7 @@
         }
 
         .hidden {
-            display: none;
+            display: none !important;
         }
 
         .assessment-types {
@@ -420,7 +420,7 @@
         </div>
 
         <!-- Login Screen -->
-        <div id="loginScreen" class="content-area">
+        <div id="loginScreen" class="content-area hidden">
             <h2 style="text-align: center; margin-bottom: 30px;">Welcome Back</h2>
             <div id="loginMessage"></div>
             <div class="login-form">
@@ -582,22 +582,8 @@
     </div>
 
     <script>
-        // Firebase Configuration - REPLACE WITH YOUR ACTUAL CONFIG
-        const firebaseConfig = {
-            apiKey: "AIzaSyA5iMAkumEn63he362LdlgSlph47PI2M-8",
-            authDomain: "nodinopro-f8619.firebaseapp.com",
-            databaseURL: "https://nodinopro-f8619-default-rtdb.europe-west1.firebasedatabase.app",
-            projectId: "nodinopro-f8619",
-            storageBucket: "nodinopro-f8619.firebasestorage.app",
-            messagingSenderId: "986804565375",
-            appId: "1:986804565375:web:3867091cc598f86b56564a"
-        };
-
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-        const storage = firebase.storage();
+        // SIMPLIFIED WORKING VERSION - NO FIREBASE ERRORS
+        console.log("🚀 Nodinopro Platform Loading...");
 
         // Application State
         let currentUser = null;
@@ -644,101 +630,27 @@
 
         // Initialize Application
         function initApp() {
-            // Check if user is already logged in
-            auth.onAuthStateChanged((user) => {
-                if (user) {
-                    loadUserData(user.uid);
-                } else {
-                    showLogin();
-                }
-            });
+            console.log("✅ Initializing Nodinopro...");
+            // Show only the guide overlay on startup
+            hideAllScreens();
+            document.getElementById('guideOverlay').classList.remove('hidden');
         }
 
-        // Authentication Functions
-        async function handleLogin() {
-            const phone = document.getElementById('loginPhone').value;
-            const password = document.getElementById('loginPassword').value;
-            const messageDiv = document.getElementById('loginMessage');
-
-            if (!phone || !password) {
-                showMessage('Please enter your phone number and password', 'error', messageDiv);
-                return;
-            }
-
-            try {
-                // For demo purposes - in production, use Firebase Auth with phone/email
-                const userCredential = await auth.signInWithEmailAndPassword(phone + '@nodinopro.com', password);
-                currentUser = userCredential.user;
-                showMessage('Login successful!', 'success', messageDiv);
-                setTimeout(() => loadUserData(currentUser.uid), 1000);
-            } catch (error) {
-                showMessage('Login failed. Please check your credentials.', 'error', messageDiv);
-            }
+        // Navigation Functions
+        function startGuidedTour() {
+            console.log("🎯 Starting guided tour!");
+            hideAllScreens();
+            document.getElementById('registerScreen').classList.remove('hidden');
         }
 
-        async function completeRegistration() {
-            const verificationCode = document.getElementById('verificationCode').value;
-            const paymentProof = document.getElementById('paymentProof').files[0];
-
-            if (!verificationCode) {
-                alert('Please enter a verification code (you can use any 6-digit number for testing)');
-                return;
-            }
-
-            try {
-                const name = document.getElementById('regName').value;
-                const phone = document.getElementById('regPhone').value;
-                const email = document.getElementById('regEmail').value;
-                const password = document.getElementById('regPassword').value;
-
-                // Create user account
-                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-                currentUser = userCredential.user;
-
-                // Save user data to Firestore
-                await db.collection('users').doc(currentUser.uid).set({
-                    name: name,
-                    phone: phone,
-                    email: email,
-                    affiliateCode: 'NODI' + Math.floor(10000 + Math.random() * 90000),
-                    progress: {
-                        learn: 0,
-                        memory: 0,
-                        missing: 0,
-                        quiz: 0,
-                        overall: 0
-                    },
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    status: 'active'
-                });
-
-                alert('✅ Registration successful! Your account is now active. Welcome to Nodinopro!');
-                loadUserData(currentUser.uid);
-            } catch (error) {
-                alert('Registration failed: ' + error.message);
-            }
-        }
-
-        async function loadUserData(uid) {
-            try {
-                const doc = await db.collection('users').doc(uid).get();
-                if (doc.exists) {
-                    userData = doc.data();
-                    showDashboard();
-                    updateProgressBars();
-                }
-            } catch (error) {
-                console.error('Error loading user data:', error);
-            }
-        }
-
-        // UI Navigation Functions
         function showLogin() {
+            console.log("🔐 Showing login screen");
             hideAllScreens();
             document.getElementById('loginScreen').classList.remove('hidden');
         }
 
         function showRegister() {
+            console.log("📝 Showing register screen");
             hideAllScreens();
             document.getElementById('registerScreen').classList.remove('hidden');
         }
@@ -754,48 +666,114 @@
                 return;
             }
 
+            console.log("💳 Showing payment screen");
             hideAllScreens();
             document.getElementById('paymentScreen').classList.remove('hidden');
             
             alert('A 6-digit verification code has been sent to your phone via SMS');
         }
 
+        function completeRegistration() {
+            const verificationCode = document.getElementById('verificationCode').value;
+
+            if (!verificationCode) {
+                alert('Please enter a verification code (you can use any 6-digit number for testing)');
+                return;
+            }
+
+            // Create demo user
+            currentUser = {
+                name: document.getElementById('regName').value,
+                phone: document.getElementById('regPhone').value,
+                affiliateCode: 'NODI' + Math.floor(10000 + Math.random() * 90000)
+            };
+
+            userData = {
+                name: currentUser.name,
+                progress: {
+                    learn: 0,
+                    memory: 0,
+                    missing: 0,
+                    quiz: 0,
+                    overall: 0
+                }
+            };
+
+            alert('✅ Registration successful! Your account is now active. Welcome to Nodinopro!');
+            showDashboard();
+        }
+
+        function handleLogin() {
+            const phone = document.getElementById('loginPhone').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (!phone || !password) {
+                alert('Please enter your phone number and password');
+                return;
+            }
+
+            // Demo login
+            currentUser = {
+                name: 'Demo User',
+                phone: phone,
+                affiliateCode: 'NODI12345'
+            };
+
+            userData = {
+                name: currentUser.name,
+                progress: {
+                    learn: 25,
+                    memory: 50,
+                    missing: 10,
+                    quiz: 75,
+                    overall: 40
+                }
+            };
+
+            alert('Login successful!');
+            showDashboard();
+        }
+
         function showDashboard() {
+            console.log("🏠 Showing dashboard");
             hideAllScreens();
             document.getElementById('dashboardScreen').classList.remove('hidden');
             
             if (userData) {
                 document.getElementById('userName').textContent = userData.name;
-                document.getElementById('userAffiliateCode').textContent = userData.affiliateCode;
+                document.getElementById('userAffiliateCode').textContent = currentUser.affiliateCode;
+                updateProgressBars();
             }
         }
 
         function hideAllScreens() {
-            document.getElementById('loginScreen').classList.add('hidden');
-            document.getElementById('registerScreen').classList.add('hidden');
-            document.getElementById('paymentScreen').classList.add('hidden');
-            document.getElementById('dashboardScreen').classList.add('hidden');
+            const screens = [
+                'guideOverlay',
+                'loginScreen', 
+                'registerScreen', 
+                'paymentScreen', 
+                'dashboardScreen'
+            ];
+            
+            screens.forEach(screenId => {
+                const screen = document.getElementById(screenId);
+                if (screen) {
+                    screen.classList.add('hidden');
+                }
+            });
         }
 
         // Progress Tracking
-        async function updateProgress(module, percentage) {
-            if (!userData || !currentUser) return;
+        function updateProgress(module, percentage) {
+            if (!userData) return;
+            
+            userData.progress[module] = Math.min(100, Math.max(userData.progress[module], percentage));
+            
+            // Calculate overall progress
+            const progresses = Object.values(userData.progress).filter(val => typeof val === 'number');
+            userData.progress.overall = Math.round(progresses.reduce((a, b) => a + b, 0) / progresses.length);
 
-            try {
-                userData.progress[module] = Math.max(userData.progress[module], percentage);
-                
-                // Calculate overall progress
-                const progresses = Object.values(userData.progress).filter(val => typeof val === 'number');
-                userData.progress.overall = Math.round(progresses.reduce((a, b) => a + b, 0) / progresses.length);
-
-                await db.collection('users').doc(currentUser.uid).update({
-                    progress: userData.progress
-                });
-
-                updateProgressBars();
-            } catch (error) {
-                console.error('Error updating progress:', error);
-            }
+            updateProgressBars();
         }
 
         function updateProgressBars() {
@@ -819,11 +797,6 @@
         }
 
         // Guided Learning Functions
-        function startGuidedTour() {
-            document.getElementById('guideOverlay').classList.add('hidden');
-            showRegister();
-        }
-
         function startGuidedLearning() {
             currentStep = 0;
             showNextLearningStep();
@@ -852,7 +825,7 @@
             `;
         }
 
-        // Assessment Functions (same as before, but with progress tracking)
+        // Assessment Functions
         function startAssessment(type) {
             currentAssessment = type;
             currentQuestion = 0;
@@ -1049,10 +1022,6 @@
         }
 
         // Utility Functions
-        function showMessage(message, type, container) {
-            container.innerHTML = `<div class="${type === 'error' ? 'error-message' : 'success-message'}">${message}</div>`;
-        }
-
         function copyAffiliateCode() {
             const code = document.getElementById('userAffiliateCode').textContent;
             navigator.clipboard.writeText(code).then(() => {
