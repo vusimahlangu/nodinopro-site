@@ -1005,577 +1005,543 @@ const assessments = {
     </div>
 
     <script>
-        // ==================== 420 SOUTH AFRICAN ROAD SIGNS WITH LABELS ====================
-        const roadSigns = [];
+// ==================== 420 SOUTH AFRICAN ROAD SIGNS WITH LABELS ====================
+const roadSigns = [];
 
-        // Generate all 420 signs with proper South African labels
-        for (let i = 1; i <= 420; i++) {
-            const fileName = `image${i}.png`;
-            let name, type, description;
-            
-            // South African road sign distribution pattern
-            const modValue = i % 15;
-            if (modValue <= 4) {
-                type = 'regulatory';
-                switch (modValue) {
-                    case 0: name = 'Stop Sign'; description = 'Stop - Come to complete stop before proceeding'; break;
-                    case 1: name = 'Speed Limit 60'; description = 'Speed Limit 60 km/h - Maximum speed allowed'; break;
-                    case 2: name = 'Yield'; description = 'Yield - Give way to traffic on major road'; break;
-                    case 3: name = 'No Entry'; description = 'No Entry - Do not enter this road'; break;
-                    case 4: name = 'No Parking'; description = 'No Parking - Parking not allowed in this area'; break;
-                }
-            } else if (modValue <= 9) {
-                type = 'warning';
-                switch (modValue) {
-                    case 5: name = 'Curve Ahead'; description = 'Curve Ahead - Warning of curve in road'; break;
-                    case 6: name = 'Pedestrian Crossing'; description = 'Pedestrian Crossing - Watch for people crossing'; break;
-                    case 7: name = 'School Zone'; description = 'School Zone - Reduce speed near school area'; break;
-                    case 8: name = 'Animal Crossing'; description = 'Animal Crossing - Watch for animals on road'; break;
-                    case 9: name = 'Road Narrows'; description = 'Road Narrows - Road ahead becomes narrower'; break;
-                }
-            } else if (modValue <= 12) {
-                type = 'informational';
-                switch (modValue) {
-                    case 10: name = 'Route Marker'; description = 'Route Marker - Highway route identification'; break;
-                    case 11: name = 'Direction Sign'; description = 'Direction Sign - Shows direction to destination'; break;
-                    case 12: name = 'Parking'; description = 'Parking Area - Designated parking location'; break;
-                }
+// Generate all 420 signs with proper South African labels
+for (let i = 1; i <= 420; i++) {
+    const fileName = `signs/image${i}.png`;
+    let name, type, description;
+    
+    // South African road sign distribution pattern
+    const modValue = i % 15;
+    if (modValue <= 4) {
+        type = 'regulatory';
+        switch (modValue) {
+            case 0: name = 'Stop Sign'; description = 'Stop - Come to complete stop before proceeding'; break;
+            case 1: name = 'Speed Limit 60'; description = 'Speed Limit 60 km/h - Maximum speed allowed'; break;
+            case 2: name = 'Yield'; description = 'Yield - Give way to traffic on major road'; break;
+            case 3: name = 'No Entry'; description = 'No Entry - Do not enter this road'; break;
+            case 4: name = 'No Parking'; description = 'No Parking - Parking not allowed in this area'; break;
+        }
+    } else if (modValue <= 9) {
+        type = 'warning';
+        switch (modValue) {
+            case 5: name = 'Curve Ahead'; description = 'Curve Ahead - Warning of curve in road'; break;
+            case 6: name = 'Pedestrian Crossing'; description = 'Pedestrian Crossing - Watch for people crossing'; break;
+            case 7: name = 'School Zone'; description = 'School Zone - Reduce speed near school area'; break;
+            case 8: name = 'Animal Crossing'; description = 'Animal Crossing - Watch for animals on road'; break;
+            case 9: name = 'Road Narrows'; description = 'Road Narrows - Road ahead becomes narrower'; break;
+        }
+    } else if (modValue <= 12) {
+        type = 'informational';
+        switch (modValue) {
+            case 10: name = 'Route Marker'; description = 'Route Marker - Highway route identification'; break;
+            case 11: name = 'Direction Sign'; description = 'Direction Sign - Shows direction to destination'; break;
+            case 12: name = 'Parking'; description = 'Parking Area - Designated parking location'; break;
+        }
+    } else {
+        type = 'construction';
+        name = 'Road Works';
+        description = 'Road Works - Construction or maintenance ahead';
+    }
+    
+    // Special cases for common SA signs
+    if (i <= 40) {
+        name = 'Speed Limit ' + (60 + (i % 6) * 10);
+        description = `Speed Limit ${60 + (i % 6) * 10} km/h - Maximum speed allowed`;
+        type = 'regulatory';
+    }
+    
+    if (i >= 100 && i <= 130) {
+        name = 'Route Marker';
+        description = `Route ${['N', 'R', 'M'][i % 3]}${i % 100} - Highway route marker`;
+        type = 'informational';
+    }
+    
+    roadSigns.push({
+        id: i.toString().padStart(3, '0'),
+        name: name,
+        type: type,
+        image: fileName,
+        description: description
+    });
+}
+
+console.log(`✅ Nodinopro: Successfully loaded ${roadSigns.length} labeled South African road signs!`);
+
+// AUTO-GENERATE ASSESSMENT QUESTIONS FROM 420 LABELED SIGNS
+function generateAssessmentQuestions() {
+    const questions = [];
+    const usedSigns = new Set();
+    
+    // Create 25 random questions from 420 signs
+    for (let i = 0; i < 25; i++) {
+        let randomSign;
+        
+        // Get unique sign
+        do {
+            randomSign = roadSigns[Math.floor(Math.random() * roadSigns.length)];
+        } while (usedSigns.has(randomSign.id) && usedSigns.size < roadSigns.length);
+        
+        usedSigns.add(randomSign.id);
+        
+        // Generate wrong answers from other signs of same type
+        const wrongAnswers = [];
+        const sameTypeSigns = roadSigns.filter(s => 
+            s.type === randomSign.type && s.id !== randomSign.id
+        );
+        
+        for (let j = 0; j < 3; j++) {
+            if (sameTypeSigns.length > 0) {
+                const wrongSign = sameTypeSigns[Math.floor(Math.random() * sameTypeSigns.length)];
+                wrongAnswers.push(wrongSign.description);
+            }
+        }
+        
+        // If not enough same-type signs, add from other types
+        while (wrongAnswers.length < 3) {
+            const otherSigns = roadSigns.filter(s => 
+                s.id !== randomSign.id && !wrongAnswers.includes(s.description)
+            );
+            if (otherSigns.length > 0) {
+                const wrongSign = otherSigns[Math.floor(Math.random() * otherSigns.length)];
+                wrongAnswers.push(wrongSign.description);
             } else {
-                type = 'construction';
-                name = 'Road Works';
-                description = 'Road Works - Construction or maintenance ahead';
+                break;
             }
-            
-            // Special cases for common SA signs
-            if (i <= 40) {
-                name = 'Speed Limit ' + (60 + (i % 6) * 10);
-                description = `Speed Limit ${60 + (i % 6) * 10} km/h - Maximum speed allowed`;
-                type = 'regulatory';
-            }
-            
-            if (i >= 100 && i <= 130) {
-                name = 'Route Marker';
-                description = `Route ${['N', 'R', 'M'][i % 3]}${i % 100} - Highway route marker`;
-                type = 'informational';
-            }
-            
-            roadSigns.push({
-                id: i.toString().padStart(3, '0'),
-                name: name,
-                type: type,
-                image: `signs/${fileName}`,
-                description: description
-            });
         }
+        
+        const allOptions = [
+            randomSign.description,
+            ...wrongAnswers
+        ].sort(() => Math.random() - 0.5);
+        
+        const correctIndex = allOptions.indexOf(randomSign.description);
+        
+        questions.push({
+            question: "What does this South African road sign mean?",
+            image: randomSign.image,
+            options: allOptions,
+            correct: correctIndex,
+            explanation: randomSign.description,
+            signId: randomSign.id,
+            signName: randomSign.name
+        });
+    }
+    
+    return questions;
+}
 
-        console.log(`✅ Nodinopro: Successfully loaded ${roadSigns.length} labeled South African road signs!`);
-
-        // AUTO-GENERATE ASSESSMENT QUESTIONS FROM 420 LABELED SIGNS
-        function generateAssessmentQuestions() {
-            const questions = [];
-            const usedSigns = new Set();
-            
-            // Create 25 random questions from 420 signs
-            for (let i = 0; i < 25; i++) {
-                let randomSign;
-                
-                // Get unique sign
-                do {
-                    randomSign = roadSigns[Math.floor(Math.random() * roadSigns.length)];
-                } while (usedSigns.has(randomSign.id) && usedSigns.size < roadSigns.length);
-                
-                usedSigns.add(randomSign.id);
-                
-                // Generate wrong answers from other signs of same type
-                const wrongAnswers = [];
-                const sameTypeSigns = roadSigns.filter(s => 
-                    s.type === randomSign.type && s.id !== randomSign.id
-                );
-                
-                for (let j = 0; j < 3; j++) {
-                    if (sameTypeSigns.length > 0) {
-                        const wrongSign = sameTypeSigns[Math.floor(Math.random() * sameTypeSigns.length)];
-                        wrongAnswers.push(wrongSign.description);
-                    }
-                }
-                
-                // If not enough same-type signs, add from other types
-                while (wrongAnswers.length < 3) {
-                    const otherSigns = roadSigns.filter(s => 
-                        s.id !== randomSign.id && !wrongAnswers.includes(s.description)
-                    );
-                    if (otherSigns.length > 0) {
-                        const wrongSign = otherSigns[Math.floor(Math.random() * otherSigns.length)];
-                        wrongAnswers.push(wrongSign.description);
-                    } else {
-                        break;
-                    }
-                }
-                
-                const allOptions = [
-                    randomSign.description,
-                    ...wrongAnswers
-                ].sort(() => Math.random() - 0.5);
-                
-                const correctIndex = allOptions.indexOf(randomSign.description);
-                
-                questions.push({
-                    question: "What does this South African road sign mean?",
-                    image: randomSign.image,
-                    options: allOptions,
-                    correct: correctIndex,
-                    explanation: randomSign.description,
-                    signId: randomSign.id,
-                    signName: randomSign.name
-                });
-            }
-            
-            return questions;
-        }
-
-        // ASSESSMENTS CONFIGURATION
-        const assessments = {
-            roadSigns: {
-                title: "SA Road Signs Master Test",
-                questions: generateAssessmentQuestions()
+// ASSESSMENTS CONFIGURATION
+const assessments = {
+    roadSigns: {
+        title: "SA Road Signs Master Test",
+        questions: generateAssessmentQuestions()
+    },
+    rules: {
+        title: "Rules of the Road",
+        questions: [
+            {
+                question: "What is the speed limit in urban areas unless otherwise indicated?",
+                image: "",
+                options: ["60 km/h", "80 km/h", "100 km/h", "120 km/h"],
+                correct: 0,
+                explanation: "The general speed limit in urban areas is 60 km/h"
             },
-            rules: {
-                title: "Rules of the Road",
-                questions: [
-                    {
-                        question: "What is the speed limit in urban areas unless otherwise indicated?",
-                        image: "",
-                        options: ["60 km/h", "80 km/h", "100 km/h", "120 km/h"],
-                        correct: 0,
-                        explanation: "The general speed limit in urban areas is 60 km/h"
-                    },
-                    {
-                        question: "When approaching a traffic circle, who has right of way?",
-                        image: "",
-                        options: ["Vehicles already in the circle", "Vehicles entering the circle", "The larger vehicle", "Vehicles turning left"],
-                        correct: 0,
-                        explanation: "Vehicles already in the traffic circle have right of way"
-                    },
-                    {
-                        question: "What should you do when you see flashing red lights at a railway crossing?",
-                        image: "",
-                        options: ["Stop and wait for train to pass", "Speed up to cross quickly", "Proceed with caution", "Sound your horn"],
-                        correct: 0,
-                        explanation: "Stop immediately when red lights flash at railway crossing"
-                    }
-                ]
-            },
-            vehicle: {
-                title: "Vehicle Controls",
-                questions: [
-                    {
-                        question: "What does the brake pedal do?",
-                        image: "",
-                        options: ["Slows or stops the vehicle", "Increases speed", "Changes gears", "Opens windows"],
-                        correct: 0,
-                        explanation: "The brake pedal slows down or stops the vehicle"
-                    },
-                    {
-                        question: "What is the purpose of the clutch pedal?",
-                        image: "",
-                        options: ["Disconnects engine from transmission", "Activates brakes", "Controls steering", "Opens fuel cap"],
-                        correct: 0,
-                        explanation: "The clutch pedal disconnects the engine from the transmission"
-                    },
-                    {
-                        question: "When should you use your hazard lights?",
-                        image: "",
-                        options: ["When vehicle is stationary and causing obstruction", "When driving in rain", "When overtaking", "When parking legally"],
-                        correct: 0,
-                        explanation: "Use hazard lights when vehicle is stationary and causing obstruction"
-                    }
-                ]
+            {
+                question: "When approaching a traffic circle, who has right of way?",
+                image: "",
+                options: ["Vehicles already in the circle", "Vehicles entering the circle", "The larger vehicle", "Vehicles turning left"],
+                correct: 0,
+                explanation: "Vehicles already in the traffic circle have right of way"
             }
-        };
-
-        // ==================== APPLICATION STATE ====================
-        let currentUser = null;
-        let currentTest = null;
-        let currentQuestionIndex = 0;
-        let userAnswers = [];
-        let testScore = 0;
-        let testResults = [];
-
-        // ==================== INITIALIZATION ====================
-        function init() {
-            console.log("🚗 Nodinopro Platform Initialized with 420 Labeled Road Signs");
-            showWelcomeOverlay();
-        }
-
-        // ==================== SCREEN MANAGEMENT ====================
-        function showWelcomeOverlay() {
-            hideAllScreens();
-            document.getElementById('welcomeOverlay').classList.remove('hidden');
-        }
-
-        function startGuidedTour() {
-            document.getElementById('welcomeOverlay').classList.add('hidden');
-            showLogin();
-        }
-
-        function showLogin() {
-            hideAllScreens();
-            document.getElementById('loginScreen').classList.remove('hidden');
-        }
-
-        function showRegister() {
-            hideAllScreens();
-            document.getElementById('registerScreen').classList.remove('hidden');
-        }
-
-        function showPayment() {
-            const name = document.getElementById('regName').value;
-            const phone = document.getElementById('regPhone').value;
-            const email = document.getElementById('regEmail').value;
-            const password = document.getElementById('regPassword').value;
-
-            if (!name || !phone || !email || !password) {
-                alert('Please fill in all required fields');
-                return;
+        ]
+    },
+    vehicle: {
+        title: "Vehicle Controls",
+        questions: [
+            {
+                question: "What does the brake pedal do?",
+                image: "",
+                options: ["Slows or stops the vehicle", "Increases speed", "Changes gears", "Opens windows"],
+                correct: 0,
+                explanation: "The brake pedal slows down or stops the vehicle"
             }
+        ]
+    }
+};
 
-            hideAllScreens();
-            document.getElementById('paymentScreen').classList.remove('hidden');
-        }
+// ==================== APPLICATION STATE ====================
+let currentUser = null;
+let currentTest = null;
+let currentQuestionIndex = 0;
+let userAnswers = [];
+let testScore = 0;
+let testResults = [];
 
-        function showDashboard() {
-            hideAllScreens();
-            document.getElementById('dashboardScreen').classList.remove('hidden');
-            updateUserInfo();
-        }
+// ==================== SCREEN MANAGEMENT ====================
+function showWelcomeOverlay() {
+    hideAllScreens();
+    document.getElementById('welcomeOverlay').classList.remove('hidden');
+}
 
-        function showAssessmentScreen() {
-            hideAllScreens();
-            document.getElementById('assessmentScreen').classList.remove('hidden');
-            loadQuestion();
-        }
+function startGuidedTour() {
+    console.log("🚗 Starting guided tour...");
+    document.getElementById('welcomeOverlay').classList.add('hidden');
+    showLogin();
+}
 
-        function showResultsScreen() {
-            hideAllScreens();
-            document.getElementById('resultsScreen').classList.remove('hidden');
-            displayResults();
-        }
+function showLogin() {
+    hideAllScreens();
+    document.getElementById('loginScreen').classList.remove('hidden');
+    console.log("📱 Login screen shown");
+}
 
-        function showPracticeMode() {
-            hideAllScreens();
-            document.getElementById('practiceScreen').classList.remove('hidden');
-            loadPracticeContent();
-        }
+function showRegister() {
+    hideAllScreens();
+    document.getElementById('registerScreen').classList.remove('hidden');
+}
 
-        function showProgress() {
-            hideAllScreens();
-            document.getElementById('progressScreen').classList.remove('hidden');
-        }
+function showPayment() {
+    const name = document.getElementById('regName').value;
+    const phone = document.getElementById('regPhone').value;
+    const email = document.getElementById('regEmail').value;
+    const password = document.getElementById('regPassword').value;
 
-        function showAffiliate() {
-            hideAllScreens();
-            document.getElementById('affiliateScreen').classList.remove('hidden');
-        }
+    if (!name || !phone || !email || !password) {
+        alert('Please fill in all required fields');
+        return;
+    }
 
-        function hideAllScreens() {
-            const screens = [
-                'welcomeOverlay', 'loginScreen', 'registerScreen', 'paymentScreen',
-                'dashboardScreen', 'assessmentScreen', 'resultsScreen', 
-                'practiceScreen', 'progressScreen', 'affiliateScreen'
-            ];
-            screens.forEach(screen => {
-                const element = document.getElementById(screen);
-                if (element) element.classList.add('hidden');
-            });
-        }
+    hideAllScreens();
+    document.getElementById('paymentScreen').classList.remove('hidden');
+}
 
-        // ==================== USER MANAGEMENT ====================
-        function handleLogin() {
-            const phone = document.getElementById('loginPhone').value;
-            const password = document.getElementById('loginPassword').value;
+function showDashboard() {
+    hideAllScreens();
+    document.getElementById('dashboardScreen').classList.remove('hidden');
+    updateUserInfo();
+}
 
-            if (!phone || !password) {
-                alert('Please enter your phone number and password');
-                return;
-            }
+function showAssessmentScreen() {
+    hideAllScreens();
+    document.getElementById('assessmentScreen').classList.remove('hidden');
+    loadQuestion();
+}
 
-            // Demo login
-            currentUser = {
-                name: 'Demo User',
-                phone: phone,
-                referralCode: 'NODI' + Math.floor(10000 + Math.random() * 90000)
-            };
+function showResultsScreen() {
+    hideAllScreens();
+    document.getElementById('resultsScreen').classList.remove('hidden');
+    displayResults();
+}
 
-            alert('Login successful! Welcome to Nodinopro!');
-            showDashboard();
-        }
+function showPracticeMode() {
+    hideAllScreens();
+    document.getElementById('practiceScreen').classList.remove('hidden');
+    loadPracticeContent();
+}
 
-        function completeRegistration() {
-            const verificationCode = document.getElementById('verificationCode').value;
+function showProgress() {
+    hideAllScreens();
+    document.getElementById('progressScreen').classList.remove('hidden');
+}
 
-            if (!verificationCode) {
-                alert('Please enter the verification code');
-                return;
-            }
+function showAffiliate() {
+    hideAllScreens();
+    document.getElementById('affiliateScreen').classList.remove('hidden');
+}
 
-            // Create user account
-            currentUser = {
-                name: document.getElementById('regName').value,
-                phone: document.getElementById('regPhone').value,
-                referralCode: 'NODI' + Math.floor(10000 + Math.random() * 90000)
-            };
+function hideAllScreens() {
+    const screens = [
+        'welcomeOverlay', 'loginScreen', 'registerScreen', 'paymentScreen',
+        'dashboardScreen', 'assessmentScreen', 'resultsScreen', 
+        'practiceScreen', 'progressScreen', 'affiliateScreen'
+    ];
+    screens.forEach(screen => {
+        const element = document.getElementById(screen);
+        if (element) element.classList.add('hidden');
+    });
+}
 
-            alert('✅ Registration successful! Your account is now active. Welcome to Nodinopro!');
-            showDashboard();
-        }
+// ==================== USER MANAGEMENT ====================
+function handleLogin() {
+    const phone = document.getElementById('loginPhone').value;
+    const password = document.getElementById('loginPassword').value;
 
-        function updateUserInfo() {
-            if (currentUser) {
-                document.getElementById('userInfo').classList.remove('hidden');
-                document.getElementById('userName').textContent = currentUser.name;
-                document.getElementById('referralCode').textContent = currentUser.referralCode;
-            }
-        }
+    if (!phone || !password) {
+        alert('Please enter your phone number and password');
+        return;
+    }
 
-        // ==================== ASSESSMENT SYSTEM ====================
-        function startAssessment(testType) {
-            currentTest = assessments[testType];
-            currentQuestionIndex = 0;
-            userAnswers = [];
-            testScore = 0;
-            testResults = [];
-            
-            showAssessmentScreen();
-        }
+    // Demo login - always succeed for testing
+    currentUser = {
+        name: 'Demo User',
+        phone: phone,
+        referralCode: 'NODI' + Math.floor(10000 + Math.random() * 90000)
+    };
 
-        function loadQuestion() {
-            const question = currentTest.questions[currentQuestionIndex];
-            const totalQuestions = currentTest.questions.length;
-            
-            // Update progress
-            const progress = ((currentQuestionIndex + 1) / totalQuestions) * 100;
-            document.getElementById('progressFill').style.width = progress + '%';
-            
-            // Update question info
-            document.getElementById('questionNumber').textContent = 
-                `Question ${currentQuestionIndex + 1} of ${totalQuestions}`;
-            document.getElementById('questionText').textContent = question.question;
-            
-            // Update sign image
-            document.getElementById('signImage').src = question.image;
-            document.getElementById('signImage').alt = question.question;
-            
-            // Load options
-            const optionsContainer = document.getElementById('optionsContainer');
-            optionsContainer.innerHTML = '';
-            
-            question.options.forEach((option, index) => {
-                const isSelected = userAnswers[currentQuestionIndex] === index;
-                const optionBtn = document.createElement('div');
-                optionBtn.className = `option-btn ${isSelected ? 'selected' : ''}`;
-                optionBtn.textContent = option;
-                optionBtn.onclick = () => selectOption(index);
-                optionsContainer.appendChild(optionBtn);
-            });
-            
-            // Update navigation
-            document.getElementById('nextButton').classList.remove('hidden');
-            document.getElementById('finishButton').classList.add('hidden');
-            
-            if (currentQuestionIndex === totalQuestions - 1) {
-                document.getElementById('nextButton').classList.add('hidden');
-                document.getElementById('finishButton').classList.remove('hidden');
-            }
-        }
+    alert('Login successful! Welcome to Nodinopro!');
+    showDashboard();
+}
 
-        function selectOption(optionIndex) {
-            const options = document.querySelectorAll('.option-btn');
-            options.forEach(opt => opt.classList.remove('selected'));
-            options[optionIndex].classList.add('selected');
-            userAnswers[currentQuestionIndex] = optionIndex;
-        }
+function completeRegistration() {
+    const verificationCode = document.getElementById('verificationCode').value;
 
-        function nextQuestion() {
-            if (currentQuestionIndex < currentTest.questions.length - 1) {
-                currentQuestionIndex++;
-                loadQuestion();
-            }
-        }
+    if (!verificationCode) {
+        alert('Please enter the verification code');
+        return;
+    }
 
-        function previousQuestion() {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                loadQuestion();
-            }
-        }
+    // Create user account
+    currentUser = {
+        name: document.getElementById('regName').value,
+        phone: document.getElementById('regPhone').value,
+        referralCode: 'NODI' + Math.floor(10000 + Math.random() * 90000)
+    };
 
-        function finishTest() {
-            calculateScore();
-            showResultsScreen();
-        }
+    alert('✅ Registration successful! Your account is now active. Welcome to Nodinopro!');
+    showDashboard();
+}
 
-        function calculateScore() {
-            testScore = 0;
-            testResults = [];
-            
-            currentTest.questions.forEach((question, index) => {
-                const userAnswer = userAnswers[index];
-                const isCorrect = userAnswer === question.correct;
-                
-                if (isCorrect) testScore++;
-                
-                testResults.push({
-                    question: question.question,
-                    userAnswer: question.options[userAnswer],
-                    correctAnswer: question.options[question.correct],
-                    isCorrect: isCorrect,
-                    explanation: question.explanation
-                });
-            });
-        }
+function updateUserInfo() {
+    if (currentUser) {
+        document.getElementById('userInfo').classList.remove('hidden');
+        document.getElementById('userName').textContent = currentUser.name;
+        document.getElementById('referralCode').textContent = currentUser.referralCode;
+    }
+}
 
-        function displayResults() {
-            const scorePercent = Math.round((testScore / currentTest.questions.length) * 100);
-            const passed = testScore >= 22;
-            
-            document.getElementById('scoreCircle').textContent = scorePercent + '%';
-            document.getElementById('scoreValue').textContent = testScore;
-            document.getElementById('correctCount').textContent = testScore;
-            document.getElementById('incorrectCount').textContent = currentTest.questions.length - testScore;
-            
-            const passFailElement = document.getElementById('passFail');
-            const resultMessage = document.getElementById('resultMessage');
-            
-            if (passed) {
-                passFailElement.textContent = 'PASSED - Congratulations! 🎉';
-                passFailElement.className = 'score-text pass';
-                resultMessage.textContent = 'You are ready for your official learner\'s licence test!';
-                document.getElementById('scoreCircle').style.background = 'linear-gradient(135deg, #27ae60, #2ecc71)';
-            } else {
-                passFailElement.textContent = 'NOT PASSED - Keep Practicing';
-                passFailElement.className = 'score-text fail';
-                resultMessage.textContent = 'Review the road signs and try again. You need 22/25 to pass.';
-                document.getElementById('scoreCircle').style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
-            }
-        }
+// ==================== ASSESSMENT SYSTEM ====================
+function startAssessment(testType) {
+    console.log(`🎯 Starting assessment: ${testType}`);
+    currentTest = assessments[testType];
+    currentQuestionIndex = 0;
+    userAnswers = [];
+    testScore = 0;
+    testResults = [];
+    
+    showAssessmentScreen();
+}
 
-        function reviewTest() {
-            alert('Detailed answer review coming in the next update!');
-        }
+function loadQuestion() {
+    if (!currentTest || !currentTest.questions[currentQuestionIndex]) {
+        console.error('❌ No question data available');
+        return;
+    }
 
-        function retakeTest() {
-            // Regenerate questions for a fresh test
-            assessments.roadSigns.questions = generateAssessmentQuestions();
-            startAssessment('roadSigns');
-        }
+    const question = currentTest.questions[currentQuestionIndex];
+    const totalQuestions = currentTest.questions.length;
+    
+    // Update progress
+    const progress = ((currentQuestionIndex + 1) / totalQuestions) * 100;
+    document.getElementById('progressFill').style.width = progress + '%';
+    
+    // Update question info
+    document.getElementById('questionNumber').textContent = 
+        `Question ${currentQuestionIndex + 1} of ${totalQuestions}`;
+    document.getElementById('questionText').textContent = question.question;
+    
+    // Update sign image
+    const signImage = document.getElementById('signImage');
+    signImage.src = question.image;
+    signImage.alt = question.question;
+    signImage.onerror = function() {
+        console.log(`🖼️ Image failed to load: ${this.src}`);
+        this.style.display = 'none';
+    };
+    
+    // Load options
+    const optionsContainer = document.getElementById('optionsContainer');
+    optionsContainer.innerHTML = '';
+    
+    question.options.forEach((option, index) => {
+        const isSelected = userAnswers[currentQuestionIndex] === index;
+        const optionBtn = document.createElement('div');
+        optionBtn.className = `option-btn ${isSelected ? 'selected' : ''}`;
+        optionBtn.textContent = option;
+        optionBtn.onclick = () => selectOption(index);
+        optionsContainer.appendChild(optionBtn);
+    });
+    
+    // Update navigation
+    document.getElementById('nextButton').classList.remove('hidden');
+    document.getElementById('finishButton').classList.add('hidden');
+    
+    if (currentQuestionIndex === totalQuestions - 1) {
+        document.getElementById('nextButton').classList.add('hidden');
+        document.getElementById('finishButton').classList.remove('hidden');
+    }
+}
 
-        // ==================== PRACTICE MODE ====================
-        function loadPracticeContent() {
-            const practiceContent = document.getElementById('practiceContent');
-            
-            // Group signs by category for better organization
-            const signsByCategory = {
-                'regulatory': roadSigns.filter(s => s.type === 'regulatory'),
-                'warning': roadSigns.filter(s => s.type === 'warning'),
-                'informational': roadSigns.filter(s => s.type === 'informational'),
-                'construction': roadSigns.filter(s => s.type === 'construction')
-            };
-            
-            let html = `
-                <div style="text-align: center; margin-bottom: 30px;">
-                    <h3>All South African Road Signs (${roadSigns.length} Total)</h3>
-                    <p>Study these official road signs for your learner's licence test</p>
-                    
-                    <div style="display: flex; justify-content: center; gap: 10px; margin: 20px 0; flex-wrap: wrap;">
-                        <button onclick="filterPracticeSigns('all')" class="btn btn-primary">All Signs</button>
-                        <button onclick="filterPracticeSigns('regulatory')" class="btn btn-secondary">Regulatory (${signsByCategory.regulatory.length})</button>
-                        <button onclick="filterPracticeSigns('warning')" class="btn btn-secondary">Warning (${signsByCategory.warning.length})</button>
-                        <button onclick="filterPracticeSigns('informational')" class="btn btn-secondary">Informational (${signsByCategory.informational.length})</button>
-                        <button onclick="filterPracticeSigns('construction')" class="btn btn-secondary">Construction (${signsByCategory.construction.length})</button>
-                    </div>
-                </div>
-                <div class="practice-grid" id="practiceGrid">`;
-            
-            // Display all signs initially
-            roadSigns.forEach(sign => {
-                html += createPracticeSignHTML(sign);
-            });
-            
-            html += `</div>`;
-            practiceContent.innerHTML = html;
-        }
+function selectOption(optionIndex) {
+    const options = document.querySelectorAll('.option-btn');
+    options.forEach(opt => opt.classList.remove('selected'));
+    options[optionIndex].classList.add('selected');
+    userAnswers[currentQuestionIndex] = optionIndex;
+}
 
-        function createPracticeSignHTML(sign) {
-            const categoryColors = {
-                'regulatory': '#e74c3c',
-                'warning': '#f39c12',
-                'informational': '#3498db',
-                'construction': '#9b59b6'
-            };
-            
-            return `
-                <div class="practice-sign" data-type="${sign.type}">
-                    <img 
-                        src="${sign.image}" 
-                        alt="${sign.name}" 
-                        style="
-                            max-width: 120px; 
-                            max-height: 120px; 
-                            margin-bottom: 10px;
-                            border: 1px solid #ecf0f1;
-                            border-radius: 5px;
-                        "
-                        onerror="this.style.display='none'"
-                    >
-                    <div style="font-weight: bold; color: #2c3e50;">${sign.name}</div>
-                    <div style="font-size: 0.8em; color: #7f8c8d; margin-top: 2px;">ID: ${sign.id}</div>
-                    <div style="font-size: 0.9em; color: ${categoryColors[sign.type]}; margin-top: 5px;">
-                        ${sign.type.toUpperCase()}
-                    </div>
-                    <button 
-                        onclick="showSignExplanation('${sign.name}', '${sign.description.replace(/'/g, "\\'")}')"
-                        style="
-                            margin-top: 10px; 
-                            padding: 5px 10px; 
-                            background: #3498db; 
-                            color: white; 
-                            border: none; 
-                            border-radius: 5px; 
-                            cursor: pointer;
-                            font-size: 0.8em;
-                        "
-                    >
-                        Learn More
-                    </button>
-                </div>
-            `;
-        }
+function nextQuestion() {
+    if (currentQuestionIndex < currentTest.questions.length - 1) {
+        currentQuestionIndex++;
+        loadQuestion();
+    }
+}
 
-        function filterPracticeSigns(category) {
-            const signs = document.querySelectorAll('.practice-sign');
-            signs.forEach(sign => {
-                if (category === 'all' || sign.dataset.type === category) {
-                    sign.style.display = 'block';
-                } else {
-                    sign.style.display = 'none';
-                }
-            });
-        }
+function previousQuestion() {
+    if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        loadQuestion();
+    }
+}
 
-        function showSignExplanation(name, description) {
-            alert(`🚗 ${name}\n\n${description}\n\nThis is an official South African road sign you need to know for your learner's licence test.`);
-        }
+function finishTest() {
+    calculateScore();
+    showResultsScreen();
+}
 
-        // ==================== UTILITY FUNCTIONS ====================
-        function copyReferralCode() {
-            const code = document.getElementById('referralCode').textContent;
-            navigator.clipboard.writeText(code).then(() => {
-                alert('Referral code copied to clipboard! Share it with friends.');
-            });
-        }
+function calculateScore() {
+    testScore = 0;
+    testResults = [];
+    
+    currentTest.questions.forEach((question, index) => {
+        const userAnswer = userAnswers[index];
+        const isCorrect = userAnswer === question.correct;
+        
+        if (isCorrect) testScore++;
+        
+        testResults.push({
+            question: question.question,
+            userAnswer: question.options[userAnswer],
+            correctAnswer: question.options[question.correct],
+            isCorrect: isCorrect,
+            explanation: question.explanation
+        });
+    });
+}
 
-        // ==================== INITIALIZE APPLICATION ====================
-        window.onload = init;
-    </script>
+function displayResults() {
+    const scorePercent = Math.round((testScore / currentTest.questions.length) * 100);
+    const passed = testScore >= 22;
+    
+    document.getElementById('scoreCircle').textContent = scorePercent + '%';
+    document.getElementById('scoreValue').textContent = testScore;
+    document.getElementById('correctCount').textContent = testScore;
+    document.getElementById('incorrectCount').textContent = currentTest.questions.length - testScore;
+    
+    const passFailElement = document.getElementById('passFail');
+    const resultMessage = document.getElementById('resultMessage');
+    
+    if (passed) {
+        passFailElement.textContent = 'PASSED - Congratulations! 🎉';
+        passFailElement.className = 'score-text pass';
+        resultMessage.textContent = 'You are ready for your official learner\'s licence test!';
+        document.getElementById('scoreCircle').style.background = 'linear-gradient(135deg, #27ae60, #2ecc71)';
+    } else {
+        passFailElement.textContent = 'NOT PASSED - Keep Practicing';
+        passFailElement.className = 'score-text fail';
+        resultMessage.textContent = 'Review the road signs and try again. You need 22/25 to pass.';
+        document.getElementById('scoreCircle').style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
+    }
+}
+
+function reviewTest() {
+    alert('Detailed answer review coming in the next update!');
+}
+
+function retakeTest() {
+    // Regenerate questions for a fresh test
+    assessments.roadSigns.questions = generateAssessmentQuestions();
+    startAssessment('roadSigns');
+}
+
+// ==================== PRACTICE MODE ====================
+function loadPracticeContent() {
+    const practiceContent = document.getElementById('practiceContent');
+    
+    let html = `
+        <div style="text-align: center; margin-bottom: 30px;">
+            <h3>All South African Road Signs (${roadSigns.length} Total)</h3>
+            <p>Study these official road signs for your learner's licence test</p>
+        </div>
+        <div class="practice-grid">`;
+    
+    // Display all 420 signs
+    roadSigns.forEach(sign => {
+        html += `
+            <div class="practice-sign">
+                <img 
+                    src="${sign.image}" 
+                    alt="${sign.name}" 
+                    style="
+                        max-width: 120px; 
+                        max-height: 120px; 
+                        margin-bottom: 10px;
+                        border: 1px solid #ecf0f1;
+                        border-radius: 5px;
+                    "
+                    onerror="this.style.display='none'"
+                >
+                <div style="font-weight: bold; color: #2c3e50;">${sign.name}</div>
+                <div style="font-size: 0.9em; color: #7f8c8d; margin-top: 5px;">${sign.type.toUpperCase()}</div>
+                <button 
+                    onclick="alert('${sign.description.replace(/'/g, "\\'")}')"
+                    style="
+                        margin-top: 10px; 
+                        padding: 5px 10px; 
+                        background: #3498db; 
+                        color: white; 
+                        border: none; 
+                        border-radius: 5px; 
+                        cursor: pointer;
+                        font-size: 0.8em;
+                    "
+                >
+                    Learn More
+                </button>
+            </div>
+        `;
+    });
+    
+    html += `</div>`;
+    practiceContent.innerHTML = html;
+}
+
+// ==================== UTILITY FUNCTIONS ====================
+function copyReferralCode() {
+    const code = document.getElementById('referralCode').textContent;
+    navigator.clipboard.writeText(code).then(() => {
+        alert('Referral code copied to clipboard! Share it with friends.');
+    });
+}
+
+// ==================== INITIALIZE APPLICATION ====================
+function init() {
+    console.log("🚗 Nodinopro Platform Initialized with 420 Labeled Road Signs");
+    console.log("📊 Available assessments:", Object.keys(assessments));
+    console.log("🛣️ Road signs loaded:", roadSigns.length);
+    
+    // Show welcome overlay by default
+    showWelcomeOverlay();
+    
+    // Test button functionality
+    const startButton = document.querySelector('.welcome-content .btn');
+    if (startButton) {
+        console.log("✅ Start button found, adding event listener");
+        startButton.onclick = startGuidedTour;
+    } else {
+        console.error("❌ Start button not found");
+    }
+}
+
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("📄 DOM fully loaded, initializing Nodinopro...");
+    init();
+});
+
+// Fallback initialization
+window.onload = init;
+</script>
 </body>
 </html>
