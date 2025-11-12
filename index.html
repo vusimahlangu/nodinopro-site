@@ -570,25 +570,364 @@
             </div>
         </div>
 
-        <!-- Assessment Screen -->
-        <div id="assessmentScreen" class="screen hidden">
-            <div class="question-container">
-                <div class="question-number" id="questionNumber">Question 1 of 25</div>
-                <div class="question-text" id="questionText">What does this road sign mean?</div>
-                <img src="" alt="Road Sign" class="sign-image" id="signImage">
-                
-                <div class="options-grid" id="optionsContainer">
-                    <!-- Options will be generated here -->
-                </div>
-                
-                <div class="nav-buttons">
-                    <button class="btn btn-secondary" onclick="previousQuestion()">Previous</button>
-                    <button class="btn btn-primary" onclick="nextQuestion()" id="nextButton">Next Question</button>
-                    <button class="btn btn-success hidden" onclick="finishTest()" id="finishButton">Finish Test</button>
-                </div>
+        <!-- Enhanced Assessment Screen -->
+<div id="assessmentScreen" class="screen hidden">
+    <div class="question-container">
+        <div class="question-number" id="questionNumber">Question 1 of 25</div>
+        <div class="question-text" id="questionText">What does this South African road sign mean?</div>
+        
+        <!-- Enhanced Sign Display with Fallback -->
+        <div class="sign-display-container" id="signDisplayContainer">
+            <img src="" alt="South African Road Sign" class="sign-image" id="signImage" 
+                 onerror="handleImageError(this)">
+            <div class="sign-placeholder hidden" id="signPlaceholder">
+                <div class="placeholder-icon">🛑</div>
+                <div class="placeholder-text">South African Road Sign</div>
+                <div class="placeholder-subtext">Visual identification required</div>
             </div>
         </div>
+        
+        <div class="options-grid" id="optionsContainer">
+            <!-- Options will be generated here -->
+        </div>
+        
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="previousQuestion()">Previous</button>
+            <button class="btn btn-primary" onclick="nextQuestion()" id="nextButton">Next Question</button>
+            <button class="btn btn-success hidden" onclick="finishTest()" id="finishButton">Finish Test</button>
+        </div>
+    </div>
+</div>
 
+<style>
+    /* Add these styles to your existing CSS */
+    .sign-display-container {
+        position: relative;
+        margin: 0 auto 25px;
+        max-width: 200px;
+    }
+    
+    .sign-placeholder {
+        width: 200px;
+        height: 200px;
+        border: 3px dashed #bdc3c7;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: #f8f9fa;
+        text-align: center;
+    }
+    
+    .placeholder-icon {
+        font-size: 3em;
+        margin-bottom: 10px;
+        opacity: 0.7;
+    }
+    
+    .placeholder-text {
+        font-weight: bold;
+        color: #2c3e50;
+        margin-bottom: 5px;
+    }
+    
+    .placeholder-subtext {
+        font-size: 0.9em;
+        color: #7f8c8d;
+    }
+    
+    .option-btn.correct {
+        border-color: #27ae60;
+        background: #d5f4e6;
+        color: #27ae60;
+    }
+    
+    .option-btn.incorrect {
+        border-color: #e74c3c;
+        background: #fadbd8;
+        color: #e74c3c;
+    }
+    
+    .question-feedback {
+        margin: 15px 0;
+        padding: 15px;
+        border-radius: 8px;
+        text-align: center;
+        font-weight: bold;
+    }
+    
+    .feedback-correct {
+        background: #d5f4e6;
+        color: #27ae60;
+        border: 1px solid #27ae60;
+    }
+    
+    .feedback-incorrect {
+        background: #fadbd8;
+        color: #e74c3c;
+        border: 1px solid #e74c3c;
+    }
+</style>
+
+<script>
+// Enhanced question generation with duplicate prevention
+function generateAssessmentQuestions() {
+    const questions = [];
+    const usedSigns = new Set();
+    const usedOptions = new Set(); // Prevent duplicate options
+    
+    // Create 25 random questions from 420 signs
+    for (let i = 0; i < 25; i++) {
+        let randomSign;
+        
+        // Get unique sign
+        do {
+            randomSign = roadSigns[Math.floor(Math.random() * roadSigns.length)];
+        } while (usedSigns.has(randomSign.id) && usedSigns.size < roadSigns.length);
+        
+        usedSigns.add(randomSign.id);
+        
+        // Generate unique wrong answers
+        const wrongAnswers = [];
+        const sameTypeSigns = roadSigns.filter(s => 
+            s.type === randomSign.type && s.id !== randomSign.id
+        );
+        
+        // First, try to get same category signs
+        for (let j = 0; j < 3 && sameTypeSigns.length > 0; j++) {
+            const wrongSign = sameTypeSigns[Math.floor(Math.random() * sameTypeSigns.length)];
+            const wrongAnswer = wrongSign.description;
+            
+            // Ensure unique wrong answer
+            if (!wrongAnswers.includes(wrongAnswer) && wrongAnswer !== randomSign.description) {
+                wrongAnswers.push(wrongAnswer);
+            }
+        }
+        
+        // If not enough unique same-type answers, add from other categories
+        while (wrongAnswers.length < 3) {
+            const otherSigns = roadSigns.filter(s => 
+                s.id !== randomSign.id && 
+                !wrongAnswers.includes(s.description) && 
+                s.description !== randomSign.description
+            );
+            
+            if (otherSigns.length > 0) {
+                const wrongSign = otherSigns[Math.floor(Math.random() * otherSigns.length)];
+                wrongAnswers.push(wrongSign.description);
+            } else {
+                // Fallback: create unique variations
+                const fallbackAnswers = [
+                    "Slow down and proceed with caution",
+                    "Warning: Road hazard ahead",
+                    "Regulatory traffic control sign",
+                    "Directional information sign"
+                ];
+                const uniqueFallback = fallbackAnswers.filter(a => 
+                    !wrongAnswers.includes(a) && a !== randomSign.description
+                );
+                if (uniqueFallback.length > 0) {
+                    wrongAnswers.push(uniqueFallback[0]);
+                }
+                break;
+            }
+        }
+        
+        // Ensure we have exactly 3 wrong answers
+        while (wrongAnswers.length < 3) {
+            wrongAnswers.push("Traffic regulation sign");
+        }
+        
+        const allOptions = [
+            randomSign.description,
+            ...wrongAnswers.slice(0, 3) // Take only first 3 wrong answers
+        ];
+        
+        // Shuffle options and track correct index
+        const shuffledOptions = [...allOptions].sort(() => Math.random() - 0.5);
+        const correctIndex = shuffledOptions.indexOf(randomSign.description);
+        
+        questions.push({
+            question: "What does this South African road sign mean?",
+            image: randomSign.image,
+            options: shuffledOptions,
+            correct: correctIndex,
+            explanation: randomSign.description,
+            signId: randomSign.id,
+            signName: randomSign.name,
+            signType: randomSign.type
+        });
+    }
+    
+    console.log(`✅ Generated ${questions.length} unique assessment questions`);
+    return questions;
+}
+
+// Enhanced image error handling
+function handleImageError(imgElement) {
+    console.log(`🖼️ Image failed to load: ${imgElement.src}`);
+    
+    // Hide the broken image and show placeholder
+    imgElement.style.display = 'none';
+    document.getElementById('signPlaceholder').classList.remove('hidden');
+    
+    // Update placeholder based on sign type
+    const currentQuestion = currentTest.questions[currentQuestionIndex];
+    if (currentQuestion && currentQuestion.signType) {
+        const placeholder = document.getElementById('signPlaceholder');
+        const typeIcons = {
+            'regulatory': '🛑',
+            'warning': '⚠️', 
+            'informational': 'ℹ️',
+            'construction': '🚧'
+        };
+        
+        const icon = typeIcons[currentQuestion.signType] || '🛑';
+        placeholder.querySelector('.placeholder-icon').textContent = icon;
+        placeholder.querySelector('.placeholder-text').textContent = currentQuestion.signName;
+    }
+}
+
+// Enhanced question loading with image preloading
+function loadQuestion() {
+    const question = currentTest.questions[currentQuestionIndex];
+    const totalQuestions = currentTest.questions.length;
+    
+    // Reset display state
+    document.getElementById('signImage').style.display = 'block';
+    document.getElementById('signPlaceholder').classList.add('hidden');
+    
+    // Update progress
+    const progress = ((currentQuestionIndex + 1) / totalQuestions) * 100;
+    document.getElementById('progressFill').style.width = progress + '%';
+    
+    // Update question info
+    document.getElementById('questionNumber').textContent = 
+        `Question ${currentQuestionIndex + 1} of ${totalQuestions}`;
+    document.getElementById('questionText').textContent = question.question;
+    
+    // Update sign image with error handling
+    const signImage = document.getElementById('signImage');
+    signImage.src = question.image;
+    signImage.alt = `${question.signName} - ${question.explanation}`;
+    signImage.title = question.signName;
+    
+    // Preload next image for better performance
+    if (currentQuestionIndex < totalQuestions - 1) {
+        const nextQuestion = currentTest.questions[currentQuestionIndex + 1];
+        const preloadImage = new Image();
+        preloadImage.src = nextQuestion.image;
+    }
+    
+    // Load options with duplicate prevention
+    const optionsContainer = document.getElementById('optionsContainer');
+    optionsContainer.innerHTML = '';
+    
+    const uniqueOptions = [...new Set(question.options)]; // Remove duplicates
+    
+    uniqueOptions.forEach((option, index) => {
+        const isSelected = userAnswers[currentQuestionIndex] === index;
+        const optionBtn = document.createElement('div');
+        optionBtn.className = `option-btn ${isSelected ? 'selected' : ''}`;
+        optionBtn.textContent = option;
+        optionBtn.onclick = () => selectOption(index);
+        optionsContainer.appendChild(optionBtn);
+    });
+    
+    // Update navigation
+    document.getElementById('nextButton').classList.remove('hidden');
+    document.getElementById('finishButton').classList.add('hidden');
+    
+    if (currentQuestionIndex === totalQuestions - 1) {
+        document.getElementById('nextButton').classList.add('hidden');
+        document.getElementById('finishButton').classList.remove('hidden');
+    }
+    
+    // Remove any existing feedback
+    const existingFeedback = document.querySelector('.question-feedback');
+    if (existingFeedback) {
+        existingFeedback.remove();
+    }
+}
+
+// Enhanced option selection with immediate feedback (optional)
+function selectOption(optionIndex) {
+    const options = document.querySelectorAll('.option-btn');
+    options.forEach(opt => {
+        opt.classList.remove('selected', 'correct', 'incorrect');
+    });
+    
+    options[optionIndex].classList.add('selected');
+    userAnswers[currentQuestionIndex] = optionIndex;
+    
+    // Optional: Show immediate feedback (uncomment if wanted)
+    // showImmediateFeedback(optionIndex);
+}
+
+// Optional: Immediate feedback function
+function showImmediateFeedback(selectedIndex) {
+    const question = currentTest.questions[currentQuestionIndex];
+    const isCorrect = selectedIndex === question.correct;
+    
+    const options = document.querySelectorAll('.option-btn');
+    options.forEach((opt, index) => {
+        if (index === question.correct) {
+            opt.classList.add('correct');
+        } else if (index === selectedIndex && !isCorrect) {
+            opt.classList.add('incorrect');
+        }
+    });
+    
+    // Show feedback message
+    const feedback = document.createElement('div');
+    feedback.className = `question-feedback ${isCorrect ? 'feedback-correct' : 'feedback-incorrect'}`;
+    feedback.textContent = isCorrect ? '✅ Correct! Well done.' : '❌ Incorrect. Try again.';
+    
+    const optionsContainer = document.getElementById('optionsContainer');
+    optionsContainer.parentNode.insertBefore(feedback, optionsContainer.nextSibling);
+}
+
+// Enhanced road signs data with fallback images
+const roadSigns = [];
+
+// Generate signs with proper image paths
+for (let i = 1; i <= 420; i++) {
+    const fileName = `signs/image${i}.png`; // Ensure correct path
+    let name, type, description;
+    
+    // Your existing sign generation logic here...
+    const modValue = i % 15;
+    if (modValue <= 4) {
+        type = 'regulatory';
+        switch (modValue) {
+            case 0: name = 'Stop Sign'; description = 'Stop - Come to complete stop before proceeding'; break;
+            case 1: name = 'Speed Limit 60'; description = 'Speed Limit 60 km/h - Maximum speed allowed'; break;
+            case 2: name = 'Yield'; description = 'Yield - Give way to traffic on major road'; break;
+            case 3: name = 'No Entry'; description = 'No Entry - Do not enter this road'; break;
+            case 4: name = 'No Parking'; description = 'No Parking - Parking not allowed in this area'; break;
+        }
+    }
+    // ... rest of your sign generation logic
+    
+    roadSigns.push({
+        id: i.toString().padStart(3, '0'),
+        name: name,
+        type: type,
+        image: fileName, // This should match your actual file structure
+        description: description
+    });
+}
+
+// Initialize assessments with enhanced questions
+const assessments = {
+    roadSigns: {
+        title: "SA Road Signs Master Test",
+        questions: generateAssessmentQuestions()
+    },
+    // ... your other assessments
+};
+</script>
         <!-- Results Screen -->
         <div id="resultsScreen" class="screen hidden">
             <div class="results-container">
