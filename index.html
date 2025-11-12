@@ -1005,6 +1005,93 @@ const assessments = {
     </div>
 
     <script>
+// ==================== SECURITY BUNDLE ====================
+class AppSecurity {
+    constructor() {
+        this.secureElements = ['welcomeOverlay', 'loginScreen'];
+        this.init();
+    }
+    
+    init() {
+        this.disableDevTools();
+        this.protectCriticalElements();
+        this.setupMutationObserver();
+        this.overrideConsole();
+    }
+    
+    disableDevTools() {
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'F12' || 
+                (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key)) ||
+                (e.ctrlKey && e.key === 'U')) {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+        });
+        document.addEventListener('contextmenu', (e) => e.preventDefault());
+    }
+    
+    protectCriticalElements() {
+        this.secureElements.forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+                Object.freeze(element.classList);
+            }
+        });
+    }
+    
+    setupMutationObserver() {
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && 
+                    this.secureElements.includes(mutation.target.id)) {
+                    this.revertProtectedState(mutation.target);
+                }
+            });
+        });
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerConfig = { 
+                attributes: true, 
+                attributeFilter: ['class', 'style'],
+                subtree: false 
+            };
+            this.secureElements.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) observer.observe(element, observerConfig);
+            });
+        });
+    }
+    
+    revertProtectedState(element) {
+        const correctStates = {
+            'welcomeOverlay': { shouldHaveHidden: false },
+            'loginScreen': { shouldHaveHidden: true }
+        };
+        
+        const state = correctStates[element.id];
+        if (state) {
+            if (state.shouldHaveHidden && element.classList.contains('hidden')) {
+                element.classList.remove('hidden');
+            } else if (!state.shouldHaveHidden && !element.classList.contains('hidden')) {
+                element.classList.add('hidden');
+            }
+        }
+    }
+    
+    overrideConsole() {
+        if (typeof console !== "undefined") {
+            const noop = () => {};
+            ['log', 'warn', 'error', 'info', 'debug'].forEach(method => {
+                console[method] = noop;
+            });
+        }
+    }
+}
+
+new AppSecurity();
+// ==================== END SECURITY CODE ====================
 // ==================== 420 SOUTH AFRICAN ROAD SIGNS WITH LABELS ====================
 const roadSigns = [];
 
@@ -1512,8 +1599,7 @@ function copyReferralCode() {
     const code = document.getElementById('referralCode').textContent;
     navigator.clipboard.writeText(code).then(() => {
         alert('Referral code copied to clipboard! Share it with friends.');
-    });
-}
+   });
 
 // ==================== INITIALIZE APPLICATION ====================
 function init() {
@@ -1523,15 +1609,21 @@ function init() {
     
     // Show welcome overlay by default
     showWelcomeOverlay();
-    
-    // Test button functionality
-    const startButton = document.querySelector('.welcome-content .btn');
-    if (startButton) {
-        console.log("✅ Start button found, adding event listener");
-        startButton.onclick = startGuidedTour;
-    } else {
-        console.error("❌ Start button not found");
-    }
+}
+
+// Guided tour function
+function startGuidedTour() {
+    console.log("🚀 Guided tour started!");
+    alert("Welcome to your SA Learner's Licence journey! Let's get started!");
+}
+
+// Test button functionality
+const startButton = document.querySelector('.welcome-content .btn');
+if (startButton) {
+    console.log("✅ Start button found, adding event listener");
+    startButton.onclick = startGuidedTour;
+} else {
+    console.error("❌ Start button not found");
 }
 
 // Initialize when page loads
