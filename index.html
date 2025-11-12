@@ -1605,31 +1605,61 @@ function copyReferralCode() {
 function init() {
     console.log("🚗 Nodinopro Platform Initialized with 420 Labeled Road Signs");
     console.log("📊 Available assessments:", Object.keys(assessments));
-    console.log("🛣️ Road signs loaded:", roadSigns.length);
+        console.log("🛣️ Road signs loaded:", roadSigns.length);
     
     // Show welcome overlay by default
     showWelcomeOverlay();
-}
+} // ← MISSING CLOSING BRACE ADDED HERE
 
 // Guided tour function
 function startGuidedTour() {
     console.log("🚀 Guided tour started!");
     alert("Welcome to your SA Learner's Licence journey! Let's get started!");
+    // Add your actual tour logic here
 }
 
 // Test button functionality
-const startButton = document.querySelector('.welcome-content .btn');
-if (startButton) {
-    console.log("✅ Start button found, adding event listener");
-    startButton.onclick = startGuidedTour;
-} else {
-    console.error("❌ Start button not found");
+function setupStartButton() {
+    const startButton = document.querySelector('.welcome-content .btn');
+    
+    if (startButton) {
+        console.log("✅ Start button found, attaching event listener");
+        
+        // Remove any existing inline onclick to avoid conflicts
+        startButton.removeAttribute('onclick');
+        
+        // Attach the event listener properly
+        startButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log("🎯 Button clicked, starting guided tour...");
+            startGuidedTour();
+        });
+        
+        // Ensure button is enabled and ready
+        startButton.disabled = false;
+        startButton.style.cursor = 'pointer';
+        
+    } else {
+        console.error("❌ Start button not found");
+        // Try alternative selectors
+        const altButton = document.querySelector('.btn-primary') || 
+                         document.querySelector('button');
+        if (altButton) {
+            console.log("🔍 Found alternative button, attaching listener");
+            altButton.addEventListener('click', startGuidedTour);
+        }
+    }
 }
 
-// Initialize when page loads
+// Initialize when page loads - SINGLE DOMContentLoaded listener
 document.addEventListener('DOMContentLoaded', function() {
     console.log("📄 DOM fully loaded, initializing Nodinopro...");
+    
+    // Initialize your app
     init();
+    
+    // Setup the start button after a short delay
+    setTimeout(setupStartButton, 500);
 });
 
 // Fallback initialization
