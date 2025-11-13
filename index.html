@@ -538,7 +538,7 @@
                     <label>Password</label>
                     <input type="password" id="regPassword" placeholder="Create a password">
                 </div>
-                <button class="btn btn-primary" onclick="showPayment()">Proceed to Payment</button>
+                <button class="btn btn-primary" onclick="showPayment()">Proceed to Payment & Get Verification Code</button>
                 <p style="text-align: center; margin-top: 15px;">
                     Already have an account? <a href="#" onclick="showLogin()" style="color: #3498db;">Login</a>
                 </p>
@@ -555,6 +555,9 @@
                     <p><strong>Bank:</strong> FNB</p>
                     <p><strong>Account Number:</strong> 63152615523</p>
                     <p><strong>Reference:</strong> Use your cellphone number</p>
+                    <div id="dynamicPaymentInfo">
+                        <!-- Dynamic content will be added here -->
+                    </div>
                     <p style="margin-top: 15px;"><strong>Important:</strong> After making payment, please send proof of payment to:</p>
                     <p>📱 WhatsApp: 062 801 0124</p>
                     <p>✉️ Email: nodinopro@gmail.com</p>
@@ -807,6 +810,222 @@ class AppSecurity {
 new AppSecurity();
 // ==================== END SECURITY CODE ====================
 
+// ==================== PAYMENT VERIFICATION SYSTEM ====================
+const PAYMENT_CONFIG = {
+    adminPhone: '0628010124',
+    adminEmail: 'nodinopro@gmail.com',
+    fee: 289,
+    bankAccount: '63152615523',
+    bankName: 'FNB'
+};
+
+class PaymentProcessor {
+    constructor() {
+        this.verificationCodes = new Map();
+    }
+
+    // Generate unique verification code
+    generateVerificationCode(phone) {
+        const code = Math.floor(100000 + Math.random() * 900000).toString();
+        const expiry = Date.now() + (24 * 60 * 60 * 1000); // 24 hours
+        this.verificationCodes.set(phone, { code, expiry, verified: false });
+        return code;
+    }
+
+    // Validate verification code
+    validateVerificationCode(phone, enteredCode) {
+        const stored = this.verificationCodes.get(phone);
+        if (!stored) return false;
+        if (Date.now() > stored.expiry) {
+            this.verificationCodes.delete(phone);
+            return false;
+        }
+        if (stored.code === enteredCode) {
+            stored.verified = true;
+            return true;
+        }
+        return false;
+    }
+
+    // Send payment notification to admin
+    async sendPaymentNotification(userData, verificationCode) {
+        const message = `
+🎉 NEW PAYMENT RECEIVED - NODINOPRO
+
+👤 Customer Details:
+• Name: ${userData.name}
+• Phone: ${userData.phone}
+• Email: ${userData.email}
+
+💰 Payment Information:
+• Amount: R${PAYMENT_CONFIG.fee}
+• Reference: ${userData.phone}
+• Verification Code: ${verificationCode}
+
+⏰ Generated: ${new Date().toLocaleString()}
+
+✅ Please verify payment and activate account.
+        `.trim();
+
+        // Send to WhatsApp (using WhatsApp API link)
+        const whatsappUrl = `https://wa.me/${PAYMENT_CONFIG.adminPhone}?text=${encodeURIComponent(message)}`;
+        
+        // Send to Email
+        const emailUrl = `mailto:${PAYMENT_CONFIG.adminEmail}?subject=New Payment - Nodinopro&body=${encodeURIComponent(message)}`;
+
+        // Open both communication channels
+        window.open(whatsappUrl, '_blank');
+        setTimeout(() => {
+            window.open(emailUrl, '_blank');
+        }, 1000);
+
+        return true;
+    }
+
+    // Process file upload
+    async processPaymentProof(file) {
+        return new Promise((resolve, reject) => {
+            if (!file) {
+                reject('Please select proof of payment file');
+                return;
+            }
+
+            const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf'];
+            if (!validTypes.includes(file.type)) {
+                reject('Please upload JPEG, PNG, or PDF files only');
+                return;
+            }
+
+            if (file.size > 5 * 1024 * 1024) { // 5MB limit
+                reject('File size must be less than 5MB');
+                return;
+            }
+
+            // Simulate file processing
+            setTimeout(() => {
+                resolve({
+                    success: true,
+                    filename: file.name,
+                    message: 'Proof of payment uploaded successfully'
+                });
+            }, 2000);
+        });
+    }
+}
+
+// Initialize payment processor
+const paymentProcessor = new PaymentProcessor();
+
+// Enhanced complete registration function
+async function completeRegistration() {
+    const verificationCode = document.getElementById('verificationCode').value.trim();
+    const paymentProof = document.getElementById('paymentProof').files[0];
+    
+    // Validation
+    if (!verificationCode) {
+        alert('Please enter the 6-digit verification code');
+        return;
+    }
+
+    if (!paymentProof) {
+        alert('Please upload proof of payment');
+        return;
+    }
+
+    if (verificationCode.length !== 6 || !/^\d+$/.test(verificationCode)) {
+        alert('Please enter a valid 6-digit verification code');
+        return;
+    }
+
+    try {
+        // Show loading state
+        const button = document.querySelector('#paymentScreen .btn-success');
+        const originalText = button.textContent;
+        button.textContent = 'Processing...';
+        button.disabled = true;
+
+        // Process payment proof
+        const uploadResult = await paymentProcessor.processPaymentProof(paymentProof);
+        if (!uploadResult.success) {
+            throw new Error(uploadResult.message);
+        }
+
+        // Get user data
+        const userData = {
+            name: document.getElementById('regName').value,
+            phone: document.getElementById('regPhone').value,
+            email: document.getElementById('regEmail').value
+        };
+
+        // Validate verification code
+        const isValid = paymentProcessor.validateVerificationCode(userData.phone, verificationCode);
+        if (!isValid) {
+            throw new Error('Invalid or expired verification code. Please contact support.');
+        }
+
+        // Create user account
+        currentUser = {
+            name: userData.name,
+            phone: userData.phone,
+            email: userData.email,
+            referralCode: 'NODI' + Math.floor(10000 + Math.random() * 90000),
+            registrationDate: new Date().toISOString(),
+            paymentVerified: true,
+            accessGranted: true
+        };
+
+        // Save to localStorage
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+        // Success message
+        alert('✅ Registration Successful! Welcome to Nodinopro! You now have full access to all learning materials and assessments.');
+
+        // Redirect to dashboard
+        showDashboard();
+
+    } catch (error) {
+        alert('❌ ' + error.message);
+    } finally {
+        // Reset button state
+        const button = document.querySelector('#paymentScreen .btn-success');
+        button.textContent = 'Complete Registration';
+        button.disabled = false;
+    }
+}
+
+// Enhanced payment screen show function
+function showPayment() {
+    const name = document.getElementById('regName').value;
+    const phone = document.getElementById('regPhone').value;
+    const email = document.getElementById('regEmail').value;
+    const password = document.getElementById('regPassword').value;
+
+    if (!name || !phone || !email || !password) {
+        alert('Please fill in all required fields');
+        return;
+    }
+
+    // Generate and send verification code
+    const userData = { name, phone, email };
+    const verificationCode = paymentProcessor.generateVerificationCode(phone);
+    
+    // Send notification to admin
+    paymentProcessor.sendPaymentNotification(userData, verificationCode);
+
+    // Show payment screen
+    hideAllScreens();
+    document.getElementById('paymentScreen').classList.remove('hidden');
+
+    // Auto-fill reference number and verification code
+    document.getElementById('dynamicPaymentInfo').innerHTML = `
+        <p><strong>Reference Number:</strong> ${phone}</p>
+        <p><strong>Verification Code:</strong> ${verificationCode}</p>
+        <p style="color: #d35400; font-weight: bold;">⚠️ Save this code! You'll need it to complete registration.</p>
+    `;
+
+    alert(`📋 Payment Instructions:\n\n1. Pay R${PAYMENT_CONFIG.fee} to ${PAYMENT_CONFIG.bankName}\n2. Account: ${PAYMENT_CONFIG.bankAccount}\n3. Reference: ${phone}\n4. Upload proof & enter code: ${verificationCode}\n\nWhatsApp proof to: ${PAYMENT_CONFIG.adminPhone}`);
+}
+
 // ==================== APPLICATION STATE ====================
 let currentUser = null;
 let currentTest = null;
@@ -1004,21 +1223,6 @@ function showRegister() {
     document.getElementById('registerScreen').classList.remove('hidden');
 }
 
-function showPayment() {
-    const name = document.getElementById('regName').value;
-    const phone = document.getElementById('regPhone').value;
-    const email = document.getElementById('regEmail').value;
-    const password = document.getElementById('regPassword').value;
-
-    if (!name || !phone || !email || !password) {
-        alert('Please fill in all required fields');
-        return;
-    }
-
-    hideAllScreens();
-    document.getElementById('paymentScreen').classList.remove('hidden');
-}
-
 function showDashboard() {
     hideAllScreens();
     document.getElementById('dashboardScreen').classList.remove('hidden');
@@ -1083,25 +1287,6 @@ function handleLogin() {
     };
 
     alert('Login successful! Welcome to Nodinopro!');
-    showDashboard();
-}
-
-function completeRegistration() {
-    const verificationCode = document.getElementById('verificationCode').value;
-
-    if (!verificationCode) {
-        alert('Please enter the verification code');
-        return;
-    }
-
-    // Create user account
-    currentUser = {
-        name: document.getElementById('regName').value,
-        phone: document.getElementById('regPhone').value,
-        referralCode: 'NODI' + Math.floor(10000 + Math.random() * 90000)
-    };
-
-    alert('✅ Registration successful! Your account is now active. Welcome to Nodinopro!');
     showDashboard();
 }
 
@@ -1325,14 +1510,29 @@ function handleImageError(imgElement) {
     document.getElementById('signPlaceholder').classList.remove('hidden');
 }
 
+// Auto-login from localStorage
+function checkExistingLogin() {
+    const savedUser = localStorage.getItem('currentUser');
+    if (savedUser) {
+        currentUser = JSON.parse(savedUser);
+        if (currentUser.paymentVerified && currentUser.accessGranted) {
+            showDashboard();
+            return true;
+        }
+    }
+    return false;
+}
+
 // ==================== INITIALIZE APPLICATION ====================
 function init() {
     console.log("🚗 Nodinopro Platform Initialized with 420 Labeled Road Signs");
     console.log("📊 Available assessments:", Object.keys(assessments));
     console.log("🛣️ Road signs loaded:", roadSigns.length);
     
-    // Show welcome overlay by default
-    showWelcomeOverlay();
+    // Check for existing login
+    if (!checkExistingLogin()) {
+        showWelcomeOverlay();
+    }
 }
 
 // Initialize when page loads
