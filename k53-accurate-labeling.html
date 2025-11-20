@@ -1,0 +1,1814 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>South African K53 Road Sign Labeling</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .header { background: #2E8B57; color: white; padding: 20px; text-align: center; border-radius: 10px; }
+        .container { display: flex; gap: 20px; margin: 20px 0; }
+        .signs-column { flex: 1; background: white; padding: 20px; border-radius: 10px; }
+        .controls { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+        .sign-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        .sign-item { border: 2px solid #ddd; padding: 15px; text-align: center; border-radius: 8px; cursor: pointer; }
+        .sign-item.selected { border-color: #2E8B57; background: #f0fff0; }
+        .sign-item img { max-width: 100px; height: 80px; object-fit: contain; }
+        .sign-name { font-size: 12px; margin: 5px 0; }
+        .k53-reference { background: #e8f4f8; padding: 15px; border-radius: 10px; margin-top: 20px; }
+        .category { background: #2E8B57; color: white; padding: 5px 10px; border-radius: 5px; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🇿🇦 South African K53 Road Sign Accurate Labeling</h1>
+        <p>Match each road sign to its correct K53 name and description</p>
+    </div>
+    <div class="controls">
+        <h3>K53 Road Sign Categories</h3>
+        <button onclick="showCategory('all')">All Signs</button>
+        <button onclick="showCategory('regulatory')">Regulatory</button>
+        <button onclick="showCategory('warning')">Warning</button>
+        <button onclick="showCategory('informational')">Informational</button>
+        <button onclick="showCategory('command')">Command</button>
+    </div>
+    <div class="container">
+        <div class="signs-column">
+            <h3>Your Road Signs (Click to Select)</h3>
+            <div class="sign-grid" id="yourSignsGrid">                <div class="sign-item" onclick="selectSign(this, 'abnormal-vehicles-only.png')">
+                    <div class="sign-name">#1</div>
+                    <img src="assets/images/road-signs/abnormal-vehicles-only.png" alt="abnormal-vehicles-only.png">
+                    <div class="sign-name" style="font-size: 10px;">abnormal-vehicles-only.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'abnormal-vehicles-prohibited.png')">
+                    <div class="sign-name">#2</div>
+                    <img src="assets/images/road-signs/abnormal-vehicles-prohibited.png" alt="abnormal-vehicles-prohibited.png">
+                    <div class="sign-name" style="font-size: 10px;">abnormal-vehicles-prohibited.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'agricultural-vehicles-only.png')">
+                    <div class="sign-name">#3</div>
+                    <img src="assets/images/road-signs/agricultural-vehicles-only.png" alt="agricultural-vehicles-only.png">
+                    <div class="sign-name" style="font-size: 10px;">agricultural-vehicles-only.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'agricultural-vehicles-prohibited.png')">
+                    <div class="sign-name">#4</div>
+                    <img src="assets/images/road-signs/agricultural-vehicles-prohibited.png" alt="agricultural-vehicles-prohibited.png">
+                    <div class="sign-name" style="font-size: 10px;">agricultural-vehicles-prohibited.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'animal-drawn-vehicles-only.png')">
+                    <div class="sign-name">#5</div>
+                    <img src="assets/images/road-signs/animal-drawn-vehicles-only.png" alt="animal-drawn-vehicles-only.png">
+                    <div class="sign-name" style="font-size: 10px;">animal-drawn-vehicles-only.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'animal-drawn-vehicles-prohibited.png')">
+                    <div class="sign-name">#6</div>
+                    <img src="assets/images/road-signs/animal-drawn-vehicles-prohibited.png" alt="animal-drawn-vehicles-prohibited.png">
+                    <div class="sign-name" style="font-size: 10px;">animal-drawn-vehicles-prohibited.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'buses-and-midi-buses-only.png')">
+                    <div class="sign-name">#7</div>
+                    <img src="assets/images/road-signs/buses-and-midi-buses-only.png" alt="buses-and-midi-buses-only.png">
+                    <div class="sign-name" style="font-size: 10px;">buses-and-midi-buses-only.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'buses-and-mini-buses-only.png')">
+                    <div class="sign-name">#8</div>
+                    <img src="assets/images/road-signs/buses-and-mini-buses-only.png" alt="buses-and-mini-buses-only.png">
+                    <div class="sign-name" style="font-size: 10px;">buses-and-mini-buses-only.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'buses-and-trams-only.png')">
+                    <div class="sign-name">#9</div>
+                    <img src="assets/images/road-signs/buses-and-trams-only.png" alt="buses-and-trams-only.png">
+                    <div class="sign-name" style="font-size: 10px;">buses-and-trams-only.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'buses-midi-buses-and-mini-buses-only.png')">
+                    <div class="sign-name">#10</div>
+                    <img src="assets/images/road-signs/buses-midi-buses-and-mini-buses-only.png" alt="buses-midi-buses-and-mini-buses-only.png">
+                    <div class="sign-name" style="font-size: 10px;">buses-midi-buses-and-mini-buses-only.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'buses-only.png')">
+                    <div class="sign-name">#11</div>
+                    <img src="assets/images/road-signs/buses-only.png" alt="buses-only.png">
+                    <div class="sign-name" style="font-size: 10px;">buses-only.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'buses-prohibited.png')">
+                    <div class="sign-name">#12</div>
+                    <img src="assets/images/road-signs/buses-prohibited.png" alt="buses-prohibited.png">
+                    <div class="sign-name" style="font-size: 10px;">buses-prohibited.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'buses-trams-and-mini-buses-only.png')">
+                    <div class="sign-name">#13</div>
+                    <img src="assets/images/road-signs/buses-trams-and-mini-buses-only.png" alt="buses-trams-and-mini-buses-only.png">
+                    <div class="sign-name" style="font-size: 10px;">buses-trams-and-mini-buses-only.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'bus-stop.png')">
+                    <div class="sign-name">#14</div>
+                    <img src="assets/images/road-signs/bus-stop.png" alt="bus-stop.png">
+                    <div class="sign-name" style="font-size: 10px;">bus-stop.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'bus-stop-for-all-buses.png')">
+                    <div class="sign-name">#15</div>
+                    <img src="assets/images/road-signs/bus-stop-for-all-buses.png" alt="bus-stop-for-all-buses.png">
+                    <div class="sign-name" style="font-size: 10px;">bus-stop-for-all-buses.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'bus-stop-for-authorised-buses-with-line-number.png')">
+                    <div class="sign-name">#16</div>
+                    <img src="assets/images/road-signs/bus-stop-for-authorised-buses-with-line-number.png" alt="bus-stop-for-authorised-buses-with-line-number.png">
+                    <div class="sign-name" style="font-size: 10px;">bus-stop-for-authorised-buses-with-line-number.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'bus-stop-for-authorised-buses-with-line-numbers.png')">
+                    <div class="sign-name">#17</div>
+                    <img src="assets/images/road-signs/bus-stop-for-authorised-buses-with-line-numbers.png" alt="bus-stop-for-authorised-buses-with-line-numbers.png">
+                    <div class="sign-name" style="font-size: 10px;">bus-stop-for-authorised-buses-with-line-numbers.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'construction-vehicles-only.png')">
+                    <div class="sign-name">#18</div>
+                    <img src="assets/images/road-signs/construction-vehicles-only.png" alt="construction-vehicles-only.png">
+                    <div class="sign-name" style="font-size: 10px;">construction-vehicles-only.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'construction-vehicles-prohibited.png')">
+                    <div class="sign-name">#19</div>
+                    <img src="assets/images/road-signs/construction-vehicles-prohibited.png" alt="construction-vehicles-prohibited.png">
+                    <div class="sign-name" style="font-size: 10px;">construction-vehicles-prohibited.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'cyclists-and-pedestrians-only.png')">
+                    <div class="sign-name">#20</div>
+                    <img src="assets/images/road-signs/cyclists-and-pedestrians-only.png" alt="cyclists-and-pedestrians-only.png">
+                    <div class="sign-name" style="font-size: 10px;">cyclists-and-pedestrians-only.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'cyclists-and-pedestrians-only-1.png')">
+                    <div class="sign-name">#21</div>
+                    <img src="assets/images/road-signs/cyclists-and-pedestrians-only-1.png" alt="cyclists-and-pedestrians-only-1.png">
+                    <div class="sign-name" style="font-size: 10px;">cyclists-and-pedestrians-only-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'cyclists-and-pedestrians-only-2.png')">
+                    <div class="sign-name">#22</div>
+                    <img src="assets/images/road-signs/cyclists-and-pedestrians-only-2.png" alt="cyclists-and-pedestrians-only-2.png">
+                    <div class="sign-name" style="font-size: 10px;">cyclists-and-pedestrians-only-2.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'cyclists-and-pedestrians-only-3.png')">
+                    <div class="sign-name">#23</div>
+                    <img src="assets/images/road-signs/cyclists-and-pedestrians-only-3.png" alt="cyclists-and-pedestrians-only-3.png">
+                    <div class="sign-name" style="font-size: 10px;">cyclists-and-pedestrians-only-3.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'cyclists-and-pedestrians-prohibited.png')">
+                    <div class="sign-name">#24</div>
+                    <img src="assets/images/road-signs/cyclists-and-pedestrians-prohibited.png" alt="cyclists-and-pedestrians-prohibited.png">
+                    <div class="sign-name" style="font-size: 10px;">cyclists-and-pedestrians-prohibited.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'cyclists-only.png')">
+                    <div class="sign-name">#25</div>
+                    <img src="assets/images/road-signs/cyclists-only.png" alt="cyclists-only.png">
+                    <div class="sign-name" style="font-size: 10px;">cyclists-only.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'cyclists-prohibited.png')">
+                    <div class="sign-name">#26</div>
+                    <img src="assets/images/road-signs/cyclists-prohibited.png" alt="cyclists-prohibited.png">
+                    <div class="sign-name" style="font-size: 10px;">cyclists-prohibited.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'delivery-vehicles-only.png')">
+                    <div class="sign-name">#27</div>
+                    <img src="assets/images/road-signs/delivery-vehicles-only.png" alt="delivery-vehicles-only.png">
+                    <div class="sign-name" style="font-size: 10px;">delivery-vehicles-only.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'delivery-vehicles-prohibited.png')">
+                    <div class="sign-name">#28</div>
+                    <img src="assets/images/road-signs/delivery-vehicles-prohibited.png" alt="delivery-vehicles-prohibited.png">
+                    <div class="sign-name" style="font-size: 10px;">delivery-vehicles-prohibited.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'end-of-weight-limit.png')">
+                    <div class="sign-name">#29</div>
+                    <img src="assets/images/road-signs/end-of-weight-limit.png" alt="end-of-weight-limit.png">
+                    <div class="sign-name" style="font-size: 10px;">end-of-weight-limit.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'excessive-noise-prohibited---hooting-prohibited.png')">
+                    <div class="sign-name">#30</div>
+                    <img src="assets/images/road-signs/excessive-noise-prohibited---hooting-prohibited.png" alt="excessive-noise-prohibited---hooting-prohibited.png">
+                    <div class="sign-name" style="font-size: 10px;">excessive-noise-prohibited---hooting-prohibited.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'give-way---yield-1.png')">
+                    <div class="sign-name">#31</div>
+                    <img src="assets/images/road-signs/give-way---yield-1.png" alt="give-way---yield-1.png">
+                    <div class="sign-name" style="font-size: 10px;">give-way---yield-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'give-way---yield-at-roundabout-1.png')">
+                    <div class="sign-name">#32</div>
+                    <img src="assets/images/road-signs/give-way---yield-at-roundabout-1.png" alt="give-way---yield-at-roundabout-1.png">
+                    <div class="sign-name" style="font-size: 10px;">give-way---yield-at-roundabout-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'give-way---yield-to-oncoming-traffic-1.png')">
+                    <div class="sign-name">#33</div>
+                    <img src="assets/images/road-signs/give-way---yield-to-oncoming-traffic-1.png" alt="give-way---yield-to-oncoming-traffic-1.png">
+                    <div class="sign-name" style="font-size: 10px;">give-way---yield-to-oncoming-traffic-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'give-way---yield-to-pedestrians-1.png')">
+                    <div class="sign-name">#34</div>
+                    <img src="assets/images/road-signs/give-way---yield-to-pedestrians-1.png" alt="give-way---yield-to-pedestrians-1.png">
+                    <div class="sign-name" style="font-size: 10px;">give-way---yield-to-pedestrians-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'goods-vehicles-exceeding-10-tonnes-gvm-only.png')">
+                    <div class="sign-name">#35</div>
+                    <img src="assets/images/road-signs/goods-vehicles-exceeding-10-tonnes-gvm-only.png" alt="goods-vehicles-exceeding-10-tonnes-gvm-only.png">
+                    <div class="sign-name" style="font-size: 10px;">goods-vehicles-exceeding-10-tonnes-gvm-only.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'goods-vehicles-exceeding-10-tonnes-gvm-prohibited.png')">
+                    <div class="sign-name">#36</div>
+                    <img src="assets/images/road-signs/goods-vehicles-exceeding-10-tonnes-gvm-prohibited.png" alt="goods-vehicles-exceeding-10-tonnes-gvm-prohibited.png">
+                    <div class="sign-name" style="font-size: 10px;">goods-vehicles-exceeding-10-tonnes-gvm-prohibited.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'goods-vehicles-exceeding-3500-kg-only.png')">
+                    <div class="sign-name">#37</div>
+                    <img src="assets/images/road-signs/goods-vehicles-exceeding-3500-kg-only.png" alt="goods-vehicles-exceeding-3500-kg-only.png">
+                    <div class="sign-name" style="font-size: 10px;">goods-vehicles-exceeding-3500-kg-only.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'goods-vehicles-exceeding-3500kg-prohibited.png')">
+                    <div class="sign-name">#38</div>
+                    <img src="assets/images/road-signs/goods-vehicles-exceeding-3500kg-prohibited.png" alt="goods-vehicles-exceeding-3500kg-prohibited.png">
+                    <div class="sign-name" style="font-size: 10px;">goods-vehicles-exceeding-3500kg-prohibited.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'hawkers-prohibited.png')">
+                    <div class="sign-name">#39</div>
+                    <img src="assets/images/road-signs/hawkers-prohibited.png" alt="hawkers-prohibited.png">
+                    <div class="sign-name" style="font-size: 10px;">hawkers-prohibited.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'hitch-hiking-prohibited.png')">
+                    <div class="sign-name">#40</div>
+                    <img src="assets/images/road-signs/hitch-hiking-prohibited.png" alt="hitch-hiking-prohibited.png">
+                    <div class="sign-name" style="font-size: 10px;">hitch-hiking-prohibited.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'horses-and-riders-prohibited.png')">
+                    <div class="sign-name">#41</div>
+                    <img src="assets/images/road-signs/horses-and-riders-prohibited.png" alt="horses-and-riders-prohibited.png">
+                    <div class="sign-name" style="font-size: 10px;">horses-and-riders-prohibited.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'keep-left-1.png')">
+                    <div class="sign-name">#42</div>
+                    <img src="assets/images/road-signs/keep-left-1.png" alt="keep-left-1.png">
+                    <div class="sign-name" style="font-size: 10px;">keep-left-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'keep-right-1.png')">
+                    <div class="sign-name">#43</div>
+                    <img src="assets/images/road-signs/keep-right-1.png" alt="keep-right-1.png">
+                    <div class="sign-name" style="font-size: 10px;">keep-right-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'left-turn-prohibited.png')">
+                    <div class="sign-name">#44</div>
+                    <img src="assets/images/road-signs/left-turn-prohibited.png" alt="left-turn-prohibited.png">
+                    <div class="sign-name" style="font-size: 10px;">left-turn-prohibited.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'left-turn-prohibited-ahead.png')">
+                    <div class="sign-name">#45</div>
+                    <img src="assets/images/road-signs/left-turn-prohibited-ahead.png" alt="left-turn-prohibited-ahead.png">
+                    <div class="sign-name" style="font-size: 10px;">left-turn-prohibited-ahead.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'midi-buses-only-1.png')">
+                    <div class="sign-name">#46</div>
+                    <img src="assets/images/road-signs/midi-buses-only-1.png" alt="midi-buses-only-1.png">
+                    <div class="sign-name" style="font-size: 10px;">midi-buses-only-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'midi-buses-prohibited.png')">
+                    <div class="sign-name">#47</div>
+                    <img src="assets/images/road-signs/midi-buses-prohibited.png" alt="midi-buses-prohibited.png">
+                    <div class="sign-name" style="font-size: 10px;">midi-buses-prohibited.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'mini-buses-only-1.png')">
+                    <div class="sign-name">#48</div>
+                    <img src="assets/images/road-signs/mini-buses-only-1.png" alt="mini-buses-only-1.png">
+                    <div class="sign-name" style="font-size: 10px;">mini-buses-only-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'mini-buses-prohibited.png')">
+                    <div class="sign-name">#49</div>
+                    <img src="assets/images/road-signs/mini-buses-prohibited.png" alt="mini-buses-prohibited.png">
+                    <div class="sign-name" style="font-size: 10px;">mini-buses-prohibited.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'mini-bus-stop.png')">
+                    <div class="sign-name">#50</div>
+                    <img src="assets/images/road-signs/mini-bus-stop.png" alt="mini-bus-stop.png">
+                    <div class="sign-name" style="font-size: 10px;">mini-bus-stop.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'mini-bus-stop-1.png')">
+                    <div class="sign-name">#51</div>
+                    <img src="assets/images/road-signs/mini-bus-stop-1.png" alt="mini-bus-stop-1.png">
+                    <div class="sign-name" style="font-size: 10px;">mini-bus-stop-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'mini-bus-stop-for-authorised-mini-buses-with-line-number.png')">
+                    <div class="sign-name">#52</div>
+                    <img src="assets/images/road-signs/mini-bus-stop-for-authorised-mini-buses-with-line-number.png" alt="mini-bus-stop-for-authorised-mini-buses-with-line-number.png">
+                    <div class="sign-name" style="font-size: 10px;">mini-bus-stop-for-authorised-mini-buses-with-line-number.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'mini-bus-stop-for-authorised-mini-buses-with-line-numbers.png')">
+                    <div class="sign-name">#53</div>
+                    <img src="assets/images/road-signs/mini-bus-stop-for-authorised-mini-buses-with-line-numbers.png" alt="mini-bus-stop-for-authorised-mini-buses-with-line-numbers.png">
+                    <div class="sign-name" style="font-size: 10px;">mini-bus-stop-for-authorised-mini-buses-with-line-numbers.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'minimum-speed-limit-1.png')">
+                    <div class="sign-name">#54</div>
+                    <img src="assets/images/road-signs/minimum-speed-limit-1.png" alt="minimum-speed-limit-1.png">
+                    <div class="sign-name" style="font-size: 10px;">minimum-speed-limit-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'motorcars-only-1.png')">
+                    <div class="sign-name">#55</div>
+                    <img src="assets/images/road-signs/motorcars-only-1.png" alt="motorcars-only-1.png">
+                    <div class="sign-name" style="font-size: 10px;">motorcars-only-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'motorcars-prohibited.png')">
+                    <div class="sign-name">#56</div>
+                    <img src="assets/images/road-signs/motorcars-prohibited.png" alt="motorcars-prohibited.png">
+                    <div class="sign-name" style="font-size: 10px;">motorcars-prohibited.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'motorcycles-and-motorcars-prohibited.png')">
+                    <div class="sign-name">#57</div>
+                    <img src="assets/images/road-signs/motorcycles-and-motorcars-prohibited.png" alt="motorcycles-and-motorcars-prohibited.png">
+                    <div class="sign-name" style="font-size: 10px;">motorcycles-and-motorcars-prohibited.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'motorcycles-only-1.png')">
+                    <div class="sign-name">#58</div>
+                    <img src="assets/images/road-signs/motorcycles-only-1.png" alt="motorcycles-only-1.png">
+                    <div class="sign-name" style="font-size: 10px;">motorcycles-only-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'motorcycles-prohibited.png')">
+                    <div class="sign-name">#59</div>
+                    <img src="assets/images/road-signs/motorcycles-prohibited.png" alt="motorcycles-prohibited.png">
+                    <div class="sign-name" style="font-size: 10px;">motorcycles-prohibited.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'no-entry-1.png')">
+                    <div class="sign-name">#60</div>
+                    <img src="assets/images/road-signs/no-entry-1.png" alt="no-entry-1.png">
+                    <div class="sign-name" style="font-size: 10px;">no-entry-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'one-way-roadway-3.png')">
+                    <div class="sign-name">#61</div>
+                    <img src="assets/images/road-signs/one-way-roadway-3.png" alt="one-way-roadway-3.png">
+                    <div class="sign-name" style="font-size: 10px;">one-way-roadway-3.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'one-way-roadway-4.png')">
+                    <div class="sign-name">#62</div>
+                    <img src="assets/images/road-signs/one-way-roadway-4.png" alt="one-way-roadway-4.png">
+                    <div class="sign-name" style="font-size: 10px;">one-way-roadway-4.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'one-way-roadway-5.png')">
+                    <div class="sign-name">#63</div>
+                    <img src="assets/images/road-signs/one-way-roadway-5.png" alt="one-way-roadway-5.png">
+                    <div class="sign-name" style="font-size: 10px;">one-way-roadway-5.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'overtaking-prohibited.png')">
+                    <div class="sign-name">#64</div>
+                    <img src="assets/images/road-signs/overtaking-prohibited.png" alt="overtaking-prohibited.png">
+                    <div class="sign-name" style="font-size: 10px;">overtaking-prohibited.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'overtaking-prohibited-for-heavy-vehicles.png')">
+                    <div class="sign-name">#65</div>
+                    <img src="assets/images/road-signs/overtaking-prohibited-for-heavy-vehicles.png" alt="overtaking-prohibited-for-heavy-vehicles.png">
+                    <div class="sign-name" style="font-size: 10px;">overtaking-prohibited-for-heavy-vehicles.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'parking-for-abnormal-vehicles.png')">
+                    <div class="sign-name">#66</div>
+                    <img src="assets/images/road-signs/parking-for-abnormal-vehicles.png" alt="parking-for-abnormal-vehicles.png">
+                    <div class="sign-name" style="font-size: 10px;">parking-for-abnormal-vehicles.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'parking-for-ambulances---emergency-vehicles.png')">
+                    <div class="sign-name">#67</div>
+                    <img src="assets/images/road-signs/parking-for-ambulances---emergency-vehicles.png" alt="parking-for-ambulances---emergency-vehicles.png">
+                    <div class="sign-name" style="font-size: 10px;">parking-for-ambulances---emergency-vehicles.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'parking-for-bicycles.png')">
+                    <div class="sign-name">#68</div>
+                    <img src="assets/images/road-signs/parking-for-bicycles.png" alt="parking-for-bicycles.png">
+                    <div class="sign-name" style="font-size: 10px;">parking-for-bicycles.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'parking-for-buses.png')">
+                    <div class="sign-name">#69</div>
+                    <img src="assets/images/road-signs/parking-for-buses.png" alt="parking-for-buses.png">
+                    <div class="sign-name" style="font-size: 10px;">parking-for-buses.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'parking-for-construction-vehicles.png')">
+                    <div class="sign-name">#70</div>
+                    <img src="assets/images/road-signs/parking-for-construction-vehicles.png" alt="parking-for-construction-vehicles.png">
+                    <div class="sign-name" style="font-size: 10px;">parking-for-construction-vehicles.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'parking-for-delivery-vehicles.png')">
+                    <div class="sign-name">#71</div>
+                    <img src="assets/images/road-signs/parking-for-delivery-vehicles.png" alt="parking-for-delivery-vehicles.png">
+                    <div class="sign-name" style="font-size: 10px;">parking-for-delivery-vehicles.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'parking-for-diplomatic-vehicles.png')">
+                    <div class="sign-name">#72</div>
+                    <img src="assets/images/road-signs/parking-for-diplomatic-vehicles.png" alt="parking-for-diplomatic-vehicles.png">
+                    <div class="sign-name" style="font-size: 10px;">parking-for-diplomatic-vehicles.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'parking-for-goods-vehicles.png')">
+                    <div class="sign-name">#73</div>
+                    <img src="assets/images/road-signs/parking-for-goods-vehicles.png" alt="parking-for-goods-vehicles.png">
+                    <div class="sign-name" style="font-size: 10px;">parking-for-goods-vehicles.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'parking-for-goods-vehicles-exceeding-10-tonnes-gvm.png')">
+                    <div class="sign-name">#74</div>
+                    <img src="assets/images/road-signs/parking-for-goods-vehicles-exceeding-10-tonnes-gvm.png" alt="parking-for-goods-vehicles-exceeding-10-tonnes-gvm.png">
+                    <div class="sign-name" style="font-size: 10px;">parking-for-goods-vehicles-exceeding-10-tonnes-gvm.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'parking-for-high-occupancy-vehicles.png')">
+                    <div class="sign-name">#75</div>
+                    <img src="assets/images/road-signs/parking-for-high-occupancy-vehicles.png" alt="parking-for-high-occupancy-vehicles.png">
+                    <div class="sign-name" style="font-size: 10px;">parking-for-high-occupancy-vehicles.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'parking-for-midi-buses.png')">
+                    <div class="sign-name">#76</div>
+                    <img src="assets/images/road-signs/parking-for-midi-buses.png" alt="parking-for-midi-buses.png">
+                    <div class="sign-name" style="font-size: 10px;">parking-for-midi-buses.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'parking-for-mini-buses.png')">
+                    <div class="sign-name">#77</div>
+                    <img src="assets/images/road-signs/parking-for-mini-buses.png" alt="parking-for-mini-buses.png">
+                    <div class="sign-name" style="font-size: 10px;">parking-for-mini-buses.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'parking-for-motorcars.png')">
+                    <div class="sign-name">#78</div>
+                    <img src="assets/images/road-signs/parking-for-motorcars.png" alt="parking-for-motorcars.png">
+                    <div class="sign-name" style="font-size: 10px;">parking-for-motorcars.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'parking-for-motorcycles.png')">
+                    <div class="sign-name">#79</div>
+                    <img src="assets/images/road-signs/parking-for-motorcycles.png" alt="parking-for-motorcycles.png">
+                    <div class="sign-name" style="font-size: 10px;">parking-for-motorcycles.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'parking-for-police-vehicles.png')">
+                    <div class="sign-name">#80</div>
+                    <img src="assets/images/road-signs/parking-for-police-vehicles.png" alt="parking-for-police-vehicles.png">
+                    <div class="sign-name" style="font-size: 10px;">parking-for-police-vehicles.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'parking-for-rickshaws.png')">
+                    <div class="sign-name">#81</div>
+                    <img src="assets/images/road-signs/parking-for-rickshaws.png" alt="parking-for-rickshaws.png">
+                    <div class="sign-name" style="font-size: 10px;">parking-for-rickshaws.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'parking-for-taxis.png')">
+                    <div class="sign-name">#82</div>
+                    <img src="assets/images/road-signs/parking-for-taxis.png" alt="parking-for-taxis.png">
+                    <div class="sign-name" style="font-size: 10px;">parking-for-taxis.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'parking-for-tour-buses.png')">
+                    <div class="sign-name">#83</div>
+                    <img src="assets/images/road-signs/parking-for-tour-buses.png" alt="parking-for-tour-buses.png">
+                    <div class="sign-name" style="font-size: 10px;">parking-for-tour-buses.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'parking-for-vehicles-carrying-disabled-passengers.png')">
+                    <div class="sign-name">#84</div>
+                    <img src="assets/images/road-signs/parking-for-vehicles-carrying-disabled-passengers.png" alt="parking-for-vehicles-carrying-disabled-passengers.png">
+                    <div class="sign-name" style="font-size: 10px;">parking-for-vehicles-carrying-disabled-passengers.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'parking-for-vehicles-transporting-dangerous-substances.png')">
+                    <div class="sign-name">#85</div>
+                    <img src="assets/images/road-signs/parking-for-vehicles-transporting-dangerous-substances.png" alt="parking-for-vehicles-transporting-dangerous-substances.png">
+                    <div class="sign-name" style="font-size: 10px;">parking-for-vehicles-transporting-dangerous-substances.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'parking-prohibited-1.png')">
+                    <div class="sign-name">#86</div>
+                    <img src="assets/images/road-signs/parking-prohibited-1.png" alt="parking-prohibited-1.png">
+                    <div class="sign-name" style="font-size: 10px;">parking-prohibited-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'parking-with-a-60-minute-limit.png')">
+                    <div class="sign-name">#87</div>
+                    <img src="assets/images/road-signs/parking-with-a-60-minute-limit.png" alt="parking-with-a-60-minute-limit.png">
+                    <div class="sign-name" style="font-size: 10px;">parking-with-a-60-minute-limit.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'pedestrian-priority-zone-1.png')">
+                    <div class="sign-name">#88</div>
+                    <img src="assets/images/road-signs/pedestrian-priority-zone-1.png" alt="pedestrian-priority-zone-1.png">
+                    <div class="sign-name" style="font-size: 10px;">pedestrian-priority-zone-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'pedestrians-only-1.png')">
+                    <div class="sign-name">#89</div>
+                    <img src="assets/images/road-signs/pedestrians-only-1.png" alt="pedestrians-only-1.png">
+                    <div class="sign-name" style="font-size: 10px;">pedestrians-only-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'pedestrians-prohibited-1.png')">
+                    <div class="sign-name">#90</div>
+                    <img src="assets/images/road-signs/pedestrians-prohibited-1.png" alt="pedestrians-prohibited-1.png">
+                    <div class="sign-name" style="font-size: 10px;">pedestrians-prohibited-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'proceed-straight-1.png')">
+                    <div class="sign-name">#91</div>
+                    <img src="assets/images/road-signs/proceed-straight-1.png" alt="proceed-straight-1.png">
+                    <div class="sign-name" style="font-size: 10px;">proceed-straight-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-for-abnormal-vehicles.png')">
+                    <div class="sign-name">#92</div>
+                    <img src="assets/images/road-signs/reserved-for-abnormal-vehicles.png" alt="reserved-for-abnormal-vehicles.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-for-abnormal-vehicles.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-for-ambulances---emergency-vehicles.png')">
+                    <div class="sign-name">#93</div>
+                    <img src="assets/images/road-signs/reserved-for-ambulances---emergency-vehicles.png" alt="reserved-for-ambulances---emergency-vehicles.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-for-ambulances---emergency-vehicles.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-for-buses.png')">
+                    <div class="sign-name">#94</div>
+                    <img src="assets/images/road-signs/reserved-for-buses.png" alt="reserved-for-buses.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-for-buses.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-for-buses-and-midi-buses.png')">
+                    <div class="sign-name">#95</div>
+                    <img src="assets/images/road-signs/reserved-for-buses-and-midi-buses.png" alt="reserved-for-buses-and-midi-buses.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-for-buses-and-midi-buses.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-for-buses-and-mini-buses.png')">
+                    <div class="sign-name">#96</div>
+                    <img src="assets/images/road-signs/reserved-for-buses-and-mini-buses.png" alt="reserved-for-buses-and-mini-buses.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-for-buses-and-mini-buses.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-for-buses-and-trams.png')">
+                    <div class="sign-name">#97</div>
+                    <img src="assets/images/road-signs/reserved-for-buses-and-trams.png" alt="reserved-for-buses-and-trams.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-for-buses-and-trams.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-for-buses-midi-buses-and-mini-buses.png')">
+                    <div class="sign-name">#98</div>
+                    <img src="assets/images/road-signs/reserved-for-buses-midi-buses-and-mini-buses.png" alt="reserved-for-buses-midi-buses-and-mini-buses.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-for-buses-midi-buses-and-mini-buses.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-for-buses-trams-and-mini-buses.png')">
+                    <div class="sign-name">#99</div>
+                    <img src="assets/images/road-signs/reserved-for-buses-trams-and-mini-buses.png" alt="reserved-for-buses-trams-and-mini-buses.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-for-buses-trams-and-mini-buses.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-for-construction-vehicles.png')">
+                    <div class="sign-name">#100</div>
+                    <img src="assets/images/road-signs/reserved-for-construction-vehicles.png" alt="reserved-for-construction-vehicles.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-for-construction-vehicles.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-for-delivery-vehicles.png')">
+                    <div class="sign-name">#101</div>
+                    <img src="assets/images/road-signs/reserved-for-delivery-vehicles.png" alt="reserved-for-delivery-vehicles.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-for-delivery-vehicles.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-for-diplomatic-vehicles.png')">
+                    <div class="sign-name">#102</div>
+                    <img src="assets/images/road-signs/reserved-for-diplomatic-vehicles.png" alt="reserved-for-diplomatic-vehicles.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-for-diplomatic-vehicles.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-for-goods-vehicles.png')">
+                    <div class="sign-name">#103</div>
+                    <img src="assets/images/road-signs/reserved-for-goods-vehicles.png" alt="reserved-for-goods-vehicles.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-for-goods-vehicles.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-for-goods-vehicles-exceeding-10-tonnes-gvm.png')">
+                    <div class="sign-name">#104</div>
+                    <img src="assets/images/road-signs/reserved-for-goods-vehicles-exceeding-10-tonnes-gvm.png" alt="reserved-for-goods-vehicles-exceeding-10-tonnes-gvm.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-for-goods-vehicles-exceeding-10-tonnes-gvm.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-for-high-occupancy-vehicles.png')">
+                    <div class="sign-name">#105</div>
+                    <img src="assets/images/road-signs/reserved-for-high-occupancy-vehicles.png" alt="reserved-for-high-occupancy-vehicles.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-for-high-occupancy-vehicles.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-for-midi-buses.png')">
+                    <div class="sign-name">#106</div>
+                    <img src="assets/images/road-signs/reserved-for-midi-buses.png" alt="reserved-for-midi-buses.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-for-midi-buses.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-for-mini-buses.png')">
+                    <div class="sign-name">#107</div>
+                    <img src="assets/images/road-signs/reserved-for-mini-buses.png" alt="reserved-for-mini-buses.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-for-mini-buses.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-for-motorcars.png')">
+                    <div class="sign-name">#108</div>
+                    <img src="assets/images/road-signs/reserved-for-motorcars.png" alt="reserved-for-motorcars.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-for-motorcars.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-for-motorcycles.png')">
+                    <div class="sign-name">#109</div>
+                    <img src="assets/images/road-signs/reserved-for-motorcycles.png" alt="reserved-for-motorcycles.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-for-motorcycles.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-for-police-vehicles.png')">
+                    <div class="sign-name">#110</div>
+                    <img src="assets/images/road-signs/reserved-for-police-vehicles.png" alt="reserved-for-police-vehicles.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-for-police-vehicles.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-for-rickshaws.png')">
+                    <div class="sign-name">#111</div>
+                    <img src="assets/images/road-signs/reserved-for-rickshaws.png" alt="reserved-for-rickshaws.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-for-rickshaws.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-for-taxis.png')">
+                    <div class="sign-name">#112</div>
+                    <img src="assets/images/road-signs/reserved-for-taxis.png" alt="reserved-for-taxis.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-for-taxis.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-for-tour-buses.png')">
+                    <div class="sign-name">#113</div>
+                    <img src="assets/images/road-signs/reserved-for-tour-buses.png" alt="reserved-for-tour-buses.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-for-tour-buses.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-for-trams.png')">
+                    <div class="sign-name">#114</div>
+                    <img src="assets/images/road-signs/reserved-for-trams.png" alt="reserved-for-trams.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-for-trams.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-for-vehicles-carrying-disabled-passengers.png')">
+                    <div class="sign-name">#115</div>
+                    <img src="assets/images/road-signs/reserved-for-vehicles-carrying-disabled-passengers.png" alt="reserved-for-vehicles-carrying-disabled-passengers.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-for-vehicles-carrying-disabled-passengers.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-for-vehicles-transporting-dangerous-substances.png')">
+                    <div class="sign-name">#116</div>
+                    <img src="assets/images/road-signs/reserved-for-vehicles-transporting-dangerous-substances.png" alt="reserved-for-vehicles-transporting-dangerous-substances.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-for-vehicles-transporting-dangerous-substances.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-lane-for-authorised-vehicles.png')">
+                    <div class="sign-name">#117</div>
+                    <img src="assets/images/road-signs/reserved-lane-for-authorised-vehicles.png" alt="reserved-lane-for-authorised-vehicles.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-lane-for-authorised-vehicles.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-lane-for-authorised-vehicles-1.png')">
+                    <div class="sign-name">#118</div>
+                    <img src="assets/images/road-signs/reserved-lane-for-authorised-vehicles-1.png" alt="reserved-lane-for-authorised-vehicles-1.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-lane-for-authorised-vehicles-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-lane-for-bicycles-1.png')">
+                    <div class="sign-name">#119</div>
+                    <img src="assets/images/road-signs/reserved-lane-for-bicycles-1.png" alt="reserved-lane-for-bicycles-1.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-lane-for-bicycles-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-lane-for-buses.png')">
+                    <div class="sign-name">#120</div>
+                    <img src="assets/images/road-signs/reserved-lane-for-buses.png" alt="reserved-lane-for-buses.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-lane-for-buses.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-lane-for-buses-2.png')">
+                    <div class="sign-name">#121</div>
+                    <img src="assets/images/road-signs/reserved-lane-for-buses-2.png" alt="reserved-lane-for-buses-2.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-lane-for-buses-2.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-lane-for-buses-and-midi-buses.png')">
+                    <div class="sign-name">#122</div>
+                    <img src="assets/images/road-signs/reserved-lane-for-buses-and-midi-buses.png" alt="reserved-lane-for-buses-and-midi-buses.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-lane-for-buses-and-midi-buses.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-lane-for-buses-and-mini-buses.png')">
+                    <div class="sign-name">#123</div>
+                    <img src="assets/images/road-signs/reserved-lane-for-buses-and-mini-buses.png" alt="reserved-lane-for-buses-and-mini-buses.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-lane-for-buses-and-mini-buses.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-lane-for-buses-and-mini-buses-1.png')">
+                    <div class="sign-name">#124</div>
+                    <img src="assets/images/road-signs/reserved-lane-for-buses-and-mini-buses-1.png" alt="reserved-lane-for-buses-and-mini-buses-1.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-lane-for-buses-and-mini-buses-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-lane-for-buses-and-trams.png')">
+                    <div class="sign-name">#125</div>
+                    <img src="assets/images/road-signs/reserved-lane-for-buses-and-trams.png" alt="reserved-lane-for-buses-and-trams.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-lane-for-buses-and-trams.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-lane-for-buses-and-trams-1.png')">
+                    <div class="sign-name">#126</div>
+                    <img src="assets/images/road-signs/reserved-lane-for-buses-and-trams-1.png" alt="reserved-lane-for-buses-and-trams-1.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-lane-for-buses-and-trams-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-lane-for-buses-midi-buses-and-mini-buses.png')">
+                    <div class="sign-name">#127</div>
+                    <img src="assets/images/road-signs/reserved-lane-for-buses-midi-buses-and-mini-buses.png" alt="reserved-lane-for-buses-midi-buses-and-mini-buses.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-lane-for-buses-midi-buses-and-mini-buses.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-lane-for-buses-trams-and-mini-buses.png')">
+                    <div class="sign-name">#128</div>
+                    <img src="assets/images/road-signs/reserved-lane-for-buses-trams-and-mini-buses.png" alt="reserved-lane-for-buses-trams-and-mini-buses.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-lane-for-buses-trams-and-mini-buses.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-lane-for-buses-trams-and-mini-buses-1.png')">
+                    <div class="sign-name">#129</div>
+                    <img src="assets/images/road-signs/reserved-lane-for-buses-trams-and-mini-buses-1.png" alt="reserved-lane-for-buses-trams-and-mini-buses-1.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-lane-for-buses-trams-and-mini-buses-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-lane-for-high-occupancy-vehicles.png')">
+                    <div class="sign-name">#130</div>
+                    <img src="assets/images/road-signs/reserved-lane-for-high-occupancy-vehicles.png" alt="reserved-lane-for-high-occupancy-vehicles.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-lane-for-high-occupancy-vehicles.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-lane-for-high-occupancy-vehicles-1.png')">
+                    <div class="sign-name">#131</div>
+                    <img src="assets/images/road-signs/reserved-lane-for-high-occupancy-vehicles-1.png" alt="reserved-lane-for-high-occupancy-vehicles-1.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-lane-for-high-occupancy-vehicles-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'reserved-lane-for-trams.png')">
+                    <div class="sign-name">#132</div>
+                    <img src="assets/images/road-signs/reserved-lane-for-trams.png" alt="reserved-lane-for-trams.png">
+                    <div class="sign-name" style="font-size: 10px;">reserved-lane-for-trams.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'rickshaws-only-1.png')">
+                    <div class="sign-name">#133</div>
+                    <img src="assets/images/road-signs/rickshaws-only-1.png" alt="rickshaws-only-1.png">
+                    <div class="sign-name" style="font-size: 10px;">rickshaws-only-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'rickshaws-prohibited-1.png')">
+                    <div class="sign-name">#134</div>
+                    <img src="assets/images/road-signs/rickshaws-prohibited-1.png" alt="rickshaws-prohibited-1.png">
+                    <div class="sign-name" style="font-size: 10px;">rickshaws-prohibited-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'right-turn-prohibited-1.png')">
+                    <div class="sign-name">#135</div>
+                    <img src="assets/images/road-signs/right-turn-prohibited-1.png" alt="right-turn-prohibited-1.png">
+                    <div class="sign-name" style="font-size: 10px;">right-turn-prohibited-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'right-turn-prohibited-ahead-1.png')">
+                    <div class="sign-name">#136</div>
+                    <img src="assets/images/road-signs/right-turn-prohibited-ahead-1.png" alt="right-turn-prohibited-ahead-1.png">
+                    <div class="sign-name" style="font-size: 10px;">right-turn-prohibited-ahead-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'roundabout-1.png')">
+                    <div class="sign-name">#137</div>
+                    <img src="assets/images/road-signs/roundabout-1.png" alt="roundabout-1.png">
+                    <div class="sign-name" style="font-size: 10px;">roundabout-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'speed-limit-of-100-km-h-1.png')">
+                    <div class="sign-name">#138</div>
+                    <img src="assets/images/road-signs/speed-limit-of-100-km-h-1.png" alt="speed-limit-of-100-km-h-1.png">
+                    <div class="sign-name" style="font-size: 10px;">speed-limit-of-100-km-h-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'speed-limit-of-10-km-h-1.png')">
+                    <div class="sign-name">#139</div>
+                    <img src="assets/images/road-signs/speed-limit-of-10-km-h-1.png" alt="speed-limit-of-10-km-h-1.png">
+                    <div class="sign-name" style="font-size: 10px;">speed-limit-of-10-km-h-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'speed-limit-of-120-km-h-1.png')">
+                    <div class="sign-name">#140</div>
+                    <img src="assets/images/road-signs/speed-limit-of-120-km-h-1.png" alt="speed-limit-of-120-km-h-1.png">
+                    <div class="sign-name" style="font-size: 10px;">speed-limit-of-120-km-h-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'speed-limit-of-20-km-h-1.png')">
+                    <div class="sign-name">#141</div>
+                    <img src="assets/images/road-signs/speed-limit-of-20-km-h-1.png" alt="speed-limit-of-20-km-h-1.png">
+                    <div class="sign-name" style="font-size: 10px;">speed-limit-of-20-km-h-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'speed-limit-of-30-km-h-1.png')">
+                    <div class="sign-name">#142</div>
+                    <img src="assets/images/road-signs/speed-limit-of-30-km-h-1.png" alt="speed-limit-of-30-km-h-1.png">
+                    <div class="sign-name" style="font-size: 10px;">speed-limit-of-30-km-h-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'speed-limit-of-40-km-h-1.png')">
+                    <div class="sign-name">#143</div>
+                    <img src="assets/images/road-signs/speed-limit-of-40-km-h-1.png" alt="speed-limit-of-40-km-h-1.png">
+                    <div class="sign-name" style="font-size: 10px;">speed-limit-of-40-km-h-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'speed-limit-of-50-km-h-1.png')">
+                    <div class="sign-name">#144</div>
+                    <img src="assets/images/road-signs/speed-limit-of-50-km-h-1.png" alt="speed-limit-of-50-km-h-1.png">
+                    <div class="sign-name" style="font-size: 10px;">speed-limit-of-50-km-h-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'speed-limit-of-5-km-h-1.png')">
+                    <div class="sign-name">#145</div>
+                    <img src="assets/images/road-signs/speed-limit-of-5-km-h-1.png" alt="speed-limit-of-5-km-h-1.png">
+                    <div class="sign-name" style="font-size: 10px;">speed-limit-of-5-km-h-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'speed-limit-of-60-km-h-1.png')">
+                    <div class="sign-name">#146</div>
+                    <img src="assets/images/road-signs/speed-limit-of-60-km-h-1.png" alt="speed-limit-of-60-km-h-1.png">
+                    <div class="sign-name" style="font-size: 10px;">speed-limit-of-60-km-h-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'speed-limit-of-70-km-h-1.png')">
+                    <div class="sign-name">#147</div>
+                    <img src="assets/images/road-signs/speed-limit-of-70-km-h-1.png" alt="speed-limit-of-70-km-h-1.png">
+                    <div class="sign-name" style="font-size: 10px;">speed-limit-of-70-km-h-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'speed-limit-of-75-km-h-1.png')">
+                    <div class="sign-name">#148</div>
+                    <img src="assets/images/road-signs/speed-limit-of-75-km-h-1.png" alt="speed-limit-of-75-km-h-1.png">
+                    <div class="sign-name" style="font-size: 10px;">speed-limit-of-75-km-h-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'speed-limit-of-80-km-h-1.png')">
+                    <div class="sign-name">#149</div>
+                    <img src="assets/images/road-signs/speed-limit-of-80-km-h-1.png" alt="speed-limit-of-80-km-h-1.png">
+                    <div class="sign-name" style="font-size: 10px;">speed-limit-of-80-km-h-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'speed-limit-of-90-km-h-1.png')">
+                    <div class="sign-name">#150</div>
+                    <img src="assets/images/road-signs/speed-limit-of-90-km-h-1.png" alt="speed-limit-of-90-km-h-1.png">
+                    <div class="sign-name" style="font-size: 10px;">speed-limit-of-90-km-h-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'start-of-a-reserved-lane-for-buses-1.png')">
+                    <div class="sign-name">#151</div>
+                    <img src="assets/images/road-signs/start-of-a-reserved-lane-for-buses-1.png" alt="start-of-a-reserved-lane-for-buses-1.png">
+                    <div class="sign-name" style="font-size: 10px;">start-of-a-reserved-lane-for-buses-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'start-of-a-reserved-lane-for-buses-and-midi-buses-1.png')">
+                    <div class="sign-name">#152</div>
+                    <img src="assets/images/road-signs/start-of-a-reserved-lane-for-buses-and-midi-buses-1.png" alt="start-of-a-reserved-lane-for-buses-and-midi-buses-1.png">
+                    <div class="sign-name" style="font-size: 10px;">start-of-a-reserved-lane-for-buses-and-midi-buses-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'start-of-a-reserved-lane-for-buses-and-mini-buses-1.png')">
+                    <div class="sign-name">#153</div>
+                    <img src="assets/images/road-signs/start-of-a-reserved-lane-for-buses-and-mini-buses-1.png" alt="start-of-a-reserved-lane-for-buses-and-mini-buses-1.png">
+                    <div class="sign-name" style="font-size: 10px;">start-of-a-reserved-lane-for-buses-and-mini-buses-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'start-of-a-reserved-lane-for-buses-and-trams.png')">
+                    <div class="sign-name">#154</div>
+                    <img src="assets/images/road-signs/start-of-a-reserved-lane-for-buses-and-trams.png" alt="start-of-a-reserved-lane-for-buses-and-trams.png">
+                    <div class="sign-name" style="font-size: 10px;">start-of-a-reserved-lane-for-buses-and-trams.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'start-of-a-reserved-lane-for-buses-midi-buses-and-mini-buses-1.png')">
+                    <div class="sign-name">#155</div>
+                    <img src="assets/images/road-signs/start-of-a-reserved-lane-for-buses-midi-buses-and-mini-buses-1.png" alt="start-of-a-reserved-lane-for-buses-midi-buses-and-mini-buses-1.png">
+                    <div class="sign-name" style="font-size: 10px;">start-of-a-reserved-lane-for-buses-midi-buses-and-mini-buses-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'start-of-a-reserved-lane-for-buses-trams-and-mini-buses.png')">
+                    <div class="sign-name">#156</div>
+                    <img src="assets/images/road-signs/start-of-a-reserved-lane-for-buses-trams-and-mini-buses.png" alt="start-of-a-reserved-lane-for-buses-trams-and-mini-buses.png">
+                    <div class="sign-name" style="font-size: 10px;">start-of-a-reserved-lane-for-buses-trams-and-mini-buses.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'start-of-a-reserved-lane-for-high-occupancy-vehicles-1.png')">
+                    <div class="sign-name">#157</div>
+                    <img src="assets/images/road-signs/start-of-a-reserved-lane-for-high-occupancy-vehicles-1.png" alt="start-of-a-reserved-lane-for-high-occupancy-vehicles-1.png">
+                    <div class="sign-name" style="font-size: 10px;">start-of-a-reserved-lane-for-high-occupancy-vehicles-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'start-of-a-reserved-lane-for-trams-1.png')">
+                    <div class="sign-name">#158</div>
+                    <img src="assets/images/road-signs/start-of-a-reserved-lane-for-trams-1.png" alt="start-of-a-reserved-lane-for-trams-1.png">
+                    <div class="sign-name" style="font-size: 10px;">start-of-a-reserved-lane-for-trams-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'stop.-but-drivers-turning-left-must-give-way---yield-1.png')">
+                    <div class="sign-name">#159</div>
+                    <img src="assets/images/road-signs/stop.-but-drivers-turning-left-must-give-way---yield-1.png" alt="stop.-but-drivers-turning-left-must-give-way---yield-1.png">
+                    <div class="sign-name" style="font-size: 10px;">stop.-but-drivers-turning-left-must-give-way---yield-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'stop.-two-stop-1.png')">
+                    <div class="sign-name">#160</div>
+                    <img src="assets/images/road-signs/stop.-two-stop-1.png" alt="stop.-two-stop-1.png">
+                    <div class="sign-name" style="font-size: 10px;">stop.-two-stop-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'stop-1.png')">
+                    <div class="sign-name">#161</div>
+                    <img src="assets/images/road-signs/stop-1.png" alt="stop-1.png">
+                    <div class="sign-name" style="font-size: 10px;">stop-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'stop-3-way-1.png')">
+                    <div class="sign-name">#162</div>
+                    <img src="assets/images/road-signs/stop-3-way-1.png" alt="stop-3-way-1.png">
+                    <div class="sign-name" style="font-size: 10px;">stop-3-way-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'stop-4-way-1.png')">
+                    <div class="sign-name">#163</div>
+                    <img src="assets/images/road-signs/stop-4-way-1.png" alt="stop-4-way-1.png">
+                    <div class="sign-name" style="font-size: 10px;">stop-4-way-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'stop---go-manual-control-sign-1.png')">
+                    <div class="sign-name">#164</div>
+                    <img src="assets/images/road-signs/stop---go-manual-control-sign-1.png" alt="stop---go-manual-control-sign-1.png">
+                    <div class="sign-name" style="font-size: 10px;">stop---go-manual-control-sign-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'stopping-prohibited-1.png')">
+                    <div class="sign-name">#165</div>
+                    <img src="assets/images/road-signs/stopping-prohibited-1.png" alt="stopping-prohibited-1.png">
+                    <div class="sign-name" style="font-size: 10px;">stopping-prohibited-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'switch-headlamps-on-1.png')">
+                    <div class="sign-name">#166</div>
+                    <img src="assets/images/road-signs/switch-headlamps-on-1.png" alt="switch-headlamps-on-1.png">
+                    <div class="sign-name" style="font-size: 10px;">switch-headlamps-on-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'taxis-only-1.png')">
+                    <div class="sign-name">#167</div>
+                    <img src="assets/images/road-signs/taxis-only-1.png" alt="taxis-only-1.png">
+                    <div class="sign-name" style="font-size: 10px;">taxis-only-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'taxis-prohibited-1.png')">
+                    <div class="sign-name">#168</div>
+                    <img src="assets/images/road-signs/taxis-prohibited-1.png" alt="taxis-prohibited-1.png">
+                    <div class="sign-name" style="font-size: 10px;">taxis-prohibited-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'toll-road-1.png')">
+                    <div class="sign-name">#169</div>
+                    <img src="assets/images/road-signs/toll-road-1.png" alt="toll-road-1.png">
+                    <div class="sign-name" style="font-size: 10px;">toll-road-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'tour-buses-only-1.png')">
+                    <div class="sign-name">#170</div>
+                    <img src="assets/images/road-signs/tour-buses-only-1.png" alt="tour-buses-only-1.png">
+                    <div class="sign-name" style="font-size: 10px;">tour-buses-only-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'tour-buses-prohibited-1.png')">
+                    <div class="sign-name">#171</div>
+                    <img src="assets/images/road-signs/tour-buses-prohibited-1.png" alt="tour-buses-prohibited-1.png">
+                    <div class="sign-name" style="font-size: 10px;">tour-buses-prohibited-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'towed-vehicles-prohibited-1.png')">
+                    <div class="sign-name">#172</div>
+                    <img src="assets/images/road-signs/towed-vehicles-prohibited-1.png" alt="towed-vehicles-prohibited-1.png">
+                    <div class="sign-name" style="font-size: 10px;">towed-vehicles-prohibited-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'trams-only-1.png')">
+                    <div class="sign-name">#173</div>
+                    <img src="assets/images/road-signs/trams-only-1.png" alt="trams-only-1.png">
+                    <div class="sign-name" style="font-size: 10px;">trams-only-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'turn-left-1.png')">
+                    <div class="sign-name">#174</div>
+                    <img src="assets/images/road-signs/turn-left-1.png" alt="turn-left-1.png">
+                    <div class="sign-name" style="font-size: 10px;">turn-left-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'turn-left-ahead-1.png')">
+                    <div class="sign-name">#175</div>
+                    <img src="assets/images/road-signs/turn-left-ahead-1.png" alt="turn-left-ahead-1.png">
+                    <div class="sign-name" style="font-size: 10px;">turn-left-ahead-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'turn-right-1.png')">
+                    <div class="sign-name">#176</div>
+                    <img src="assets/images/road-signs/turn-right-1.png" alt="turn-right-1.png">
+                    <div class="sign-name" style="font-size: 10px;">turn-right-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'turn-right-ahead-1.png')">
+                    <div class="sign-name">#177</div>
+                    <img src="assets/images/road-signs/turn-right-ahead-1.png" alt="turn-right-ahead-1.png">
+                    <div class="sign-name" style="font-size: 10px;">turn-right-ahead-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unauthorised-vehicles-prohibited-1.png')">
+                    <div class="sign-name">#178</div>
+                    <img src="assets/images/road-signs/unauthorised-vehicles-prohibited-1.png" alt="unauthorised-vehicles-prohibited-1.png">
+                    <div class="sign-name" style="font-size: 10px;">unauthorised-vehicles-prohibited-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-190.png')">
+                    <div class="sign-name">#179</div>
+                    <img src="assets/images/road-signs/unnamed-sign-190.png" alt="unnamed-sign-190.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-190.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-191.png')">
+                    <div class="sign-name">#180</div>
+                    <img src="assets/images/road-signs/unnamed-sign-191.png" alt="unnamed-sign-191.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-191.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-192.png')">
+                    <div class="sign-name">#181</div>
+                    <img src="assets/images/road-signs/unnamed-sign-192.png" alt="unnamed-sign-192.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-192.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-193.png')">
+                    <div class="sign-name">#182</div>
+                    <img src="assets/images/road-signs/unnamed-sign-193.png" alt="unnamed-sign-193.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-193.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-194.png')">
+                    <div class="sign-name">#183</div>
+                    <img src="assets/images/road-signs/unnamed-sign-194.png" alt="unnamed-sign-194.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-194.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-195.png')">
+                    <div class="sign-name">#184</div>
+                    <img src="assets/images/road-signs/unnamed-sign-195.png" alt="unnamed-sign-195.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-195.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-196.png')">
+                    <div class="sign-name">#185</div>
+                    <img src="assets/images/road-signs/unnamed-sign-196.png" alt="unnamed-sign-196.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-196.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-197.png')">
+                    <div class="sign-name">#186</div>
+                    <img src="assets/images/road-signs/unnamed-sign-197.png" alt="unnamed-sign-197.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-197.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-198.png')">
+                    <div class="sign-name">#187</div>
+                    <img src="assets/images/road-signs/unnamed-sign-198.png" alt="unnamed-sign-198.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-198.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-199.png')">
+                    <div class="sign-name">#188</div>
+                    <img src="assets/images/road-signs/unnamed-sign-199.png" alt="unnamed-sign-199.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-199.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-200.png')">
+                    <div class="sign-name">#189</div>
+                    <img src="assets/images/road-signs/unnamed-sign-200.png" alt="unnamed-sign-200.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-200.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-201.png')">
+                    <div class="sign-name">#190</div>
+                    <img src="assets/images/road-signs/unnamed-sign-201.png" alt="unnamed-sign-201.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-201.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-202.png')">
+                    <div class="sign-name">#191</div>
+                    <img src="assets/images/road-signs/unnamed-sign-202.png" alt="unnamed-sign-202.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-202.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-203.png')">
+                    <div class="sign-name">#192</div>
+                    <img src="assets/images/road-signs/unnamed-sign-203.png" alt="unnamed-sign-203.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-203.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-204.png')">
+                    <div class="sign-name">#193</div>
+                    <img src="assets/images/road-signs/unnamed-sign-204.png" alt="unnamed-sign-204.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-204.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-205.png')">
+                    <div class="sign-name">#194</div>
+                    <img src="assets/images/road-signs/unnamed-sign-205.png" alt="unnamed-sign-205.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-205.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-206.png')">
+                    <div class="sign-name">#195</div>
+                    <img src="assets/images/road-signs/unnamed-sign-206.png" alt="unnamed-sign-206.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-206.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-207.png')">
+                    <div class="sign-name">#196</div>
+                    <img src="assets/images/road-signs/unnamed-sign-207.png" alt="unnamed-sign-207.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-207.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-208.png')">
+                    <div class="sign-name">#197</div>
+                    <img src="assets/images/road-signs/unnamed-sign-208.png" alt="unnamed-sign-208.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-208.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-209.png')">
+                    <div class="sign-name">#198</div>
+                    <img src="assets/images/road-signs/unnamed-sign-209.png" alt="unnamed-sign-209.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-209.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-210.png')">
+                    <div class="sign-name">#199</div>
+                    <img src="assets/images/road-signs/unnamed-sign-210.png" alt="unnamed-sign-210.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-210.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-211.png')">
+                    <div class="sign-name">#200</div>
+                    <img src="assets/images/road-signs/unnamed-sign-211.png" alt="unnamed-sign-211.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-211.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-212.png')">
+                    <div class="sign-name">#201</div>
+                    <img src="assets/images/road-signs/unnamed-sign-212.png" alt="unnamed-sign-212.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-212.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-213.png')">
+                    <div class="sign-name">#202</div>
+                    <img src="assets/images/road-signs/unnamed-sign-213.png" alt="unnamed-sign-213.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-213.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-214.png')">
+                    <div class="sign-name">#203</div>
+                    <img src="assets/images/road-signs/unnamed-sign-214.png" alt="unnamed-sign-214.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-214.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-215.png')">
+                    <div class="sign-name">#204</div>
+                    <img src="assets/images/road-signs/unnamed-sign-215.png" alt="unnamed-sign-215.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-215.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-216.png')">
+                    <div class="sign-name">#205</div>
+                    <img src="assets/images/road-signs/unnamed-sign-216.png" alt="unnamed-sign-216.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-216.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-217.png')">
+                    <div class="sign-name">#206</div>
+                    <img src="assets/images/road-signs/unnamed-sign-217.png" alt="unnamed-sign-217.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-217.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-218.png')">
+                    <div class="sign-name">#207</div>
+                    <img src="assets/images/road-signs/unnamed-sign-218.png" alt="unnamed-sign-218.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-218.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-219.png')">
+                    <div class="sign-name">#208</div>
+                    <img src="assets/images/road-signs/unnamed-sign-219.png" alt="unnamed-sign-219.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-219.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-220.png')">
+                    <div class="sign-name">#209</div>
+                    <img src="assets/images/road-signs/unnamed-sign-220.png" alt="unnamed-sign-220.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-220.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-221.png')">
+                    <div class="sign-name">#210</div>
+                    <img src="assets/images/road-signs/unnamed-sign-221.png" alt="unnamed-sign-221.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-221.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-222.png')">
+                    <div class="sign-name">#211</div>
+                    <img src="assets/images/road-signs/unnamed-sign-222.png" alt="unnamed-sign-222.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-222.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-223.png')">
+                    <div class="sign-name">#212</div>
+                    <img src="assets/images/road-signs/unnamed-sign-223.png" alt="unnamed-sign-223.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-223.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-224.png')">
+                    <div class="sign-name">#213</div>
+                    <img src="assets/images/road-signs/unnamed-sign-224.png" alt="unnamed-sign-224.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-224.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-225.png')">
+                    <div class="sign-name">#214</div>
+                    <img src="assets/images/road-signs/unnamed-sign-225.png" alt="unnamed-sign-225.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-225.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-226.png')">
+                    <div class="sign-name">#215</div>
+                    <img src="assets/images/road-signs/unnamed-sign-226.png" alt="unnamed-sign-226.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-226.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-227.png')">
+                    <div class="sign-name">#216</div>
+                    <img src="assets/images/road-signs/unnamed-sign-227.png" alt="unnamed-sign-227.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-227.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-228.png')">
+                    <div class="sign-name">#217</div>
+                    <img src="assets/images/road-signs/unnamed-sign-228.png" alt="unnamed-sign-228.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-228.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-229.png')">
+                    <div class="sign-name">#218</div>
+                    <img src="assets/images/road-signs/unnamed-sign-229.png" alt="unnamed-sign-229.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-229.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-230.png')">
+                    <div class="sign-name">#219</div>
+                    <img src="assets/images/road-signs/unnamed-sign-230.png" alt="unnamed-sign-230.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-230.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-231.png')">
+                    <div class="sign-name">#220</div>
+                    <img src="assets/images/road-signs/unnamed-sign-231.png" alt="unnamed-sign-231.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-231.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-232.png')">
+                    <div class="sign-name">#221</div>
+                    <img src="assets/images/road-signs/unnamed-sign-232.png" alt="unnamed-sign-232.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-232.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-233.png')">
+                    <div class="sign-name">#222</div>
+                    <img src="assets/images/road-signs/unnamed-sign-233.png" alt="unnamed-sign-233.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-233.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-234.png')">
+                    <div class="sign-name">#223</div>
+                    <img src="assets/images/road-signs/unnamed-sign-234.png" alt="unnamed-sign-234.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-234.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-235.png')">
+                    <div class="sign-name">#224</div>
+                    <img src="assets/images/road-signs/unnamed-sign-235.png" alt="unnamed-sign-235.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-235.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-236.png')">
+                    <div class="sign-name">#225</div>
+                    <img src="assets/images/road-signs/unnamed-sign-236.png" alt="unnamed-sign-236.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-236.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-237.png')">
+                    <div class="sign-name">#226</div>
+                    <img src="assets/images/road-signs/unnamed-sign-237.png" alt="unnamed-sign-237.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-237.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-238.png')">
+                    <div class="sign-name">#227</div>
+                    <img src="assets/images/road-signs/unnamed-sign-238.png" alt="unnamed-sign-238.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-238.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-239.png')">
+                    <div class="sign-name">#228</div>
+                    <img src="assets/images/road-signs/unnamed-sign-239.png" alt="unnamed-sign-239.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-239.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-240.png')">
+                    <div class="sign-name">#229</div>
+                    <img src="assets/images/road-signs/unnamed-sign-240.png" alt="unnamed-sign-240.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-240.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-241.png')">
+                    <div class="sign-name">#230</div>
+                    <img src="assets/images/road-signs/unnamed-sign-241.png" alt="unnamed-sign-241.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-241.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-242.png')">
+                    <div class="sign-name">#231</div>
+                    <img src="assets/images/road-signs/unnamed-sign-242.png" alt="unnamed-sign-242.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-242.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-243.png')">
+                    <div class="sign-name">#232</div>
+                    <img src="assets/images/road-signs/unnamed-sign-243.png" alt="unnamed-sign-243.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-243.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-244.png')">
+                    <div class="sign-name">#233</div>
+                    <img src="assets/images/road-signs/unnamed-sign-244.png" alt="unnamed-sign-244.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-244.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-245.png')">
+                    <div class="sign-name">#234</div>
+                    <img src="assets/images/road-signs/unnamed-sign-245.png" alt="unnamed-sign-245.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-245.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-246.png')">
+                    <div class="sign-name">#235</div>
+                    <img src="assets/images/road-signs/unnamed-sign-246.png" alt="unnamed-sign-246.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-246.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-247.png')">
+                    <div class="sign-name">#236</div>
+                    <img src="assets/images/road-signs/unnamed-sign-247.png" alt="unnamed-sign-247.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-247.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-248.png')">
+                    <div class="sign-name">#237</div>
+                    <img src="assets/images/road-signs/unnamed-sign-248.png" alt="unnamed-sign-248.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-248.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-249.png')">
+                    <div class="sign-name">#238</div>
+                    <img src="assets/images/road-signs/unnamed-sign-249.png" alt="unnamed-sign-249.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-249.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-250.png')">
+                    <div class="sign-name">#239</div>
+                    <img src="assets/images/road-signs/unnamed-sign-250.png" alt="unnamed-sign-250.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-250.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-251.png')">
+                    <div class="sign-name">#240</div>
+                    <img src="assets/images/road-signs/unnamed-sign-251.png" alt="unnamed-sign-251.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-251.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-252.png')">
+                    <div class="sign-name">#241</div>
+                    <img src="assets/images/road-signs/unnamed-sign-252.png" alt="unnamed-sign-252.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-252.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-253.png')">
+                    <div class="sign-name">#242</div>
+                    <img src="assets/images/road-signs/unnamed-sign-253.png" alt="unnamed-sign-253.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-253.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-254.png')">
+                    <div class="sign-name">#243</div>
+                    <img src="assets/images/road-signs/unnamed-sign-254.png" alt="unnamed-sign-254.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-254.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-255.png')">
+                    <div class="sign-name">#244</div>
+                    <img src="assets/images/road-signs/unnamed-sign-255.png" alt="unnamed-sign-255.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-255.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-256.png')">
+                    <div class="sign-name">#245</div>
+                    <img src="assets/images/road-signs/unnamed-sign-256.png" alt="unnamed-sign-256.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-256.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-257.png')">
+                    <div class="sign-name">#246</div>
+                    <img src="assets/images/road-signs/unnamed-sign-257.png" alt="unnamed-sign-257.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-257.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-258.png')">
+                    <div class="sign-name">#247</div>
+                    <img src="assets/images/road-signs/unnamed-sign-258.png" alt="unnamed-sign-258.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-258.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-259.png')">
+                    <div class="sign-name">#248</div>
+                    <img src="assets/images/road-signs/unnamed-sign-259.png" alt="unnamed-sign-259.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-259.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-260.png')">
+                    <div class="sign-name">#249</div>
+                    <img src="assets/images/road-signs/unnamed-sign-260.png" alt="unnamed-sign-260.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-260.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-261.png')">
+                    <div class="sign-name">#250</div>
+                    <img src="assets/images/road-signs/unnamed-sign-261.png" alt="unnamed-sign-261.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-261.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-262.png')">
+                    <div class="sign-name">#251</div>
+                    <img src="assets/images/road-signs/unnamed-sign-262.png" alt="unnamed-sign-262.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-262.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-263.png')">
+                    <div class="sign-name">#252</div>
+                    <img src="assets/images/road-signs/unnamed-sign-263.png" alt="unnamed-sign-263.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-263.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-264.png')">
+                    <div class="sign-name">#253</div>
+                    <img src="assets/images/road-signs/unnamed-sign-264.png" alt="unnamed-sign-264.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-264.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-265.png')">
+                    <div class="sign-name">#254</div>
+                    <img src="assets/images/road-signs/unnamed-sign-265.png" alt="unnamed-sign-265.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-265.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-266.png')">
+                    <div class="sign-name">#255</div>
+                    <img src="assets/images/road-signs/unnamed-sign-266.png" alt="unnamed-sign-266.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-266.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-267.png')">
+                    <div class="sign-name">#256</div>
+                    <img src="assets/images/road-signs/unnamed-sign-267.png" alt="unnamed-sign-267.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-267.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-268.png')">
+                    <div class="sign-name">#257</div>
+                    <img src="assets/images/road-signs/unnamed-sign-268.png" alt="unnamed-sign-268.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-268.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-269.png')">
+                    <div class="sign-name">#258</div>
+                    <img src="assets/images/road-signs/unnamed-sign-269.png" alt="unnamed-sign-269.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-269.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-270.png')">
+                    <div class="sign-name">#259</div>
+                    <img src="assets/images/road-signs/unnamed-sign-270.png" alt="unnamed-sign-270.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-270.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-271.png')">
+                    <div class="sign-name">#260</div>
+                    <img src="assets/images/road-signs/unnamed-sign-271.png" alt="unnamed-sign-271.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-271.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-272.png')">
+                    <div class="sign-name">#261</div>
+                    <img src="assets/images/road-signs/unnamed-sign-272.png" alt="unnamed-sign-272.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-272.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-273.png')">
+                    <div class="sign-name">#262</div>
+                    <img src="assets/images/road-signs/unnamed-sign-273.png" alt="unnamed-sign-273.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-273.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-274.png')">
+                    <div class="sign-name">#263</div>
+                    <img src="assets/images/road-signs/unnamed-sign-274.png" alt="unnamed-sign-274.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-274.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-275.png')">
+                    <div class="sign-name">#264</div>
+                    <img src="assets/images/road-signs/unnamed-sign-275.png" alt="unnamed-sign-275.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-275.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-276.png')">
+                    <div class="sign-name">#265</div>
+                    <img src="assets/images/road-signs/unnamed-sign-276.png" alt="unnamed-sign-276.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-276.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-277.png')">
+                    <div class="sign-name">#266</div>
+                    <img src="assets/images/road-signs/unnamed-sign-277.png" alt="unnamed-sign-277.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-277.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-278.png')">
+                    <div class="sign-name">#267</div>
+                    <img src="assets/images/road-signs/unnamed-sign-278.png" alt="unnamed-sign-278.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-278.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-279.png')">
+                    <div class="sign-name">#268</div>
+                    <img src="assets/images/road-signs/unnamed-sign-279.png" alt="unnamed-sign-279.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-279.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-280.png')">
+                    <div class="sign-name">#269</div>
+                    <img src="assets/images/road-signs/unnamed-sign-280.png" alt="unnamed-sign-280.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-280.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-281.png')">
+                    <div class="sign-name">#270</div>
+                    <img src="assets/images/road-signs/unnamed-sign-281.png" alt="unnamed-sign-281.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-281.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-282.png')">
+                    <div class="sign-name">#271</div>
+                    <img src="assets/images/road-signs/unnamed-sign-282.png" alt="unnamed-sign-282.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-282.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-283.png')">
+                    <div class="sign-name">#272</div>
+                    <img src="assets/images/road-signs/unnamed-sign-283.png" alt="unnamed-sign-283.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-283.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-284.png')">
+                    <div class="sign-name">#273</div>
+                    <img src="assets/images/road-signs/unnamed-sign-284.png" alt="unnamed-sign-284.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-284.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-285.png')">
+                    <div class="sign-name">#274</div>
+                    <img src="assets/images/road-signs/unnamed-sign-285.png" alt="unnamed-sign-285.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-285.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-286.png')">
+                    <div class="sign-name">#275</div>
+                    <img src="assets/images/road-signs/unnamed-sign-286.png" alt="unnamed-sign-286.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-286.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-287.png')">
+                    <div class="sign-name">#276</div>
+                    <img src="assets/images/road-signs/unnamed-sign-287.png" alt="unnamed-sign-287.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-287.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-288.png')">
+                    <div class="sign-name">#277</div>
+                    <img src="assets/images/road-signs/unnamed-sign-288.png" alt="unnamed-sign-288.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-288.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-289.png')">
+                    <div class="sign-name">#278</div>
+                    <img src="assets/images/road-signs/unnamed-sign-289.png" alt="unnamed-sign-289.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-289.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-290.png')">
+                    <div class="sign-name">#279</div>
+                    <img src="assets/images/road-signs/unnamed-sign-290.png" alt="unnamed-sign-290.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-290.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-291.png')">
+                    <div class="sign-name">#280</div>
+                    <img src="assets/images/road-signs/unnamed-sign-291.png" alt="unnamed-sign-291.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-291.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-292.png')">
+                    <div class="sign-name">#281</div>
+                    <img src="assets/images/road-signs/unnamed-sign-292.png" alt="unnamed-sign-292.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-292.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-293.png')">
+                    <div class="sign-name">#282</div>
+                    <img src="assets/images/road-signs/unnamed-sign-293.png" alt="unnamed-sign-293.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-293.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-294.png')">
+                    <div class="sign-name">#283</div>
+                    <img src="assets/images/road-signs/unnamed-sign-294.png" alt="unnamed-sign-294.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-294.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-295.png')">
+                    <div class="sign-name">#284</div>
+                    <img src="assets/images/road-signs/unnamed-sign-295.png" alt="unnamed-sign-295.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-295.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-296.png')">
+                    <div class="sign-name">#285</div>
+                    <img src="assets/images/road-signs/unnamed-sign-296.png" alt="unnamed-sign-296.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-296.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-297.png')">
+                    <div class="sign-name">#286</div>
+                    <img src="assets/images/road-signs/unnamed-sign-297.png" alt="unnamed-sign-297.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-297.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-298.png')">
+                    <div class="sign-name">#287</div>
+                    <img src="assets/images/road-signs/unnamed-sign-298.png" alt="unnamed-sign-298.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-298.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-299.png')">
+                    <div class="sign-name">#288</div>
+                    <img src="assets/images/road-signs/unnamed-sign-299.png" alt="unnamed-sign-299.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-299.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-300.png')">
+                    <div class="sign-name">#289</div>
+                    <img src="assets/images/road-signs/unnamed-sign-300.png" alt="unnamed-sign-300.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-300.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-301.png')">
+                    <div class="sign-name">#290</div>
+                    <img src="assets/images/road-signs/unnamed-sign-301.png" alt="unnamed-sign-301.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-301.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-302.png')">
+                    <div class="sign-name">#291</div>
+                    <img src="assets/images/road-signs/unnamed-sign-302.png" alt="unnamed-sign-302.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-302.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-303.png')">
+                    <div class="sign-name">#292</div>
+                    <img src="assets/images/road-signs/unnamed-sign-303.png" alt="unnamed-sign-303.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-303.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-304.png')">
+                    <div class="sign-name">#293</div>
+                    <img src="assets/images/road-signs/unnamed-sign-304.png" alt="unnamed-sign-304.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-304.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-305.png')">
+                    <div class="sign-name">#294</div>
+                    <img src="assets/images/road-signs/unnamed-sign-305.png" alt="unnamed-sign-305.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-305.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-306.png')">
+                    <div class="sign-name">#295</div>
+                    <img src="assets/images/road-signs/unnamed-sign-306.png" alt="unnamed-sign-306.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-306.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-307.png')">
+                    <div class="sign-name">#296</div>
+                    <img src="assets/images/road-signs/unnamed-sign-307.png" alt="unnamed-sign-307.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-307.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-308.png')">
+                    <div class="sign-name">#297</div>
+                    <img src="assets/images/road-signs/unnamed-sign-308.png" alt="unnamed-sign-308.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-308.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-309.png')">
+                    <div class="sign-name">#298</div>
+                    <img src="assets/images/road-signs/unnamed-sign-309.png" alt="unnamed-sign-309.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-309.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-310.png')">
+                    <div class="sign-name">#299</div>
+                    <img src="assets/images/road-signs/unnamed-sign-310.png" alt="unnamed-sign-310.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-310.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-311.png')">
+                    <div class="sign-name">#300</div>
+                    <img src="assets/images/road-signs/unnamed-sign-311.png" alt="unnamed-sign-311.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-311.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-312.png')">
+                    <div class="sign-name">#301</div>
+                    <img src="assets/images/road-signs/unnamed-sign-312.png" alt="unnamed-sign-312.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-312.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-313.png')">
+                    <div class="sign-name">#302</div>
+                    <img src="assets/images/road-signs/unnamed-sign-313.png" alt="unnamed-sign-313.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-313.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-314.png')">
+                    <div class="sign-name">#303</div>
+                    <img src="assets/images/road-signs/unnamed-sign-314.png" alt="unnamed-sign-314.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-314.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-315.png')">
+                    <div class="sign-name">#304</div>
+                    <img src="assets/images/road-signs/unnamed-sign-315.png" alt="unnamed-sign-315.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-315.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-316.png')">
+                    <div class="sign-name">#305</div>
+                    <img src="assets/images/road-signs/unnamed-sign-316.png" alt="unnamed-sign-316.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-316.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-317.png')">
+                    <div class="sign-name">#306</div>
+                    <img src="assets/images/road-signs/unnamed-sign-317.png" alt="unnamed-sign-317.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-317.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-318.png')">
+                    <div class="sign-name">#307</div>
+                    <img src="assets/images/road-signs/unnamed-sign-318.png" alt="unnamed-sign-318.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-318.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-319.png')">
+                    <div class="sign-name">#308</div>
+                    <img src="assets/images/road-signs/unnamed-sign-319.png" alt="unnamed-sign-319.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-319.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-320.png')">
+                    <div class="sign-name">#309</div>
+                    <img src="assets/images/road-signs/unnamed-sign-320.png" alt="unnamed-sign-320.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-320.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-321.png')">
+                    <div class="sign-name">#310</div>
+                    <img src="assets/images/road-signs/unnamed-sign-321.png" alt="unnamed-sign-321.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-321.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-322.png')">
+                    <div class="sign-name">#311</div>
+                    <img src="assets/images/road-signs/unnamed-sign-322.png" alt="unnamed-sign-322.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-322.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-323.png')">
+                    <div class="sign-name">#312</div>
+                    <img src="assets/images/road-signs/unnamed-sign-323.png" alt="unnamed-sign-323.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-323.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-324.png')">
+                    <div class="sign-name">#313</div>
+                    <img src="assets/images/road-signs/unnamed-sign-324.png" alt="unnamed-sign-324.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-324.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-325.png')">
+                    <div class="sign-name">#314</div>
+                    <img src="assets/images/road-signs/unnamed-sign-325.png" alt="unnamed-sign-325.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-325.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-326.png')">
+                    <div class="sign-name">#315</div>
+                    <img src="assets/images/road-signs/unnamed-sign-326.png" alt="unnamed-sign-326.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-326.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-327.png')">
+                    <div class="sign-name">#316</div>
+                    <img src="assets/images/road-signs/unnamed-sign-327.png" alt="unnamed-sign-327.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-327.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-328.png')">
+                    <div class="sign-name">#317</div>
+                    <img src="assets/images/road-signs/unnamed-sign-328.png" alt="unnamed-sign-328.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-328.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-329.png')">
+                    <div class="sign-name">#318</div>
+                    <img src="assets/images/road-signs/unnamed-sign-329.png" alt="unnamed-sign-329.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-329.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-330.png')">
+                    <div class="sign-name">#319</div>
+                    <img src="assets/images/road-signs/unnamed-sign-330.png" alt="unnamed-sign-330.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-330.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-331.png')">
+                    <div class="sign-name">#320</div>
+                    <img src="assets/images/road-signs/unnamed-sign-331.png" alt="unnamed-sign-331.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-331.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-332.png')">
+                    <div class="sign-name">#321</div>
+                    <img src="assets/images/road-signs/unnamed-sign-332.png" alt="unnamed-sign-332.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-332.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-333.png')">
+                    <div class="sign-name">#322</div>
+                    <img src="assets/images/road-signs/unnamed-sign-333.png" alt="unnamed-sign-333.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-333.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-334.png')">
+                    <div class="sign-name">#323</div>
+                    <img src="assets/images/road-signs/unnamed-sign-334.png" alt="unnamed-sign-334.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-334.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-335.png')">
+                    <div class="sign-name">#324</div>
+                    <img src="assets/images/road-signs/unnamed-sign-335.png" alt="unnamed-sign-335.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-335.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-336.png')">
+                    <div class="sign-name">#325</div>
+                    <img src="assets/images/road-signs/unnamed-sign-336.png" alt="unnamed-sign-336.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-336.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-337.png')">
+                    <div class="sign-name">#326</div>
+                    <img src="assets/images/road-signs/unnamed-sign-337.png" alt="unnamed-sign-337.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-337.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-338.png')">
+                    <div class="sign-name">#327</div>
+                    <img src="assets/images/road-signs/unnamed-sign-338.png" alt="unnamed-sign-338.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-338.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-339.png')">
+                    <div class="sign-name">#328</div>
+                    <img src="assets/images/road-signs/unnamed-sign-339.png" alt="unnamed-sign-339.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-339.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-340.png')">
+                    <div class="sign-name">#329</div>
+                    <img src="assets/images/road-signs/unnamed-sign-340.png" alt="unnamed-sign-340.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-340.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-341.png')">
+                    <div class="sign-name">#330</div>
+                    <img src="assets/images/road-signs/unnamed-sign-341.png" alt="unnamed-sign-341.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-341.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-342.png')">
+                    <div class="sign-name">#331</div>
+                    <img src="assets/images/road-signs/unnamed-sign-342.png" alt="unnamed-sign-342.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-342.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-343.png')">
+                    <div class="sign-name">#332</div>
+                    <img src="assets/images/road-signs/unnamed-sign-343.png" alt="unnamed-sign-343.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-343.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-344.png')">
+                    <div class="sign-name">#333</div>
+                    <img src="assets/images/road-signs/unnamed-sign-344.png" alt="unnamed-sign-344.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-344.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-345.png')">
+                    <div class="sign-name">#334</div>
+                    <img src="assets/images/road-signs/unnamed-sign-345.png" alt="unnamed-sign-345.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-345.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-346.png')">
+                    <div class="sign-name">#335</div>
+                    <img src="assets/images/road-signs/unnamed-sign-346.png" alt="unnamed-sign-346.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-346.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-347.png')">
+                    <div class="sign-name">#336</div>
+                    <img src="assets/images/road-signs/unnamed-sign-347.png" alt="unnamed-sign-347.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-347.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-348.png')">
+                    <div class="sign-name">#337</div>
+                    <img src="assets/images/road-signs/unnamed-sign-348.png" alt="unnamed-sign-348.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-348.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-349.png')">
+                    <div class="sign-name">#338</div>
+                    <img src="assets/images/road-signs/unnamed-sign-349.png" alt="unnamed-sign-349.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-349.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-350.png')">
+                    <div class="sign-name">#339</div>
+                    <img src="assets/images/road-signs/unnamed-sign-350.png" alt="unnamed-sign-350.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-350.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-351.png')">
+                    <div class="sign-name">#340</div>
+                    <img src="assets/images/road-signs/unnamed-sign-351.png" alt="unnamed-sign-351.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-351.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-352.png')">
+                    <div class="sign-name">#341</div>
+                    <img src="assets/images/road-signs/unnamed-sign-352.png" alt="unnamed-sign-352.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-352.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-353.png')">
+                    <div class="sign-name">#342</div>
+                    <img src="assets/images/road-signs/unnamed-sign-353.png" alt="unnamed-sign-353.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-353.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-354.png')">
+                    <div class="sign-name">#343</div>
+                    <img src="assets/images/road-signs/unnamed-sign-354.png" alt="unnamed-sign-354.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-354.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-355.png')">
+                    <div class="sign-name">#344</div>
+                    <img src="assets/images/road-signs/unnamed-sign-355.png" alt="unnamed-sign-355.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-355.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-356.png')">
+                    <div class="sign-name">#345</div>
+                    <img src="assets/images/road-signs/unnamed-sign-356.png" alt="unnamed-sign-356.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-356.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-357.png')">
+                    <div class="sign-name">#346</div>
+                    <img src="assets/images/road-signs/unnamed-sign-357.png" alt="unnamed-sign-357.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-357.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-358.png')">
+                    <div class="sign-name">#347</div>
+                    <img src="assets/images/road-signs/unnamed-sign-358.png" alt="unnamed-sign-358.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-358.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-359.png')">
+                    <div class="sign-name">#348</div>
+                    <img src="assets/images/road-signs/unnamed-sign-359.png" alt="unnamed-sign-359.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-359.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-360.png')">
+                    <div class="sign-name">#349</div>
+                    <img src="assets/images/road-signs/unnamed-sign-360.png" alt="unnamed-sign-360.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-360.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-361.png')">
+                    <div class="sign-name">#350</div>
+                    <img src="assets/images/road-signs/unnamed-sign-361.png" alt="unnamed-sign-361.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-361.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-362.png')">
+                    <div class="sign-name">#351</div>
+                    <img src="assets/images/road-signs/unnamed-sign-362.png" alt="unnamed-sign-362.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-362.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-363.png')">
+                    <div class="sign-name">#352</div>
+                    <img src="assets/images/road-signs/unnamed-sign-363.png" alt="unnamed-sign-363.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-363.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-364.png')">
+                    <div class="sign-name">#353</div>
+                    <img src="assets/images/road-signs/unnamed-sign-364.png" alt="unnamed-sign-364.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-364.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-365.png')">
+                    <div class="sign-name">#354</div>
+                    <img src="assets/images/road-signs/unnamed-sign-365.png" alt="unnamed-sign-365.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-365.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-366.png')">
+                    <div class="sign-name">#355</div>
+                    <img src="assets/images/road-signs/unnamed-sign-366.png" alt="unnamed-sign-366.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-366.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-367.png')">
+                    <div class="sign-name">#356</div>
+                    <img src="assets/images/road-signs/unnamed-sign-367.png" alt="unnamed-sign-367.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-367.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-368.png')">
+                    <div class="sign-name">#357</div>
+                    <img src="assets/images/road-signs/unnamed-sign-368.png" alt="unnamed-sign-368.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-368.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-369.png')">
+                    <div class="sign-name">#358</div>
+                    <img src="assets/images/road-signs/unnamed-sign-369.png" alt="unnamed-sign-369.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-369.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-370.png')">
+                    <div class="sign-name">#359</div>
+                    <img src="assets/images/road-signs/unnamed-sign-370.png" alt="unnamed-sign-370.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-370.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-371.png')">
+                    <div class="sign-name">#360</div>
+                    <img src="assets/images/road-signs/unnamed-sign-371.png" alt="unnamed-sign-371.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-371.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-372.png')">
+                    <div class="sign-name">#361</div>
+                    <img src="assets/images/road-signs/unnamed-sign-372.png" alt="unnamed-sign-372.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-372.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-373.png')">
+                    <div class="sign-name">#362</div>
+                    <img src="assets/images/road-signs/unnamed-sign-373.png" alt="unnamed-sign-373.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-373.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-374.png')">
+                    <div class="sign-name">#363</div>
+                    <img src="assets/images/road-signs/unnamed-sign-374.png" alt="unnamed-sign-374.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-374.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-375.png')">
+                    <div class="sign-name">#364</div>
+                    <img src="assets/images/road-signs/unnamed-sign-375.png" alt="unnamed-sign-375.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-375.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-376.png')">
+                    <div class="sign-name">#365</div>
+                    <img src="assets/images/road-signs/unnamed-sign-376.png" alt="unnamed-sign-376.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-376.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-377.png')">
+                    <div class="sign-name">#366</div>
+                    <img src="assets/images/road-signs/unnamed-sign-377.png" alt="unnamed-sign-377.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-377.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-378.png')">
+                    <div class="sign-name">#367</div>
+                    <img src="assets/images/road-signs/unnamed-sign-378.png" alt="unnamed-sign-378.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-378.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-379.png')">
+                    <div class="sign-name">#368</div>
+                    <img src="assets/images/road-signs/unnamed-sign-379.png" alt="unnamed-sign-379.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-379.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-380.png')">
+                    <div class="sign-name">#369</div>
+                    <img src="assets/images/road-signs/unnamed-sign-380.png" alt="unnamed-sign-380.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-380.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-381.png')">
+                    <div class="sign-name">#370</div>
+                    <img src="assets/images/road-signs/unnamed-sign-381.png" alt="unnamed-sign-381.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-381.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-382.png')">
+                    <div class="sign-name">#371</div>
+                    <img src="assets/images/road-signs/unnamed-sign-382.png" alt="unnamed-sign-382.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-382.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-383.png')">
+                    <div class="sign-name">#372</div>
+                    <img src="assets/images/road-signs/unnamed-sign-383.png" alt="unnamed-sign-383.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-383.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-384.png')">
+                    <div class="sign-name">#373</div>
+                    <img src="assets/images/road-signs/unnamed-sign-384.png" alt="unnamed-sign-384.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-384.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-385.png')">
+                    <div class="sign-name">#374</div>
+                    <img src="assets/images/road-signs/unnamed-sign-385.png" alt="unnamed-sign-385.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-385.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-386.png')">
+                    <div class="sign-name">#375</div>
+                    <img src="assets/images/road-signs/unnamed-sign-386.png" alt="unnamed-sign-386.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-386.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-387.png')">
+                    <div class="sign-name">#376</div>
+                    <img src="assets/images/road-signs/unnamed-sign-387.png" alt="unnamed-sign-387.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-387.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-388.png')">
+                    <div class="sign-name">#377</div>
+                    <img src="assets/images/road-signs/unnamed-sign-388.png" alt="unnamed-sign-388.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-388.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-389.png')">
+                    <div class="sign-name">#378</div>
+                    <img src="assets/images/road-signs/unnamed-sign-389.png" alt="unnamed-sign-389.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-389.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-390.png')">
+                    <div class="sign-name">#379</div>
+                    <img src="assets/images/road-signs/unnamed-sign-390.png" alt="unnamed-sign-390.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-390.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-391.png')">
+                    <div class="sign-name">#380</div>
+                    <img src="assets/images/road-signs/unnamed-sign-391.png" alt="unnamed-sign-391.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-391.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-392.png')">
+                    <div class="sign-name">#381</div>
+                    <img src="assets/images/road-signs/unnamed-sign-392.png" alt="unnamed-sign-392.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-392.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-393.png')">
+                    <div class="sign-name">#382</div>
+                    <img src="assets/images/road-signs/unnamed-sign-393.png" alt="unnamed-sign-393.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-393.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-394.png')">
+                    <div class="sign-name">#383</div>
+                    <img src="assets/images/road-signs/unnamed-sign-394.png" alt="unnamed-sign-394.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-394.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-395.png')">
+                    <div class="sign-name">#384</div>
+                    <img src="assets/images/road-signs/unnamed-sign-395.png" alt="unnamed-sign-395.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-395.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-396.png')">
+                    <div class="sign-name">#385</div>
+                    <img src="assets/images/road-signs/unnamed-sign-396.png" alt="unnamed-sign-396.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-396.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-397.png')">
+                    <div class="sign-name">#386</div>
+                    <img src="assets/images/road-signs/unnamed-sign-397.png" alt="unnamed-sign-397.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-397.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-398.png')">
+                    <div class="sign-name">#387</div>
+                    <img src="assets/images/road-signs/unnamed-sign-398.png" alt="unnamed-sign-398.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-398.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-399.png')">
+                    <div class="sign-name">#388</div>
+                    <img src="assets/images/road-signs/unnamed-sign-399.png" alt="unnamed-sign-399.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-399.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-400.png')">
+                    <div class="sign-name">#389</div>
+                    <img src="assets/images/road-signs/unnamed-sign-400.png" alt="unnamed-sign-400.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-400.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-401.png')">
+                    <div class="sign-name">#390</div>
+                    <img src="assets/images/road-signs/unnamed-sign-401.png" alt="unnamed-sign-401.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-401.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-402.png')">
+                    <div class="sign-name">#391</div>
+                    <img src="assets/images/road-signs/unnamed-sign-402.png" alt="unnamed-sign-402.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-402.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-403.png')">
+                    <div class="sign-name">#392</div>
+                    <img src="assets/images/road-signs/unnamed-sign-403.png" alt="unnamed-sign-403.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-403.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-404.png')">
+                    <div class="sign-name">#393</div>
+                    <img src="assets/images/road-signs/unnamed-sign-404.png" alt="unnamed-sign-404.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-404.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-405.png')">
+                    <div class="sign-name">#394</div>
+                    <img src="assets/images/road-signs/unnamed-sign-405.png" alt="unnamed-sign-405.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-405.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-406.png')">
+                    <div class="sign-name">#395</div>
+                    <img src="assets/images/road-signs/unnamed-sign-406.png" alt="unnamed-sign-406.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-406.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-407.png')">
+                    <div class="sign-name">#396</div>
+                    <img src="assets/images/road-signs/unnamed-sign-407.png" alt="unnamed-sign-407.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-407.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-408.png')">
+                    <div class="sign-name">#397</div>
+                    <img src="assets/images/road-signs/unnamed-sign-408.png" alt="unnamed-sign-408.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-408.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-409.png')">
+                    <div class="sign-name">#398</div>
+                    <img src="assets/images/road-signs/unnamed-sign-409.png" alt="unnamed-sign-409.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-409.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-410.png')">
+                    <div class="sign-name">#399</div>
+                    <img src="assets/images/road-signs/unnamed-sign-410.png" alt="unnamed-sign-410.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-410.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-411.png')">
+                    <div class="sign-name">#400</div>
+                    <img src="assets/images/road-signs/unnamed-sign-411.png" alt="unnamed-sign-411.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-411.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-412.png')">
+                    <div class="sign-name">#401</div>
+                    <img src="assets/images/road-signs/unnamed-sign-412.png" alt="unnamed-sign-412.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-412.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-413.png')">
+                    <div class="sign-name">#402</div>
+                    <img src="assets/images/road-signs/unnamed-sign-413.png" alt="unnamed-sign-413.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-413.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-414.png')">
+                    <div class="sign-name">#403</div>
+                    <img src="assets/images/road-signs/unnamed-sign-414.png" alt="unnamed-sign-414.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-414.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-415.png')">
+                    <div class="sign-name">#404</div>
+                    <img src="assets/images/road-signs/unnamed-sign-415.png" alt="unnamed-sign-415.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-415.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-416.png')">
+                    <div class="sign-name">#405</div>
+                    <img src="assets/images/road-signs/unnamed-sign-416.png" alt="unnamed-sign-416.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-416.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-417.png')">
+                    <div class="sign-name">#406</div>
+                    <img src="assets/images/road-signs/unnamed-sign-417.png" alt="unnamed-sign-417.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-417.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-418.png')">
+                    <div class="sign-name">#407</div>
+                    <img src="assets/images/road-signs/unnamed-sign-418.png" alt="unnamed-sign-418.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-418.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-419.png')">
+                    <div class="sign-name">#408</div>
+                    <img src="assets/images/road-signs/unnamed-sign-419.png" alt="unnamed-sign-419.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-419.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'unnamed-sign-420.png')">
+                    <div class="sign-name">#409</div>
+                    <img src="assets/images/road-signs/unnamed-sign-420.png" alt="unnamed-sign-420.png">
+                    <div class="sign-name" style="font-size: 10px;">unnamed-sign-420.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'u-turn-prohibited-1.png')">
+                    <div class="sign-name">#410</div>
+                    <img src="assets/images/road-signs/u-turn-prohibited-1.png" alt="u-turn-prohibited-1.png">
+                    <div class="sign-name" style="font-size: 10px;">u-turn-prohibited-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'vehicles-exceeding-10-tonnes-gvm-only-1.png')">
+                    <div class="sign-name">#411</div>
+                    <img src="assets/images/road-signs/vehicles-exceeding-10-tonnes-gvm-only-1.png" alt="vehicles-exceeding-10-tonnes-gvm-only-1.png">
+                    <div class="sign-name" style="font-size: 10px;">vehicles-exceeding-10-tonnes-gvm-only-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'vehicles-exceeding-12-tonnes-gvm-prohibited-1.png')">
+                    <div class="sign-name">#412</div>
+                    <img src="assets/images/road-signs/vehicles-exceeding-12-tonnes-gvm-prohibited-1.png" alt="vehicles-exceeding-12-tonnes-gvm-prohibited-1.png">
+                    <div class="sign-name" style="font-size: 10px;">vehicles-exceeding-12-tonnes-gvm-prohibited-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'vehicles-exceeding-12-tonnes-on-a-tandem-axle---bogie-axle-prohibited-1.png')">
+                    <div class="sign-name">#413</div>
+                    <img src="assets/images/road-signs/vehicles-exceeding-12-tonnes-on-a-tandem-axle---bogie-axle-prohibited-1.png" alt="vehicles-exceeding-12-tonnes-on-a-tandem-axle---bogie-axle-prohibited-1.png">
+                    <div class="sign-name" style="font-size: 10px;">vehicles-exceeding-12-tonnes-on-a-tandem-axle---bogie-axle-prohibited-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'vehicles-exceeding-15-metres-in-length-prohibited-1.png')">
+                    <div class="sign-name">#414</div>
+                    <img src="assets/images/road-signs/vehicles-exceeding-15-metres-in-length-prohibited-1.png" alt="vehicles-exceeding-15-metres-in-length-prohibited-1.png">
+                    <div class="sign-name" style="font-size: 10px;">vehicles-exceeding-15-metres-in-length-prohibited-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'vehicles-exceeding-2.1-metres-in-width-prohibited-1.png')">
+                    <div class="sign-name">#415</div>
+                    <img src="assets/images/road-signs/vehicles-exceeding-2.1-metres-in-width-prohibited-1.png" alt="vehicles-exceeding-2.1-metres-in-width-prohibited-1.png">
+                    <div class="sign-name" style="font-size: 10px;">vehicles-exceeding-2.1-metres-in-width-prohibited-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'vehicles-exceeding-2-tonnes-on-a-single-axle-prohibited-1.png')">
+                    <div class="sign-name">#416</div>
+                    <img src="assets/images/road-signs/vehicles-exceeding-2-tonnes-on-a-single-axle-prohibited-1.png" alt="vehicles-exceeding-2-tonnes-on-a-single-axle-prohibited-1.png">
+                    <div class="sign-name" style="font-size: 10px;">vehicles-exceeding-2-tonnes-on-a-single-axle-prohibited-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'vehicles-exceeding-4.42-metres-in-height-prohibited-1.png')">
+                    <div class="sign-name">#417</div>
+                    <img src="assets/images/road-signs/vehicles-exceeding-4.42-metres-in-height-prohibited-1.png" alt="vehicles-exceeding-4.42-metres-in-height-prohibited-1.png">
+                    <div class="sign-name" style="font-size: 10px;">vehicles-exceeding-4.42-metres-in-height-prohibited-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'vehicles-transporting-dangerous-substances-only-1.png')">
+                    <div class="sign-name">#418</div>
+                    <img src="assets/images/road-signs/vehicles-transporting-dangerous-substances-only-1.png" alt="vehicles-transporting-dangerous-substances-only-1.png">
+                    <div class="sign-name" style="font-size: 10px;">vehicles-transporting-dangerous-substances-only-1.png</div>
+                </div>                <div class="sign-item" onclick="selectSign(this, 'vehicles-transporting-dangerous-substances-prohibited-1.png')">
+                    <div class="sign-name">#419</div>
+                    <img src="assets/images/road-signs/vehicles-transporting-dangerous-substances-prohibited-1.png" alt="vehicles-transporting-dangerous-substances-prohibited-1.png">
+                    <div class="sign-name" style="font-size: 10px;">vehicles-transporting-dangerous-substances-prohibited-1.png</div>
+                </div>            </div>
+        </div>
+        <div class="signs-column">
+            <h3>K53 Standard Road Signs</h3>
+            <div id="k53SignsList">
+                <div class="k53-reference">
+                    <h4>Regulatory Signs (Red Circles)</h4>
+                    <p>• Stop Sign • Yield Sign • Speed Limits • No Entry • No Parking</p>
+                    <h4>Warning Signs (Red Triangles)</h4>
+                    <p>• Curve Ahead • Pedestrian Crossing • School Zone • Animal Crossing</p>
+                    <h4>Informational Signs (Blue Rectangles)</h4>
+                    <p>• Parking • Directions • Facilities • Route Markers</p>
+                    <h4>Command Signs (Blue Circles)</h4>
+                    <p>• Turn Left • Turn Right • Proceed Straight • Keep Left/Right</p>
+                </div>
+            </div>
+            <div style="margin-top: 20px;">
+                <h4>Selected Sign Labeling</h4>
+                <input type="text" id="selectedSignId" placeholder="Selected sign number" readonly style="width: 100%; padding: 10px; margin: 5px 0;">
+                <input type="text" id="k53Name" placeholder="K53 Correct Name" style="width: 100%; padding: 10px; margin: 5px 0;">
+                <select id="signCategory" style="width: 100%; padding: 10px; margin: 5px 0;">
+                    <option value="">Select Category</option>
+                    <option value="regulatory">Regulatory (Red Circle)</option>
+                    <option value="warning">Warning (Red Triangle)</option>
+                    <option value="informational">Informational (Blue Rectangle)</option>
+                    <option value="command">Command (Blue Circle)</option>
+                    <option value="prohibition">Prohibition (Red Circle with Slash)</option>
+                </select>
+                <textarea id="signDescription" placeholder="K53 Description" style="width: 100%; padding: 10px; margin: 5px 0; height: 60px;"></textarea>
+                <button onclick="saveLabeling()" style="width: 100%; padding: 12px; background: #2E8B57; color: white; border: none; border-radius: 5px;">Save K53 Label</button>
+            </div>
+        </div>
+    </div>
+    <div style="text-align: center; margin: 30px 0;">
+        <button onclick="exportK53Labeling()" style="padding: 15px 30px; font-size: 16px; background: #2E8B57; color: white; border: none; border-radius: 5px; cursor: pointer;">
+            🚀 EXPORT ACCURATE K53 LABELING
+        </button>
+    </div>
+    <script>
+        let selectedSign = null;
+        let selectedSignName = '';
+        const labelingData = {};
+        function selectSign(element, signName) {
+            // Remove previous selection
+            document.querySelectorAll('.sign-item').forEach(item => item.classList.remove('selected'));
+            // Select new one
+            element.classList.add('selected');
+            selectedSign = element;
+            selectedSignName = signName;
+            // Update form
+            document.getElementById('selectedSignId').value = signName;
+        }
+        function saveLabeling() {
+            if (!selectedSignName) {
+                alert('Please select a road sign first');
+                return;
+            }
+            const k53Name = document.getElementById('k53Name').value;
+            const category = document.getElementById('signCategory').value;
+            const description = document.getElementById('signDescription').value;
+            if (!k53Name || !category) {
+                alert('Please provide K53 name and category');
+                return;
+            }
+            labelingData[selectedSignName] = {
+                k53Name: k53Name.endsWith('.png') ? k53Name : k53Name + '.png',
+                category: category,
+                description: description
+            };
+            // Update visual feedback
+            selectedSign.style.borderColor = '#2E8B57';
+            selectedSign.style.background = '#f0fff0';
+            selectedSign.querySelector('.sign-name').innerHTML += ' <span style="color: green;">✓</span>';
+            alert('K53 label saved for: ' + selectedSignName);
+        }
+        function exportK53Labeling() {
+            if (Object.keys(labelingData).length === 0) {
+                alert('No labeling data to export. Please label some signs first.');
+                return;
+            }
+            let csvContent = "OriginalName,K53Name,Category,Description\n";
+            for (const [originalName, data] of Object.entries(labelingData)) {
+                csvContent += `"${originalName}","${data.k53Name}","${data.category}","${data.description}"\n`;
+            }
+            // Download CSV
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.setAttribute('hidden', '');
+            a.setAttribute('href', url);
+            a.setAttribute('download', 'k53-accurate-labeling.csv');
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            alert('K53 Accurate Labeling exported! ' + Object.keys(labelingData).length + ' signs labeled.');
+        }
+        function showCategory(category) {
+            // Implementation for category filtering
+            alert('Category filter: ' + category);
+        }
+    </script>
+</body>
+</html>

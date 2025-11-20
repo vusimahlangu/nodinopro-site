@@ -1,0 +1,1953 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>South African Road Signs - K53 Learner's Test</title>
+    <style>
+        :root {
+            --regulatory-red: #d90000;
+            --warning-red: #ff0000;
+            --command-blue: #0054a6;
+            --information-blue: #0072ce;
+            --success-green: #28a745;
+            --danger-red: #dc3545;
+            --warning-yellow: #ffc107;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        /* Header Styles */
+        .header {
+            text-align: center;
+            color: white;
+            padding: 40px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        .nav-tab {
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        .nav-tab:hover, .nav-tab.active {
+            background: white;
+            color: #667eea;
+            transform: scale(1.05);
+        }
+        /* Content Sections */
+        .content-section {
+            display: none;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Learning Grid */
+        .learning-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        .sign-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+            cursor: pointer;
+        }
+        .sign-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .sign-card.regulatory { border-color: var(--regulatory-red); }
+        .sign-card.warning { border-color: var(--warning-red); }
+        .sign-card.command { border-color: var(--command-blue); }
+        .sign-card.information { border-color: var(--information-blue); }
+        .sign-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .sign-code {
+            background: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 12px;
+            border: 2px solid #dee2e6;
+        }
+        .sign-category {
+            padding: 5px 12px;
+            border-radius: 20px;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .sign-category.regulatory { background: var(--regulatory-red); }
+        .sign-category.warning { background: var(--warning-red); }
+        .sign-category.command { background: var(--command-blue); }
+        .sign-category.information { background: var(--information-blue); }
+        .sign-image {
+            width: 100%;
+            height: 150px;
+            background: white;
+            border-radius: 10px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+            border: 2px dashed #dee2e6;
+            font-weight: bold;
+        }
+        .sign-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #333;
+        }
+        .sign-description {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+        /* Test Section */
+        .test-container {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .test-question {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        .test-image {
+            width: 200px;
+            height: 200px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid #dee2e6;
+            font-weight: bold;
+            color: #666;
+        }
+        .test-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+        .test-option {
+            padding: 20px;
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+        .test-option:hover {
+            background: #e9ecef;
+            border-color: #667eea;
+        }
+        .test-option.correct {
+            background: var(--success-green);
+            color: white;
+            border-color: var(--success-green);
+        }
+        .test-option.incorrect {
+            background: var(--danger-red);
+            color: white;
+            border-color: var(--danger-red);
+        }
+        .test-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background: var(--command-blue);
+            color: white;
+        }
+        .btn-success {
+            background: var(--success-green);
+            color: white;
+        }
+        .btn-danger {
+            background: var(--danger-red);
+            color: white;
+        }
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        /* Results Section */
+        .results-container {
+            text-align: center;
+            padding: 40px;
+        }
+        .score-display {
+            font-size: 4rem;
+            font-weight: bold;
+            color: var(--success-green);
+            margin: 20px 0;
+        }
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .result-item {
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            text-align: left;
+        }
+        .result-item.correct {
+            border-left: 5px solid var(--success-green);
+        }
+        .result-item.incorrect {
+            border-left: 5px solid var(--danger-red);
+        }
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2rem; }
+            .nav-tabs { flex-direction: column; align-items: center; }
+            .nav-tab { width: 100%; max-width: 300px; }
+            .learning-grid { grid-template-columns: 1fr; }
+            .test-options { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🇿🇦 South African Road Signs</h1>
+            <p>K53 Learner's License Test Preparation</p>
+        </div>
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showSection('learn')">📚 Learn Signs</button>
+            <button class="nav-tab" onclick="showSection('test')">🎯 Take Test</button>
+            <button class="nav-tab" onclick="showSection('results')">📊 Results</button>
+        </div>
+        <!-- Learning Section -->
+        <div id="learn" class="content-section active">
+            <h2 style="text-align: center; margin-bottom: 30px; color: #333;">Learn South African Road Signs</h2>
+            <div style="text-align: center; margin-bottom: 30px;">
+                <button class="btn btn-primary" onclick="filterSigns('all')">All Signs</button>
+                <button class="btn" onclick="filterSigns('Regulatory')" style="background: var(--regulatory-red); color: white;">Regulatory</button>
+                <button class="btn" onclick="filterSigns('Warning')" style="background: var(--warning-red); color: white;">Warning</button>
+                <button class="btn" onclick="filterSigns('Command')" style="background: var(--command-blue); color: white;">Command</button>
+                <button class="btn" onclick="filterSigns('Information')" style="background: var(--information-blue); color: white;">Information</button>
+            </div>
+            <div class="learning-grid" id="learningGrid">                <div class="sign-card regulatory" data-category="Regulatory" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">R1</div>
+                        <div class="sign-category regulatory">Regulatory</div>
+                    </div>
+                    <div class="sign-image">
+                        Octagon - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Stop</div>
+                    <div class="sign-description">Stop and yield right of way to vehicles approaching from any direction</div>
+                </div>                <div class="sign-card regulatory" data-category="Regulatory" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">R2</div>
+                        <div class="sign-category regulatory">Regulatory</div>
+                    </div>
+                    <div class="sign-image">
+                        Triangle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Yield</div>
+                    <div class="sign-description">Yield right of way to vehicles on the major road</div>
+                </div>                <div class="sign-card regulatory" data-category="Regulatory" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">R3</div>
+                        <div class="sign-category regulatory">Regulatory</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">No Entry</div>
+                    <div class="sign-description">No entry for all vehicles</div>
+                </div>                <div class="sign-card regulatory" data-category="Regulatory" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">R4</div>
+                        <div class="sign-category regulatory">Regulatory</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">No Pedestrians</div>
+                    <div class="sign-description">No pedestrians allowed</div>
+                </div>                <div class="sign-card regulatory" data-category="Regulatory" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">R5</div>
+                        <div class="sign-category regulatory">Regulatory</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">No Bicycles</div>
+                    <div class="sign-description">No bicycles allowed</div>
+                </div>                <div class="sign-card regulatory" data-category="Regulatory" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">R6</div>
+                        <div class="sign-category regulatory">Regulatory</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">No Animal Drawn Vehicles</div>
+                    <div class="sign-description">No animal drawn vehicles allowed</div>
+                </div>                <div class="sign-card regulatory" data-category="Regulatory" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">R7</div>
+                        <div class="sign-category regulatory">Regulatory</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">No Motor Vehicles</div>
+                    <div class="sign-description">No motor vehicles allowed</div>
+                </div>                <div class="sign-card regulatory" data-category="Regulatory" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">R8</div>
+                        <div class="sign-category regulatory">Regulatory</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">No Goods Vehicles</div>
+                    <div class="sign-description">No goods vehicles allowed</div>
+                </div>                <div class="sign-card regulatory" data-category="Regulatory" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">R9</div>
+                        <div class="sign-category regulatory">Regulatory</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">No Buses</div>
+                    <div class="sign-description">No buses allowed</div>
+                </div>                <div class="sign-card regulatory" data-category="Regulatory" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">R10</div>
+                        <div class="sign-category regulatory">Regulatory</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">No Motorcycles</div>
+                    <div class="sign-description">No motorcycles allowed</div>
+                </div>                <div class="sign-card regulatory" data-category="Regulatory" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">R101</div>
+                        <div class="sign-category regulatory">Regulatory</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Speed Limit 20</div>
+                    <div class="sign-description">Maximum speed 20 km/h</div>
+                </div>                <div class="sign-card regulatory" data-category="Regulatory" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">R102</div>
+                        <div class="sign-category regulatory">Regulatory</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Speed Limit 30</div>
+                    <div class="sign-description">Maximum speed 30 km/h</div>
+                </div>                <div class="sign-card regulatory" data-category="Regulatory" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">R103</div>
+                        <div class="sign-category regulatory">Regulatory</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Speed Limit 40</div>
+                    <div class="sign-description">Maximum speed 40 km/h</div>
+                </div>                <div class="sign-card regulatory" data-category="Regulatory" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">R104</div>
+                        <div class="sign-category regulatory">Regulatory</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Speed Limit 50</div>
+                    <div class="sign-description">Maximum speed 50 km/h</div>
+                </div>                <div class="sign-card regulatory" data-category="Regulatory" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">R105</div>
+                        <div class="sign-category regulatory">Regulatory</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Speed Limit 60</div>
+                    <div class="sign-description">Maximum speed 60 km/h</div>
+                </div>                <div class="sign-card regulatory" data-category="Regulatory" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">R106</div>
+                        <div class="sign-category regulatory">Regulatory</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Speed Limit 70</div>
+                    <div class="sign-description">Maximum speed 70 km/h</div>
+                </div>                <div class="sign-card regulatory" data-category="Regulatory" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">R107</div>
+                        <div class="sign-category regulatory">Regulatory</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Speed Limit 80</div>
+                    <div class="sign-description">Maximum speed 80 km/h</div>
+                </div>                <div class="sign-card regulatory" data-category="Regulatory" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">R108</div>
+                        <div class="sign-category regulatory">Regulatory</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Speed Limit 90</div>
+                    <div class="sign-description">Maximum speed 90 km/h</div>
+                </div>                <div class="sign-card regulatory" data-category="Regulatory" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">R109</div>
+                        <div class="sign-category regulatory">Regulatory</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Speed Limit 100</div>
+                    <div class="sign-description">Maximum speed 100 km/h</div>
+                </div>                <div class="sign-card regulatory" data-category="Regulatory" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">R110</div>
+                        <div class="sign-category regulatory">Regulatory</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Speed Limit 120</div>
+                    <div class="sign-description">Maximum speed 120 km/h</div>
+                </div>                <div class="sign-card warning" data-category="Warning" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">W1</div>
+                        <div class="sign-category warning">Warning</div>
+                    </div>
+                    <div class="sign-image">
+                        Triangle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Dangerous Curve Ahead Right</div>
+                    <div class="sign-description">Dangerous curve to the right ahead</div>
+                </div>                <div class="sign-card warning" data-category="Warning" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">W2</div>
+                        <div class="sign-category warning">Warning</div>
+                    </div>
+                    <div class="sign-image">
+                        Triangle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Dangerous Curve Ahead Left</div>
+                    <div class="sign-description">Dangerous curve to the left ahead</div>
+                </div>                <div class="sign-card warning" data-category="Warning" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">W3</div>
+                        <div class="sign-category warning">Warning</div>
+                    </div>
+                    <div class="sign-image">
+                        Triangle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Winding Road Ahead Right</div>
+                    <div class="sign-description">Winding road first to the right ahead</div>
+                </div>                <div class="sign-card warning" data-category="Warning" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">W4</div>
+                        <div class="sign-category warning">Warning</div>
+                    </div>
+                    <div class="sign-image">
+                        Triangle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Winding Road Ahead Left</div>
+                    <div class="sign-description">Winding road first to the left ahead</div>
+                </div>                <div class="sign-card warning" data-category="Warning" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">W5</div>
+                        <div class="sign-category warning">Warning</div>
+                    </div>
+                    <div class="sign-image">
+                        Triangle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Two-way Traffic Ahead</div>
+                    <div class="sign-description">Two-way traffic ahead</div>
+                </div>                <div class="sign-card warning" data-category="Warning" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">W6</div>
+                        <div class="sign-category warning">Warning</div>
+                    </div>
+                    <div class="sign-image">
+                        Triangle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Road Narrows Ahead Both Sides</div>
+                    <div class="sign-description">Road narrows from both sides ahead</div>
+                </div>                <div class="sign-card warning" data-category="Warning" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">W7</div>
+                        <div class="sign-category warning">Warning</div>
+                    </div>
+                    <div class="sign-image">
+                        Triangle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Road Narrows Ahead Left</div>
+                    <div class="sign-description">Road narrows from the left ahead</div>
+                </div>                <div class="sign-card warning" data-category="Warning" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">W8</div>
+                        <div class="sign-category warning">Warning</div>
+                    </div>
+                    <div class="sign-image">
+                        Triangle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Road Narrows Ahead Right</div>
+                    <div class="sign-description">Road narrows from the right ahead</div>
+                </div>                <div class="sign-card warning" data-category="Warning" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">W9</div>
+                        <div class="sign-category warning">Warning</div>
+                    </div>
+                    <div class="sign-image">
+                        Triangle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Pedestrian Crossing Ahead</div>
+                    <div class="sign-description">Pedestrian crossing ahead</div>
+                </div>                <div class="sign-card warning" data-category="Warning" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">W10</div>
+                        <div class="sign-category warning">Warning</div>
+                    </div>
+                    <div class="sign-image">
+                        Triangle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">School Children Ahead</div>
+                    <div class="sign-description">School children ahead</div>
+                </div>                <div class="sign-card command" data-category="Command" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">C1</div>
+                        <div class="sign-category command">Command</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Blue/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Turn Left</div>
+                    <div class="sign-description">Turn left only</div>
+                </div>                <div class="sign-card command" data-category="Command" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">C2</div>
+                        <div class="sign-category command">Command</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Blue/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Turn Right</div>
+                    <div class="sign-description">Turn right only</div>
+                </div>                <div class="sign-card command" data-category="Command" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">C3</div>
+                        <div class="sign-category command">Command</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Blue/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Proceed Straight</div>
+                    <div class="sign-description">Proceed straight only</div>
+                </div>                <div class="sign-card command" data-category="Command" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">C4</div>
+                        <div class="sign-category command">Command</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Blue/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Turn Left or Proceed Straight</div>
+                    <div class="sign-description">Turn left or proceed straight</div>
+                </div>                <div class="sign-card command" data-category="Command" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">C5</div>
+                        <div class="sign-category command">Command</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Blue/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Turn Right or Proceed Straight</div>
+                    <div class="sign-description">Turn right or proceed straight</div>
+                </div>                <div class="sign-card command" data-category="Command" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">C6</div>
+                        <div class="sign-category command">Command</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Blue/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Keep Left</div>
+                    <div class="sign-description">Keep left of obstruction</div>
+                </div>                <div class="sign-card command" data-category="Command" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">C7</div>
+                        <div class="sign-category command">Command</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Blue/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Keep Right</div>
+                    <div class="sign-description">Keep right of obstruction</div>
+                </div>                <div class="sign-card command" data-category="Command" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">C8</div>
+                        <div class="sign-category command">Command</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Blue/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Roundabout</div>
+                    <div class="sign-description">Roundabout ahead - move counter-clockwise</div>
+                </div>                <div class="sign-card command" data-category="Command" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">C9</div>
+                        <div class="sign-category command">Command</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Blue/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Minimum Speed</div>
+                    <div class="sign-description">Minimum speed limit</div>
+                </div>                <div class="sign-card information" data-category="Information" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">I1</div>
+                        <div class="sign-category information">Information</div>
+                    </div>
+                    <div class="sign-image">
+                        Rectangle - Blue/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Parking</div>
+                    <div class="sign-description">Parking area</div>
+                </div>                <div class="sign-card information" data-category="Information" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">I2</div>
+                        <div class="sign-category information">Information</div>
+                    </div>
+                    <div class="sign-image">
+                        Rectangle - Blue/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">No Parking</div>
+                    <div class="sign-description">No parking allowed</div>
+                </div>                <div class="sign-card information" data-category="Information" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">I3</div>
+                        <div class="sign-category information">Information</div>
+                    </div>
+                    <div class="sign-image">
+                        Rectangle - Blue/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Bus Stop</div>
+                    <div class="sign-description">Bus stop</div>
+                </div>                <div class="sign-card information" data-category="Information" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">I4</div>
+                        <div class="sign-category information">Information</div>
+                    </div>
+                    <div class="sign-image">
+                        Rectangle - Blue/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Taxi Rank</div>
+                    <div class="sign-description">Taxi rank</div>
+                </div>                <div class="sign-card information" data-category="Information" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">I5</div>
+                        <div class="sign-category information">Information</div>
+                    </div>
+                    <div class="sign-image">
+                        Rectangle - Blue/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Hospital</div>
+                    <div class="sign-description">Hospital ahead</div>
+                </div>                <div class="sign-card information" data-category="Information" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">I6</div>
+                        <div class="sign-category information">Information</div>
+                    </div>
+                    <div class="sign-image">
+                        Rectangle - Blue/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">First Aid</div>
+                    <div class="sign-description">First aid station</div>
+                </div>                <div class="sign-card information" data-category="Information" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">I7</div>
+                        <div class="sign-category information">Information</div>
+                    </div>
+                    <div class="sign-image">
+                        Rectangle - Blue/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Fuel Station</div>
+                    <div class="sign-description">Fuel station ahead</div>
+                </div>                <div class="sign-card information" data-category="Information" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">I8</div>
+                        <div class="sign-category information">Information</div>
+                    </div>
+                    <div class="sign-image">
+                        Rectangle - Blue/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Telephone</div>
+                    <div class="sign-description">Telephone available</div>
+                </div>                <div class="sign-card information" data-category="Information" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">I9</div>
+                        <div class="sign-category information">Information</div>
+                    </div>
+                    <div class="sign-image">
+                        Rectangle - Blue/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Rest Area</div>
+                    <div class="sign-description">Rest area ahead</div>
+                </div>                <div class="sign-card information" data-category="Information" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">I10</div>
+                        <div class="sign-category information">Information</div>
+                    </div>
+                    <div class="sign-image">
+                        Rectangle - Blue/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Picnic Site</div>
+                    <div class="sign-description">Picnic site ahead</div>
+                </div>                <div class="sign-card regulatory" data-category="Regulatory" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">R201</div>
+                        <div class="sign-category regulatory">Regulatory</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">No Overtaking</div>
+                    <div class="sign-description">No overtaking allowed</div>
+                </div>                <div class="sign-card regulatory" data-category="Regulatory" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">R202</div>
+                        <div class="sign-category regulatory">Regulatory</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">No U-Turn</div>
+                    <div class="sign-description">No U-turn allowed</div>
+                </div>                <div class="sign-card regulatory" data-category="Regulatory" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">R203</div>
+                        <div class="sign-category regulatory">Regulatory</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">No Stopping</div>
+                    <div class="sign-description">No stopping allowed</div>
+                </div>                <div class="sign-card regulatory" data-category="Regulatory" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">R204</div>
+                        <div class="sign-category regulatory">Regulatory</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">No Hooting</div>
+                    <div class="sign-description">No hooting allowed</div>
+                </div>                <div class="sign-card regulatory" data-category="Regulatory" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">R205</div>
+                        <div class="sign-category regulatory">Regulatory</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Weight Limit</div>
+                    <div class="sign-description">Maximum weight limit</div>
+                </div>                <div class="sign-card regulatory" data-category="Regulatory" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">R206</div>
+                        <div class="sign-category regulatory">Regulatory</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Height Limit</div>
+                    <div class="sign-description">Maximum height limit</div>
+                </div>                <div class="sign-card regulatory" data-category="Regulatory" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">R207</div>
+                        <div class="sign-category regulatory">Regulatory</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Width Limit</div>
+                    <div class="sign-description">Maximum width limit</div>
+                </div>                <div class="sign-card warning" data-category="Warning" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">W201</div>
+                        <div class="sign-category warning">Warning</div>
+                    </div>
+                    <div class="sign-image">
+                        Triangle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Falling Rocks</div>
+                    <div class="sign-description">Falling rocks area</div>
+                </div>                <div class="sign-card warning" data-category="Warning" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">W202</div>
+                        <div class="sign-category warning">Warning</div>
+                    </div>
+                    <div class="sign-image">
+                        Triangle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Low Flying Aircraft</div>
+                    <div class="sign-description">Low flying aircraft area</div>
+                </div>                <div class="sign-card warning" data-category="Warning" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">W203</div>
+                        <div class="sign-category warning">Warning</div>
+                    </div>
+                    <div class="sign-image">
+                        Triangle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Wild Animals</div>
+                    <div class="sign-description">Wild animals crossing area</div>
+                </div>                <div class="sign-card warning" data-category="Warning" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">W204</div>
+                        <div class="sign-category warning">Warning</div>
+                    </div>
+                    <div class="sign-image">
+                        Triangle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Slippery Road</div>
+                    <div class="sign-description">Slippery road ahead</div>
+                </div>                <div class="sign-card warning" data-category="Warning" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">W205</div>
+                        <div class="sign-category warning">Warning</div>
+                    </div>
+                    <div class="sign-image">
+                        Triangle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Road Works Ahead</div>
+                    <div class="sign-description">Road works ahead</div>
+                </div>                <div class="sign-card command" data-category="Command" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">C101</div>
+                        <div class="sign-category command">Command</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Blue/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Turn Left Ahead</div>
+                    <div class="sign-description">Turn left ahead</div>
+                </div>                <div class="sign-card command" data-category="Command" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">C102</div>
+                        <div class="sign-category command">Command</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Blue/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Turn Right Ahead</div>
+                    <div class="sign-description">Turn right ahead</div>
+                </div>                <div class="sign-card command" data-category="Command" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">C103</div>
+                        <div class="sign-category command">Command</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Blue/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Proceed Straight Ahead</div>
+                    <div class="sign-description">Proceed straight ahead</div>
+                </div>                <div class="sign-card information" data-category="Information" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">I201</div>
+                        <div class="sign-category information">Information</div>
+                    </div>
+                    <div class="sign-image">
+                        Rectangle - Blue/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Camp Site</div>
+                    <div class="sign-description">Camp site ahead</div>
+                </div>                <div class="sign-card information" data-category="Information" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">I202</div>
+                        <div class="sign-category information">Information</div>
+                    </div>
+                    <div class="sign-image">
+                        Rectangle - Blue/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Information Centre</div>
+                    <div class="sign-description">Information centre ahead</div>
+                </div>                <div class="sign-card information" data-category="Information" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">I203</div>
+                        <div class="sign-category information">Information</div>
+                    </div>
+                    <div class="sign-image">
+                        Rectangle - Blue/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Toilet Facilities</div>
+                    <div class="sign-description">Toilet facilities available</div>
+                </div>                <div class="sign-card information" data-category="Information" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">I204</div>
+                        <div class="sign-category information">Information</div>
+                    </div>
+                    <div class="sign-image">
+                        Rectangle - Blue/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Emergency Telephone</div>
+                    <div class="sign-description">Emergency telephone available</div>
+                </div>                <div class="sign-card information" data-category="Information" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">I301</div>
+                        <div class="sign-category information">Information</div>
+                    </div>
+                    <div class="sign-image">
+                        Rectangle - Blue/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Reserved for Buses</div>
+                    <div class="sign-description">Lane reserved for buses</div>
+                </div>                <div class="sign-card information" data-category="Information" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">I302</div>
+                        <div class="sign-category information">Information</div>
+                    </div>
+                    <div class="sign-image">
+                        Rectangle - Blue/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Reserved for Taxis</div>
+                    <div class="sign-description">Lane reserved for taxis</div>
+                </div>                <div class="sign-card information" data-category="Information" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">I303</div>
+                        <div class="sign-category information">Information</div>
+                    </div>
+                    <div class="sign-image">
+                        Rectangle - Blue/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Reserved for Cyclists</div>
+                    <div class="sign-description">Lane reserved for cyclists</div>
+                </div>                <div class="sign-card information" data-category="Information" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">I304</div>
+                        <div class="sign-category information">Information</div>
+                    </div>
+                    <div class="sign-image">
+                        Rectangle - Blue/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Reserved for Trams</div>
+                    <div class="sign-description">Lane reserved for trams</div>
+                </div>                <div class="sign-card regulatory" data-category="Regulatory" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">R301</div>
+                        <div class="sign-category regulatory">Regulatory</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Buses Only</div>
+                    <div class="sign-description">Buses only allowed</div>
+                </div>                <div class="sign-card regulatory" data-category="Regulatory" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">R302</div>
+                        <div class="sign-category regulatory">Regulatory</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Taxis Only</div>
+                    <div class="sign-description">Taxis only allowed</div>
+                </div>                <div class="sign-card regulatory" data-category="Regulatory" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">R303</div>
+                        <div class="sign-category regulatory">Regulatory</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Goods Vehicles Only</div>
+                    <div class="sign-description">Goods vehicles only allowed</div>
+                </div>                <div class="sign-card regulatory" data-category="Regulatory" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">R304</div>
+                        <div class="sign-category regulatory">Regulatory</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Motor Cars Only</div>
+                    <div class="sign-description">Motor cars only allowed</div>
+                </div>                <div class="sign-card regulatory" data-category="Regulatory" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">R305</div>
+                        <div class="sign-category regulatory">Regulatory</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Motorcycles Only</div>
+                    <div class="sign-description">Motorcycles only allowed</div>
+                </div>                <div class="sign-card regulatory" data-category="Regulatory" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">R306</div>
+                        <div class="sign-category regulatory">Regulatory</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Cyclists Only</div>
+                    <div class="sign-description">Cyclists only allowed</div>
+                </div>                <div class="sign-card regulatory" data-category="Regulatory" onclick="showSignDetail(this)">
+                    <div class="sign-header">
+                        <div class="sign-code">R307</div>
+                        <div class="sign-category regulatory">Regulatory</div>
+                    </div>
+                    <div class="sign-image">
+                        Circle - Red/White
+                        <div style="font-size: 12px; margin-top: 5px;">Official Road Sign</div>
+                    </div>
+                    <div class="sign-name">Pedestrians Only</div>
+                    <div class="sign-description">Pedestrians only allowed</div>
+                </div>            </div>
+        </div>
+        <!-- Test Section -->
+        <div id="test" class="content-section">
+            <div class="test-container">
+                <h2 style="margin-bottom: 30px; color: #333;">K53 Road Signs Test</h2>
+                <div class="test-question" id="testQuestion">
+                    What does this road sign mean?
+                </div>
+                <div class="test-image" id="testImage">
+                    Road Sign Image
+                </div>
+                <div class="test-options" id="testOptions">
+                    <!-- Options will be populated by JavaScript -->
+                </div>
+                <div class="test-controls">
+                    <button class="btn btn-primary" onclick="nextQuestion()">Next Question</button>
+                    <button class="btn btn-danger" onclick="endTest()">End Test</button>
+                </div>
+                <div style="margin-top: 20px; font-size: 14px; color: #666;">
+                    Question <span id="currentQuestion">1</span> of <span id="totalQuestions">10</span>
+                </div>
+            </div>
+        </div>
+        <!-- Results Section -->
+        <div id="results" class="content-section">
+            <div class="results-container">
+                <h2 style="margin-bottom: 30px; color: #333;">Test Results</h2>
+                <div class="score-display" id="finalScore">0%</div>
+                <div style="font-size: 18px; margin-bottom: 30px;" id="resultMessage"></div>
+                <div class="results-grid" id="resultsGrid">
+                    <!-- Results will be populated by JavaScript -->
+                </div>
+                <button class="btn btn-success" onclick="startNewTest()" style="margin-top: 30px;">Start New Test</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Road Signs Data
+        const roadSigns = [            {
+                code: "R1",
+                name: "Stop",
+                description: "Stop and yield right of way to vehicles approaching from any direction",
+                category: "Regulatory",
+                color: "Red/White",
+                shape: "Octagon"
+            },            {
+                code: "R2",
+                name: "Yield",
+                description: "Yield right of way to vehicles on the major road",
+                category: "Regulatory",
+                color: "Red/White",
+                shape: "Triangle"
+            },            {
+                code: "R3",
+                name: "No Entry",
+                description: "No entry for all vehicles",
+                category: "Regulatory",
+                color: "Red/White",
+                shape: "Circle"
+            },            {
+                code: "R4",
+                name: "No Pedestrians",
+                description: "No pedestrians allowed",
+                category: "Regulatory",
+                color: "Red/White",
+                shape: "Circle"
+            },            {
+                code: "R5",
+                name: "No Bicycles",
+                description: "No bicycles allowed",
+                category: "Regulatory",
+                color: "Red/White",
+                shape: "Circle"
+            },            {
+                code: "R6",
+                name: "No Animal Drawn Vehicles",
+                description: "No animal drawn vehicles allowed",
+                category: "Regulatory",
+                color: "Red/White",
+                shape: "Circle"
+            },            {
+                code: "R7",
+                name: "No Motor Vehicles",
+                description: "No motor vehicles allowed",
+                category: "Regulatory",
+                color: "Red/White",
+                shape: "Circle"
+            },            {
+                code: "R8",
+                name: "No Goods Vehicles",
+                description: "No goods vehicles allowed",
+                category: "Regulatory",
+                color: "Red/White",
+                shape: "Circle"
+            },            {
+                code: "R9",
+                name: "No Buses",
+                description: "No buses allowed",
+                category: "Regulatory",
+                color: "Red/White",
+                shape: "Circle"
+            },            {
+                code: "R10",
+                name: "No Motorcycles",
+                description: "No motorcycles allowed",
+                category: "Regulatory",
+                color: "Red/White",
+                shape: "Circle"
+            },            {
+                code: "R101",
+                name: "Speed Limit 20",
+                description: "Maximum speed 20 km/h",
+                category: "Regulatory",
+                color: "Red/White",
+                shape: "Circle"
+            },            {
+                code: "R102",
+                name: "Speed Limit 30",
+                description: "Maximum speed 30 km/h",
+                category: "Regulatory",
+                color: "Red/White",
+                shape: "Circle"
+            },            {
+                code: "R103",
+                name: "Speed Limit 40",
+                description: "Maximum speed 40 km/h",
+                category: "Regulatory",
+                color: "Red/White",
+                shape: "Circle"
+            },            {
+                code: "R104",
+                name: "Speed Limit 50",
+                description: "Maximum speed 50 km/h",
+                category: "Regulatory",
+                color: "Red/White",
+                shape: "Circle"
+            },            {
+                code: "R105",
+                name: "Speed Limit 60",
+                description: "Maximum speed 60 km/h",
+                category: "Regulatory",
+                color: "Red/White",
+                shape: "Circle"
+            },            {
+                code: "R106",
+                name: "Speed Limit 70",
+                description: "Maximum speed 70 km/h",
+                category: "Regulatory",
+                color: "Red/White",
+                shape: "Circle"
+            },            {
+                code: "R107",
+                name: "Speed Limit 80",
+                description: "Maximum speed 80 km/h",
+                category: "Regulatory",
+                color: "Red/White",
+                shape: "Circle"
+            },            {
+                code: "R108",
+                name: "Speed Limit 90",
+                description: "Maximum speed 90 km/h",
+                category: "Regulatory",
+                color: "Red/White",
+                shape: "Circle"
+            },            {
+                code: "R109",
+                name: "Speed Limit 100",
+                description: "Maximum speed 100 km/h",
+                category: "Regulatory",
+                color: "Red/White",
+                shape: "Circle"
+            },            {
+                code: "R110",
+                name: "Speed Limit 120",
+                description: "Maximum speed 120 km/h",
+                category: "Regulatory",
+                color: "Red/White",
+                shape: "Circle"
+            },            {
+                code: "W1",
+                name: "Dangerous Curve Ahead Right",
+                description: "Dangerous curve to the right ahead",
+                category: "Warning",
+                color: "Red/White",
+                shape: "Triangle"
+            },            {
+                code: "W2",
+                name: "Dangerous Curve Ahead Left",
+                description: "Dangerous curve to the left ahead",
+                category: "Warning",
+                color: "Red/White",
+                shape: "Triangle"
+            },            {
+                code: "W3",
+                name: "Winding Road Ahead Right",
+                description: "Winding road first to the right ahead",
+                category: "Warning",
+                color: "Red/White",
+                shape: "Triangle"
+            },            {
+                code: "W4",
+                name: "Winding Road Ahead Left",
+                description: "Winding road first to the left ahead",
+                category: "Warning",
+                color: "Red/White",
+                shape: "Triangle"
+            },            {
+                code: "W5",
+                name: "Two-way Traffic Ahead",
+                description: "Two-way traffic ahead",
+                category: "Warning",
+                color: "Red/White",
+                shape: "Triangle"
+            },            {
+                code: "W6",
+                name: "Road Narrows Ahead Both Sides",
+                description: "Road narrows from both sides ahead",
+                category: "Warning",
+                color: "Red/White",
+                shape: "Triangle"
+            },            {
+                code: "W7",
+                name: "Road Narrows Ahead Left",
+                description: "Road narrows from the left ahead",
+                category: "Warning",
+                color: "Red/White",
+                shape: "Triangle"
+            },            {
+                code: "W8",
+                name: "Road Narrows Ahead Right",
+                description: "Road narrows from the right ahead",
+                category: "Warning",
+                color: "Red/White",
+                shape: "Triangle"
+            },            {
+                code: "W9",
+                name: "Pedestrian Crossing Ahead",
+                description: "Pedestrian crossing ahead",
+                category: "Warning",
+                color: "Red/White",
+                shape: "Triangle"
+            },            {
+                code: "W10",
+                name: "School Children Ahead",
+                description: "School children ahead",
+                category: "Warning",
+                color: "Red/White",
+                shape: "Triangle"
+            },            {
+                code: "C1",
+                name: "Turn Left",
+                description: "Turn left only",
+                category: "Command",
+                color: "Blue/White",
+                shape: "Circle"
+            },            {
+                code: "C2",
+                name: "Turn Right",
+                description: "Turn right only",
+                category: "Command",
+                color: "Blue/White",
+                shape: "Circle"
+            },            {
+                code: "C3",
+                name: "Proceed Straight",
+                description: "Proceed straight only",
+                category: "Command",
+                color: "Blue/White",
+                shape: "Circle"
+            },            {
+                code: "C4",
+                name: "Turn Left or Proceed Straight",
+                description: "Turn left or proceed straight",
+                category: "Command",
+                color: "Blue/White",
+                shape: "Circle"
+            },            {
+                code: "C5",
+                name: "Turn Right or Proceed Straight",
+                description: "Turn right or proceed straight",
+                category: "Command",
+                color: "Blue/White",
+                shape: "Circle"
+            },            {
+                code: "C6",
+                name: "Keep Left",
+                description: "Keep left of obstruction",
+                category: "Command",
+                color: "Blue/White",
+                shape: "Circle"
+            },            {
+                code: "C7",
+                name: "Keep Right",
+                description: "Keep right of obstruction",
+                category: "Command",
+                color: "Blue/White",
+                shape: "Circle"
+            },            {
+                code: "C8",
+                name: "Roundabout",
+                description: "Roundabout ahead - move counter-clockwise",
+                category: "Command",
+                color: "Blue/White",
+                shape: "Circle"
+            },            {
+                code: "C9",
+                name: "Minimum Speed",
+                description: "Minimum speed limit",
+                category: "Command",
+                color: "Blue/White",
+                shape: "Circle"
+            },            {
+                code: "I1",
+                name: "Parking",
+                description: "Parking area",
+                category: "Information",
+                color: "Blue/White",
+                shape: "Rectangle"
+            },            {
+                code: "I2",
+                name: "No Parking",
+                description: "No parking allowed",
+                category: "Information",
+                color: "Blue/White",
+                shape: "Rectangle"
+            },            {
+                code: "I3",
+                name: "Bus Stop",
+                description: "Bus stop",
+                category: "Information",
+                color: "Blue/White",
+                shape: "Rectangle"
+            },            {
+                code: "I4",
+                name: "Taxi Rank",
+                description: "Taxi rank",
+                category: "Information",
+                color: "Blue/White",
+                shape: "Rectangle"
+            },            {
+                code: "I5",
+                name: "Hospital",
+                description: "Hospital ahead",
+                category: "Information",
+                color: "Blue/White",
+                shape: "Rectangle"
+            },            {
+                code: "I6",
+                name: "First Aid",
+                description: "First aid station",
+                category: "Information",
+                color: "Blue/White",
+                shape: "Rectangle"
+            },            {
+                code: "I7",
+                name: "Fuel Station",
+                description: "Fuel station ahead",
+                category: "Information",
+                color: "Blue/White",
+                shape: "Rectangle"
+            },            {
+                code: "I8",
+                name: "Telephone",
+                description: "Telephone available",
+                category: "Information",
+                color: "Blue/White",
+                shape: "Rectangle"
+            },            {
+                code: "I9",
+                name: "Rest Area",
+                description: "Rest area ahead",
+                category: "Information",
+                color: "Blue/White",
+                shape: "Rectangle"
+            },            {
+                code: "I10",
+                name: "Picnic Site",
+                description: "Picnic site ahead",
+                category: "Information",
+                color: "Blue/White",
+                shape: "Rectangle"
+            },            {
+                code: "R201",
+                name: "No Overtaking",
+                description: "No overtaking allowed",
+                category: "Regulatory",
+                color: "Red/White",
+                shape: "Circle"
+            },            {
+                code: "R202",
+                name: "No U-Turn",
+                description: "No U-turn allowed",
+                category: "Regulatory",
+                color: "Red/White",
+                shape: "Circle"
+            },            {
+                code: "R203",
+                name: "No Stopping",
+                description: "No stopping allowed",
+                category: "Regulatory",
+                color: "Red/White",
+                shape: "Circle"
+            },            {
+                code: "R204",
+                name: "No Hooting",
+                description: "No hooting allowed",
+                category: "Regulatory",
+                color: "Red/White",
+                shape: "Circle"
+            },            {
+                code: "R205",
+                name: "Weight Limit",
+                description: "Maximum weight limit",
+                category: "Regulatory",
+                color: "Red/White",
+                shape: "Circle"
+            },            {
+                code: "R206",
+                name: "Height Limit",
+                description: "Maximum height limit",
+                category: "Regulatory",
+                color: "Red/White",
+                shape: "Circle"
+            },            {
+                code: "R207",
+                name: "Width Limit",
+                description: "Maximum width limit",
+                category: "Regulatory",
+                color: "Red/White",
+                shape: "Circle"
+            },            {
+                code: "W201",
+                name: "Falling Rocks",
+                description: "Falling rocks area",
+                category: "Warning",
+                color: "Red/White",
+                shape: "Triangle"
+            },            {
+                code: "W202",
+                name: "Low Flying Aircraft",
+                description: "Low flying aircraft area",
+                category: "Warning",
+                color: "Red/White",
+                shape: "Triangle"
+            },            {
+                code: "W203",
+                name: "Wild Animals",
+                description: "Wild animals crossing area",
+                category: "Warning",
+                color: "Red/White",
+                shape: "Triangle"
+            },            {
+                code: "W204",
+                name: "Slippery Road",
+                description: "Slippery road ahead",
+                category: "Warning",
+                color: "Red/White",
+                shape: "Triangle"
+            },            {
+                code: "W205",
+                name: "Road Works Ahead",
+                description: "Road works ahead",
+                category: "Warning",
+                color: "Red/White",
+                shape: "Triangle"
+            },            {
+                code: "C101",
+                name: "Turn Left Ahead",
+                description: "Turn left ahead",
+                category: "Command",
+                color: "Blue/White",
+                shape: "Circle"
+            },            {
+                code: "C102",
+                name: "Turn Right Ahead",
+                description: "Turn right ahead",
+                category: "Command",
+                color: "Blue/White",
+                shape: "Circle"
+            },            {
+                code: "C103",
+                name: "Proceed Straight Ahead",
+                description: "Proceed straight ahead",
+                category: "Command",
+                color: "Blue/White",
+                shape: "Circle"
+            },            {
+                code: "I201",
+                name: "Camp Site",
+                description: "Camp site ahead",
+                category: "Information",
+                color: "Blue/White",
+                shape: "Rectangle"
+            },            {
+                code: "I202",
+                name: "Information Centre",
+                description: "Information centre ahead",
+                category: "Information",
+                color: "Blue/White",
+                shape: "Rectangle"
+            },            {
+                code: "I203",
+                name: "Toilet Facilities",
+                description: "Toilet facilities available",
+                category: "Information",
+                color: "Blue/White",
+                shape: "Rectangle"
+            },            {
+                code: "I204",
+                name: "Emergency Telephone",
+                description: "Emergency telephone available",
+                category: "Information",
+                color: "Blue/White",
+                shape: "Rectangle"
+            },            {
+                code: "I301",
+                name: "Reserved for Buses",
+                description: "Lane reserved for buses",
+                category: "Information",
+                color: "Blue/White",
+                shape: "Rectangle"
+            },            {
+                code: "I302",
+                name: "Reserved for Taxis",
+                description: "Lane reserved for taxis",
+                category: "Information",
+                color: "Blue/White",
+                shape: "Rectangle"
+            },            {
+                code: "I303",
+                name: "Reserved for Cyclists",
+                description: "Lane reserved for cyclists",
+                category: "Information",
+                color: "Blue/White",
+                shape: "Rectangle"
+            },            {
+                code: "I304",
+                name: "Reserved for Trams",
+                description: "Lane reserved for trams",
+                category: "Information",
+                color: "Blue/White",
+                shape: "Rectangle"
+            },            {
+                code: "R301",
+                name: "Buses Only",
+                description: "Buses only allowed",
+                category: "Regulatory",
+                color: "Red/White",
+                shape: "Circle"
+            },            {
+                code: "R302",
+                name: "Taxis Only",
+                description: "Taxis only allowed",
+                category: "Regulatory",
+                color: "Red/White",
+                shape: "Circle"
+            },            {
+                code: "R303",
+                name: "Goods Vehicles Only",
+                description: "Goods vehicles only allowed",
+                category: "Regulatory",
+                color: "Red/White",
+                shape: "Circle"
+            },            {
+                code: "R304",
+                name: "Motor Cars Only",
+                description: "Motor cars only allowed",
+                category: "Regulatory",
+                color: "Red/White",
+                shape: "Circle"
+            },            {
+                code: "R305",
+                name: "Motorcycles Only",
+                description: "Motorcycles only allowed",
+                category: "Regulatory",
+                color: "Red/White",
+                shape: "Circle"
+            },            {
+                code: "R306",
+                name: "Cyclists Only",
+                description: "Cyclists only allowed",
+                category: "Regulatory",
+                color: "Red/White",
+                shape: "Circle"
+            },            {
+                code: "R307",
+                name: "Pedestrians Only",
+                description: "Pedestrians only allowed",
+                category: "Regulatory",
+                color: "Red/White",
+                shape: "Circle"
+            },        ];
+        // App State
+        let currentSection = 'learn';
+        let testQuestions = [];
+        let currentTestIndex = 0;
+        let userAnswers = [];
+        let testScore = 0;
+        // Navigation
+        function showSection(sectionName) {
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.getElementById(sectionName).classList.add('active');
+            event.target.classList.add('active');
+            currentSection = sectionName;
+            if (sectionName === 'test') {
+                startNewTest();
+            }
+        }
+        // Learning Section Functions
+        function filterSigns(category) {
+            const signs = document.querySelectorAll('.sign-card');
+            signs.forEach(sign => {
+                if (category === 'all' || sign.dataset.category === category) {
+                    sign.style.display = 'block';
+                } else {
+                    sign.style.display = 'none';
+                }
+            });
+        }
+        function showSignDetail(element) {
+            const signCode = element.querySelector('.sign-code').textContent;
+            const signName = element.querySelector('.sign-name').textContent;
+            const signDescription = element.querySelector('.sign-description').textContent;
+            alert(`Road Sign Details:\n\nCode: ${signCode}\nName: ${signName}\nDescription: ${signDescription}`);
+        }
+        // Test Section Functions
+        function startNewTest() {
+            // Generate random test questions
+            testQuestions = generateTestQuestions(10);
+            currentTestIndex = 0;
+            userAnswers = [];
+            testScore = 0;
+            showQuestion();
+        }
+        function generateTestQuestions(count) {
+            const questions = [];
+            const usedIndices = new Set();
+            while (questions.length < count && questions.length < roadSigns.length) {
+                const randomIndex = Math.floor(Math.random() * roadSigns.length);
+                if (!usedIndices.has(randomIndex)) {
+                    usedIndices.add(randomIndex);
+                    const sign = roadSigns[randomIndex];
+                    // Generate wrong options
+                    const wrongOptions = [];
+                    const usedWrongIndices = new Set();
+                    while (wrongOptions.length < 3) {
+                        const wrongIndex = Math.floor(Math.random() * roadSigns.length);
+                        if (wrongIndex !== randomIndex && !usedWrongIndices.has(wrongIndex)) {
+                            usedWrongIndices.add(wrongIndex);
+                            wrongOptions.push(roadSigns[wrongIndex].description);
+                        }
+                    }
+                    // Shuffle options
+                    const options = [sign.description, ...wrongOptions].sort(() => Math.random() - 0.5);
+                    questions.push({
+                        sign: sign,
+                        options: options,
+                        correctAnswer: sign.description
+                    });
+                }
+            }
+            return questions;
+        }
+        function showQuestion() {
+            if (currentTestIndex >= testQuestions.length) {
+                endTest();
+                return;
+            }
+            const question = testQuestions[currentTestIndex];
+            const testImage = document.getElementById('testImage');
+            const testOptions = document.getElementById('testOptions');
+            const currentQuestion = document.getElementById('currentQuestion');
+            const totalQuestions = document.getElementById('totalQuestions');
+            // Update question info
+            currentQuestion.textContent = currentTestIndex + 1;
+            totalQuestions.textContent = testQuestions.length;
+            // Update sign display
+            testImage.innerHTML = `
+                <div style="text-align: center;">
+                    <div style="font-size: 16px; margin-bottom: 10px;">${question.sign.shape}</div>
+                    <div style="font-size: 12px; color: #666;">${question.sign.color}</div>
+                    <div style="font-size: 10px; margin-top: 10px; color: #999;">Code: ${question.sign.code}</div>
+                </div>
+            `;
+            // Update options
+            testOptions.innerHTML = '';
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'test-option';
+                optionElement.textContent = option;
+                optionElement.onclick = () => selectAnswer(option, question.correctAnswer);
+                testOptions.appendChild(optionElement);
+            });
+        }
+        function selectAnswer(selectedAnswer, correctAnswer) {
+            const options = document.querySelectorAll('.test-option');
+            options.forEach(option => {
+                option.onclick = null; // Disable further clicks
+                if (option.textContent === correctAnswer) {
+                    option.classList.add('correct');
+                } else if (option.textContent === selectedAnswer && selectedAnswer !== correctAnswer) {
+                    option.classList.add('incorrect');
+                }
+            });
+            userAnswers.push({
+                question: testQuestions[currentTestIndex],
+                userAnswer: selectedAnswer,
+                isCorrect: selectedAnswer === correctAnswer
+            });
+            if (selectedAnswer === correctAnswer) {
+                testScore++;
+            }
+            // Auto-advance after 2 seconds
+            setTimeout(() => {
+                currentTestIndex++;
+                showQuestion();
+            }, 2000);
+        }
+        function nextQuestion() {
+            currentTestIndex++;
+            showQuestion();
+        }
+        function endTest() {
+            showSection('results');
+            displayResults();
+        }
+        function displayResults() {
+            const finalScore = document.getElementById('finalScore');
+            const resultMessage = document.getElementById('resultMessage');
+            const resultsGrid = document.getElementById('resultsGrid');
+            const percentage = Math.round((testScore / testQuestions.length) * 100);
+            finalScore.textContent = `${percentage}%`;
+            // Result message
+            if (percentage >= 80) {
+                resultMessage.textContent = 'Excellent! You are ready for your K53 test!';
+                resultMessage.style.color = 'var(--success-green)';
+            } else if (percentage >= 60) {
+                resultMessage.textContent = 'Good effort! Keep practicing.';
+                resultMessage.style.color = 'var(--warning-yellow)';
+            } else {
+                resultMessage.textContent = 'Keep studying! You need more practice.';
+                resultMessage.style.color = 'var(--danger-red)';
+            }
+            // Detailed results
+            resultsGrid.innerHTML = '';
+            userAnswers.forEach((answer, index) => {
+                const resultItem = document.createElement('div');
+                resultItem.className = `result-item ${answer.isCorrect ? 'correct' : 'incorrect'}`;
+                resultItem.innerHTML = `
+                    <strong>Question ${index + 1}: ${answer.question.sign.name}</strong>
+                    <div style="margin-top: 10px;">
+                        <div>Your answer: ${answer.userAnswer}</div>
+                        <div>Correct answer: ${answer.question.correctAnswer}</div>
+                    </div>
+                `;
+                resultsGrid.appendChild(resultItem);
+            });
+        }
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            filterSigns('all');
+        });
+    </script>
+</body>
+</html>
