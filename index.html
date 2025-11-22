@@ -3,1620 +3,1147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nodinopro - SA Learner's Licence Master</title>
+    <title>NODINOPRO - SA Learner's Licence Mastery</title>
     <style>
+        :root {
+            --primary: #1a2a6c;
+            --secondary: #b21f1f;
+            --accent: #fdbb2d;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --info: #17a2b8;
+        }
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
+        
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            color: var(--light);
             min-height: 100vh;
             padding: 20px;
         }
-
+        
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            overflow: hidden;
-            min-height: 90vh;
         }
-
-        .header {
-            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
-            color: white;
-            padding: 25px;
-            text-align: center;
-            position: relative;
-        }
-
-        .logo-container {
+        
+        header {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 10px;
-        }
-
-        .logo-icon {
-            font-size: 2em;
-        }
-
-        .logo-text {
-            font-size: 2.2em;
-            font-weight: bold;
-            color: #ffd700;
-        }
-
-        .header h1 {
-            font-size: 2.2em;
-            margin-bottom: 8px;
-        }
-
-        .header p {
-            font-size: 1.1em;
-            opacity: 0.9;
-        }
-
-        .test-progress {
-            background: #ecf0f1;
-            height: 8px;
-            margin: 10px 0;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #27ae60, #2ecc71);
-            transition: width 0.3s ease;
-            width: 0%;
-        }
-
-        .screen {
-            padding: 30px;
-            min-height: 500px;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        .form-container {
-            max-width: 500px;
-            margin: 0 auto;
-            background: #f8f9fa;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #2c3e50;
-            font-weight: bold;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #bdc3c7;
-            border-radius: 8px;
-            font-size: 1.1em;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: #3498db;
-        }
-
-        .btn {
-            padding: 15px 30px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1.1em;
-            font-weight: bold;
-            transition: all 0.3s;
-            width: 100%;
-            margin: 10px 0;
-        }
-
-        .btn-primary {
-            background: #3498db;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #2980b9;
-            transform: translateY(-2px);
-        }
-
-        .btn-success {
-            background: #27ae60;
-            color: white;
-        }
-
-        .btn-success:hover {
-            background: #219652;
-        }
-
-        .btn-secondary {
-            background: #95a5a6;
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background: #7f8c8d;
-        }
-
-        .question-container {
-            text-align: center;
+            padding: 20px 0;
             margin-bottom: 30px;
         }
-
-        .question-number {
-            background: #3498db;
-            color: white;
-            padding: 8px 20px;
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--accent), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav li {
+            margin-left: 20px;
+        }
+        
+        nav a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        
+        nav a:hover, nav a.active {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .page {
+            display: none;
+            background: rgba(0, 0, 0, 0.7);
             border-radius: 20px;
-            display: inline-block;
-            margin-bottom: 15px;
-            font-weight: bold;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            margin-bottom: 30px;
         }
-
-        .question-text {
-            font-size: 1.4em;
-            margin-bottom: 25px;
-            color: #2c3e50;
-        }
-
-        .sign-image {
-            max-width: 200px;
-            max-height: 200px;
-            border: 3px solid #2c3e50;
-            border-radius: 10px;
-            margin: 0 auto 25px;
+        
+        .page.active {
             display: block;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
-
-        .options-grid {
+        
+        .welcome-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .welcome-section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+        
+        .welcome-section p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin: 30px 0;
+        }
+        
+        .feature {
+            flex: 0 0 30%;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--accent);
+        }
+        
+        .feature h3 {
+            margin-bottom: 10px;
+            color: var(--accent);
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(to right, var(--accent), var(--secondary));
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 600;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            margin: 10px;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .cta-button:active {
+            transform: translateY(1px);
+        }
+        
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .btn-accent {
+            background: var(--accent);
+            color: var(--dark);
+        }
+        
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        .road-signs-container {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .road-sign-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .road-sign-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .sign-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .sign-name {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--accent);
+        }
+        
+        .sign-description {
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        .category-filter {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .category-btn {
+            padding: 8px 15px;
+            margin: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 20px;
+            color: var(--light);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .category-btn.active {
+            background: var(--accent);
+            color: var(--dark);
+        }
+        
+        .assessment-container {
             max-width: 800px;
             margin: 0 auto;
         }
-
-        .option-btn {
-            padding: 20px;
-            border: 2px solid #bdc3c7;
+        
+        .question-card {
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
-            background: white;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .question-text {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        
+        .options-container {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .option {
+            padding: 15px;
+            margin: 5px 0;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
             cursor: pointer;
-            transition: all 0.3s;
-            font-size: 1.1em;
-            text-align: center;
+            transition: background 0.3s;
         }
-
-        .option-btn:hover {
-            border-color: #3498db;
-            background: #f8f9fa;
-            transform: translateY(-2px);
+        
+        .option:hover {
+            background: rgba(255, 255, 255, 0.1);
         }
-
-        .option-btn.selected {
-            border-color: #27ae60;
-            background: #d5f4e6;
-            color: #27ae60;
-            font-weight: bold;
+        
+        .option.selected {
+            background: rgba(253, 187, 45, 0.2);
+            border-left: 4px solid var(--accent);
         }
-
-        .nav-buttons {
+        
+        .option.correct {
+            background: rgba(40, 167, 69, 0.2);
+            border-left: 4px solid var(--success);
+        }
+        
+        .option.incorrect {
+            background: rgba(220, 53, 69, 0.2);
+            border-left: 4px solid var(--danger);
+        }
+        
+        .navigation-buttons {
             display: flex;
             justify-content: space-between;
             margin-top: 30px;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
         }
-
-        .nav-buttons .btn {
-            width: auto;
-            margin: 0 5px;
+        
+        .progress-bar {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
         }
-
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(to right, var(--accent), var(--secondary));
+            border-radius: 5px;
+            transition: width 0.5s;
+        }
+        
         .results-container {
             text-align: center;
-            padding: 40px;
+            padding: 30px;
         }
-
-        .score-circle {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #3498db, #2c3e50);
-            margin: 0 auto 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 3em;
-            font-weight: bold;
-            border: 8px solid #ecf0f1;
-        }
-
-        .score-text {
-            font-size: 1.4em;
-            margin-bottom: 20px;
-            color: #2c3e50;
-        }
-
-        .pass {
-            color: #27ae60;
-        }
-
-        .fail {
-            color: #e74c3c;
-        }
-
-        .feedback {
-            background: #ecf0f1;
-            padding: 20px;
-            border-radius: 10px;
+        
+        .score-display {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent);
             margin: 20px 0;
-            text-align: left;
         }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
+        
+        .result-message {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
         }
-
-        .dashboard-card {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            text-align: center;
-            cursor: pointer;
-            transition: transform 0.3s;
-            border: 2px solid transparent;
-        }
-
-        .dashboard-card:hover {
-            transform: translateY(-5px);
-            border-color: #3498db;
-        }
-
-        .card-icon {
-            font-size: 3em;
-            margin-bottom: 15px;
-        }
-
-        .card-title {
-            font-size: 1.3em;
-            margin-bottom: 10px;
-            color: #2c3e50;
-        }
-
-        .card-description {
-            color: #7f8c8d;
-            margin-bottom: 15px;
-        }
-
-        .payment-info {
-            background: #fff3cd;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-            border-left: 4px solid #ffc107;
-        }
-
-        .payment-info h3 {
-            color: #856404;
-            margin-bottom: 15px;
-        }
-
-        .payment-info p {
-            margin: 8px 0;
-            line-height: 1.6;
-        }
-
-        .footer {
-            background: #2c3e50;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .welcome-overlay {
+        
+        .sign-detail-modal {
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background: rgba(0, 0, 0, 0.8);
             z-index: 1000;
+            justify-content: center;
+            align-items: center;
         }
-
-        .welcome-content {
-            background: white;
-            padding: 40px;
+        
+        .modal-content {
+            background: var(--dark);
             border-radius: 15px;
+            padding: 30px;
             max-width: 500px;
-            text-align: center;
-        }
-
-        .user-menu {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-        }
-
-        .user-info {
-            background: rgba(255,255,255,0.2);
-            padding: 10px 20px;
-            border-radius: 20px;
-            color: white;
-            font-weight: bold;
-        }
-
-        .practice-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-            margin: 20px 0;
-        }
-
-        .practice-sign {
-            border: 2px solid #bdc3c7;
-            border-radius: 10px;
-            padding: 15px;
-            text-align: center;
-            background: white;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-        }
-
-        .sign-display-container {
+            width: 90%;
             position: relative;
-            margin: 0 auto 25px;
-            max-width: 200px;
         }
         
-        .sign-placeholder {
-            width: 200px;
-            height: 200px;
-            border: 3px dashed #bdc3c7;
-            border-radius: 10px;
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--light);
+        }
+        
+        .search-container {
+            margin: 20px 0;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
-            background: #f8f9fa;
-            text-align: center;
         }
         
-        .placeholder-icon {
-            font-size: 3em;
-            margin-bottom: 10px;
-            opacity: 0.7;
-        }
-        
-        .placeholder-text {
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 5px;
-        }
-        
-        .placeholder-subtext {
-            font-size: 0.9em;
-            color: #7f8c8d;
-        }
-        
-        .option-btn.correct {
-            border-color: #27ae60;
-            background: #d5f4e6;
-            color: #27ae60;
-        }
-        
-        .option-btn.incorrect {
-            border-color: #e74c3c;
-            background: #fadbd8;
-            color: #e74c3c;
-        }
-        
-        .question-feedback {
-            margin: 15px 0;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: bold;
-        }
-        
-        .feedback-correct {
-            background: #d5f4e6;
-            color: #27ae60;
-            border: 1px solid #27ae60;
-        }
-        
-        .feedback-incorrect {
-            background: #fadbd8;
-            color: #e74c3c;
-            border: 1px solid #e74c3c;
-        }
-
-        /* Road Signs Specific Styles */
-        .road-signs-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
-        }
-
-        .road-sign-card {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 20px;
-            border: 3px solid transparent;
-            transition: all 0.3s ease;
-        }
-
-        .road-sign-card.regulatory { border-color: #d90000; }
-        .road-sign-card.warning { border-color: #ff0000; }
-        .road-sign-card.command { border-color: #0054a6; }
-        .road-sign-card.information { border-color: #0072ce; }
-
-        .sign-code {
-            background: white;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 12px;
-            border: 2px solid #dee2e6;
-            display: inline-block;
-            margin-bottom: 10px;
-        }
-
-        .sign-category {
-            padding: 5px 12px;
-            border-radius: 20px;
-            color: white;
-            font-size: 12px;
-            font-weight: bold;
-            display: inline-block;
-            margin-left: 10px;
-        }
-
-        .sign-category.regulatory { background: #d90000; }
-        .sign-category.warning { background: #ff0000; }
-        .sign-category.command { background: #0054a6; }
-        .sign-category.information { background: #0072ce; }
-
-        .sign-image-container {
+        .search-input {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 50px;
             width: 100%;
-            height: 160px;
-            background: white;
-            border-radius: 10px;
-            margin: 15px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid #dee2e6;
-            overflow: hidden;
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            font-size: 1rem;
         }
-
-        .sign-image {
-            max-width: 90%;
-            max-height: 90%;
-            object-fit: contain;
+        
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
         }
-
-        .sign-name {
-            font-size: 18px;
-            font-weight: bold;
-            margin: 10px 0 5px 0;
-            color: #333;
+        
+        .footer {
             text-align: center;
+            margin-top: 40px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
         }
-
-        .sign-description {
-            font-size: 14px;
-            color: #666;
-            line-height: 1.4;
-            text-align: center;
+        
+        @media (max-width: 768px) {
+            .feature {
+                flex: 0 0 100%;
+            }
+            
+            .page {
+                padding: 20px;
+            }
+            
+            header {
+                flex-direction: column;
+            }
+            
+            nav ul {
+                margin-top: 15px;
+            }
+            
+            .road-signs-container {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Welcome Overlay -->
-        <div id="welcomeOverlay" class="welcome-overlay">
-            <div class="welcome-content">
-                <div class="logo-container">
-                    <div class="logo-icon">🚗</div>
-                    <div class="logo-text">NODINOPRO</div>
-                </div>
+        <header>
+            <div class="logo">NODINOPRO</div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="nav-link active" data-page="home">Home</a></li>
+                    <li><a href="#" class="nav-link" data-page="road-signs">Road Signs</a></li>
+                    <li><a href="#" class="nav-link" data-page="assessments">Assessments</a></li>
+                    <li><a href="#" class="nav-link" data-page="progress">My Progress</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <!-- Home Page -->
+        <div id="home" class="page active">
+            <div class="welcome-section">
                 <h2>Welcome to Your SA Learner's Licence Journey!</h2>
-                <p style="margin: 20px 0; line-height: 1.6;">
-                    Master your South African learner's licence with 500+ real road signs, professional assessments, and expert guidance.
-                </p>
-                <button class="btn btn-primary" onclick="startGuidedTour()">Start Your Journey</button>
+                <p>Master your South African learner's licence with 500+ real road signs, professional assessments, and expert guidance.</p>
             </div>
-        </div>
-
-        <!-- Header -->
-        <div class="header">
-            <div class="user-menu">
-                <div class="user-info hidden" id="userInfo">
-                    Welcome, <span id="userName">User</span>!
-                </div>
-            </div>
-            <div class="logo-container">
-                <div class="logo-icon">🚗</div>
-                <div class="logo-text">NODINOPRO</div>
-            </div>
-            <h1>SA Learner's Licence Master</h1>
-            <p>Professional Assessment Platform with 500+ Road Signs</p>
-            <div class="test-progress">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
-        </div>
-
-        <!-- Login Screen -->
-        <div id="loginScreen" class="screen">
-            <div class="form-container">
-                <h2 style="text-align: center; margin-bottom: 30px;">Welcome Back</h2>
-                <div class="form-group">
-                    <label>Cellphone Number</label>
-                    <input type="tel" id="loginPhone" placeholder="0829525118">
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="loginPassword" placeholder="Enter your password">
-                </div>
-                <button class="btn btn-primary" onclick="handleLogin()">Login</button>
-                <p style="text-align: center; margin-top: 15px;">
-                    Don't have an account? <a href="#" onclick="showRegister()" style="color: #3498db;">Register Now</a>
-                </p>
-                <p style="text-align: center; margin-top: 10px;">
-                    <a href="#" onclick="showForgotPassword()" style="color: #e74c3c;">Forgot Password?</a>
-                </p>
-            </div>
-        </div>
-
-        <!-- Register Screen -->
-        <div id="registerScreen" class="screen hidden">
-            <div class="form-container">
-                <h2 style="text-align: center; margin-bottom: 30px;">Create Your Account</h2>
-                <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" id="regName" placeholder="Enter your full name" value="Vusi Mahlangu">
-                </div>
-                <div class="form-group">
-                    <label>Cellphone Number</label>
-                    <input type="tel" id="regPhone" placeholder="0829525118" value="0829525118">
-                </div>
-                <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" id="regEmail" placeholder="your@email.com" value="nodinopro@gmail.com">
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="regPassword" placeholder="Create a password" value="test123">
-                </div>
-                <button class="btn btn-primary" onclick="showPayment()">Proceed to Payment & Get Verification Code</button>
-                <p style="text-align: center; margin-top: 15px;">
-                    Already have an account? <a href="#" onclick="showLogin()" style="color: #3498db;">Login</a>
-                </p>
-            </div>
-        </div>
-
-        <!-- Payment Screen -->
-        <div id="paymentScreen" class="screen hidden">
-            <div class="form-container">
-                <h2 style="text-align: center; margin-bottom: 30px;">Complete Your Registration</h2>
-                
-                <div class="payment-info">
-                    <h3>Registration Fee: R289.00</h3>
-                    <p><strong>Bank:</strong> FNB</p>
-                    <p><strong>Account Number:</strong> 63152615523</p>
-                    <p><strong>Reference:</strong> Use your cellphone number</p>
-                    <div id="dynamicPaymentInfo">
-                        <!-- Dynamic content will be added here -->
-                    </div>
-                    <p style="margin-top: 15px;"><strong>Important:</strong> After making payment, please send proof of payment to:</p>
-                    <p>📱 WhatsApp: 062 801 0124</p>
-                    <p>✉️ Email: nodinopro@gmail.com</p>
-                </div>
-
-                <div class="form-group">
-                    <label>Upload Proof of Payment</label>
-                    <input type="file" id="paymentProof" accept="image/*,.pdf">
-                </div>
-                <div class="form-group">
-                    <label>Verification Code</label>
-                    <input type="text" id="verificationCode" placeholder="Enter 6-digit code">
-                </div>
-                <button class="btn btn-success" onclick="completeRegistration()">Complete Registration</button>
-                <button class="btn btn-secondary" onclick="showRegister()">Back to Registration</button>
-            </div>
-        </div>
-
-        <!-- Forgot Password Screen -->
-        <div id="forgotPasswordScreen" class="screen hidden">
-            <div class="form-container">
-                <h2 style="text-align: center; margin-bottom: 30px;">Reset Your Password</h2>
-                <div class="form-group">
-                    <label>Cellphone Number</label>
-                    <input type="tel" id="resetPhone" placeholder="0829525118">
-                </div>
-                <button class="btn btn-primary" onclick="handlePasswordReset()">Send Reset Code</button>
-                <p style="text-align: center; margin-top: 15px;">
-                    Remember your password? <a href="#" onclick="showLogin()" style="color: #3498db;">Login</a>
-                </p>
-            </div>
-        </div>
-
-        <!-- Dashboard Screen -->
-        <div id="dashboardScreen" class="screen hidden">
-            <h2 style="text-align: center; margin-bottom: 10px;">Welcome to Your Learning Dashboard</h2>
-            <p style="text-align: center; color: #7f8c8d; margin-bottom: 30px;">
-                Access 500+ real South African road signs and professional assessments
-            </p>
             
-            <div class="dashboard-grid">
-                <div class="dashboard-card" onclick="startAssessment('roadSigns')">
-                    <div class="card-icon">🛑</div>
-                    <div class="card-title">Road Signs Test</div>
-                    <div class="card-description">Identify 500+ official SA road signs (25 questions per test)</div>
-                    <div class="btn btn-primary">Start Test</div>
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">🚦</div>
+                    <h3>500+ Road Signs</h3>
+                    <p>Comprehensive collection of South African road signs with detailed explanations.</p>
                 </div>
-                
-                <div class="dashboard-card" onclick="startAssessment('rules')">
-                    <div class="card-icon">📚</div>
-                    <div class="card-title">Rules of the Road</div>
-                    <div class="card-description">Test your knowledge of traffic rules</div>
-                    <div class="btn btn-primary">Start Test</div>
+                <div class="feature">
+                    <div class="feature-icon">📝</div>
+                    <h3>Professional Assessments</h3>
+                    <p>Practice tests designed to simulate the official learner's licence exam.</p>
                 </div>
-                
-                <div class="dashboard-card" onclick="startAssessment('vehicle')">
-                    <div class="card-icon">🚙</div>
-                    <div class="card-title">Vehicle Controls</div>
-                    <div class="card-description">Identify vehicle parts and functions</div>
-                    <div class="btn btn-primary">Start Test</div>
-                </div>
-                
-                <div class="dashboard-card" onclick="showPracticeMode()">
-                    <div class="card-icon">🎯</div>
-                    <div class="card-title">Practice All Signs</div>
-                    <div class="card-description">Study all 500+ road signs with explanations</div>
-                    <div class="btn btn-secondary">Practice</div>
-                </div>
-
-                <div class="dashboard-card" onclick="showProgress()">
-                    <div class="card-icon">📊</div>
-                    <div class="card-title">My Progress</div>
-                    <div class="card-description">View your test scores and improvement</div>
-                    <div class="btn btn-secondary">View Progress</div>
-                </div>
-
-                <div class="dashboard-card" onclick="showAffiliate()">
-                    <div class="card-icon">🎁</div>
-                    <div class="card-title">Refer & Earn</div>
-                    <div class="card-description">Earn R50 for each friend you refer</div>
-                    <div class="btn btn-secondary">Refer Friends</div>
+                <div class="feature">
+                    <div class="feature-icon">👨‍🏫</div>
+                    <h3>Expert Guidance</h3>
+                    <p>Tips and advice from certified driving instructors.</p>
                 </div>
             </div>
+            
+            <div class="btn-group">
+                <button class="cta-button" id="exploreSignsBtn">Explore Road Signs</button>
+                <button class="cta-button" id="takeTestBtn">Take Practice Test</button>
+            </div>
         </div>
-
-        <!-- Assessment Screen -->
-        <div id="assessmentScreen" class="screen hidden">
-            <div class="question-container">
-                <div class="question-number" id="questionNumber">Question 1 of 25</div>
-                <div class="question-text" id="questionText">What does this South African road sign mean?</div>
+        
+        <!-- Road Signs Page -->
+        <div id="road-signs" class="page">
+            <h2>South African Road Signs</h2>
+            <p>Browse through our comprehensive collection of road signs. Click on any sign to learn more.</p>
+            
+            <div class="search-container">
+                <input type="text" class="search-input" id="signSearch" placeholder="Search for road signs...">
+            </div>
+            
+            <div class="category-filter">
+                <button class="category-btn active" data-category="all">All Signs</button>
+                <button class="category-btn" data-category="regulatory">Regulatory</button>
+                <button class="category-btn" data-category="warning">Warning</button>
+                <button class="category-btn" data-category="guidance">Guidance</button>
+                <button class="category-btn" data-category="temporary">Temporary</button>
+            </div>
+            
+            <div class="road-signs-container" id="signsContainer">
+                <!-- Road signs will be dynamically loaded here -->
+            </div>
+        </div>
+        
+        <!-- Assessments Page -->
+        <div id="assessments" class="page">
+            <h2>Practice Assessments</h2>
+            <p>Test your knowledge with our practice assessments. Choose a test type to begin.</p>
+            
+            <div class="btn-group">
+                <button class="btn btn-primary" id="roadSignsTest">Road Signs Test</button>
+                <button class="btn btn-secondary" id="rulesTest">Rules of the Road</button>
+                <button class="btn btn-accent" id="fullTest">Full Practice Test</button>
+            </div>
+            
+            <div id="testContainer" style="display: none;">
+                <div class="progress-bar">
+                    <div class="progress" id="testProgress"></div>
+                </div>
                 
-                <div class="sign-display-container" id="signDisplayContainer">
-                    <img src="" alt="South African Road Sign" class="sign-image" id="signImage" 
-                         onerror="handleImageError(this)">
-                    <div class="sign-placeholder hidden" id="signPlaceholder">
-                        <div class="placeholder-icon">🛑</div>
-                        <div class="placeholder-text">South African Road Sign</div>
-                        <div class="placeholder-subtext">Visual identification required</div>
+                <div class="assessment-container">
+                    <div id="questionArea">
+                        <!-- Questions will be dynamically loaded here -->
+                    </div>
+                    
+                    <div class="navigation-buttons">
+                        <button class="btn btn-primary" id="prevQuestion">Previous</button>
+                        <button class="btn btn-primary" id="nextQuestion">Next</button>
+                        <button class="btn btn-accent" id="submitTest">Submit Test</button>
                     </div>
                 </div>
-                
-                <div class="options-grid" id="optionsContainer">
-                    <!-- Options will be generated here -->
+            </div>
+            
+            <div id="resultsArea" class="results-container" style="display: none;">
+                <!-- Results will be displayed here -->
+            </div>
+        </div>
+        
+        <!-- Progress Page -->
+        <div id="progress" class="page">
+            <h2>My Learning Progress</h2>
+            <p>Track your progress as you prepare for your learner's licence test.</p>
+            
+            <div class="progress-card" style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; margin: 20px 0;">
+                <h3>Road Signs Mastery</h3>
+                <div class="progress-bar">
+                    <div class="progress" style="width: 65%"></div>
                 </div>
-                
-                <div class="nav-buttons">
-                    <button class="btn btn-secondary" onclick="previousQuestion()">Previous</button>
-                    <button class="btn btn-primary" onclick="nextQuestion()" id="nextButton">Next Question</button>
-                    <button class="btn btn-success hidden" onclick="finishTest()" id="finishButton">Finish Test</button>
+                <p>65% of road signs mastered</p>
+            </div>
+            
+            <div class="progress-card" style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; margin: 20px 0;">
+                <h3>Assessment Performance</h3>
+                <div class="progress-bar">
+                    <div class="progress" style="width: 78%"></div>
+                </div>
+                <p>Average score: 78%</p>
+            </div>
+            
+            <div class="progress-card" style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; margin: 20px 0;">
+                <h3>Study Time</h3>
+                <p>Total time spent studying: 12 hours</p>
+                <p>Last study session: 2 days ago</p>
+            </div>
+            
+            <div class="btn-group">
+                <button class="btn btn-primary">Continue Learning</button>
+                <button class="btn btn-accent">Take Practice Test</button>
+            </div>
+        </div>
+        
+        <!-- Sign Detail Modal -->
+        <div class="sign-detail-modal" id="signModal">
+            <div class="modal-content">
+                <span class="close-modal" id="closeModal">&times;</span>
+                <div id="modalContent">
+                    <!-- Modal content will be dynamically loaded here -->
                 </div>
             </div>
         </div>
-
-        <!-- Results Screen -->
-        <div id="resultsScreen" class="screen hidden">
-            <div class="results-container">
-                <div class="score-circle" id="scoreCircle">0%</div>
-                <div class="score-text" id="scoreText">Your Score: <span id="scoreValue">0</span>/25</div>
-                <div id="passFail" class="score-text"></div>
-                
-                <div class="feedback">
-                    <h3>Test Summary</h3>
-                    <p>Correct Answers: <span id="correctCount">0</span></p>
-                    <p>Incorrect Answers: <span id="incorrectCount">0</span></p>
-                    <p>Passing Score: 22/25 (88%)</p>
-                    <p style="margin-top: 10px; font-weight: bold;" id="resultMessage"></p>
-                </div>
-                
-                <div class="nav-buttons">
-                    <button class="btn btn-secondary" onclick="showDashboard()">Back to Dashboard</button>
-                    <button class="btn btn-primary" onclick="reviewTest()">Review Answers</button>
-                    <button class="btn btn-success" onclick="retakeTest()">Retake Test</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Practice Screen -->
-        <div id="practiceScreen" class="screen hidden">
-            <div class="question-container">
-                <h2>Road Signs Practice Mode</h2>
-                <p style="margin: 20px 0; color: #7f8c8d;">Study all 500+ South African road signs with detailed explanations</p>
-                
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <button class="btn" onclick="filterSigns('all')" style="background: #3498db; color: white; margin: 5px;">All Signs</button>
-                    <button class="btn" onclick="filterSigns('Regulatory')" style="background: #d90000; color: white; margin: 5px;">Regulatory</button>
-                    <button class="btn" onclick="filterSigns('Warning')" style="background: #ff0000; color: white; margin: 5px;">Warning</button>
-                    <button class="btn" onclick="filterSigns('Command')" style="background: #0054a6; color: white; margin: 5px;">Command</button>
-                    <button class="btn" onclick="filterSigns('Information')" style="background: #0072ce; color: white; margin: 5px;">Information</button>
-                </div>
-                
-                <div id="practiceContent">
-                    <!-- Practice content will be loaded here -->
-                </div>
-                
-                <div class="nav-buttons">
-                    <button class="btn btn-secondary" onclick="showDashboard()">Back to Dashboard</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Progress Screen -->
-        <div id="progressScreen" class="screen hidden">
-            <div class="question-container">
-                <h2>My Learning Progress</h2>
-                <div id="progressContent">
-                    <div style="text-align: center; padding: 40px;">
-                        <p>Progress tracking will be available after you complete your first test!</p>
-                    </div>
-                </div>
-                <div class="nav-buttons">
-                    <button class="btn btn-secondary" onclick="showDashboard()">Back to Dashboard</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Affiliate Screen -->
-        <div id="affiliateScreen" class="screen hidden">
-            <div class="form-container">
-                <h2 style="text-align: center; margin-bottom: 30px;">Refer Friends & Earn</h2>
-                <div class="payment-info">
-                    <h4>🎁 Earn R50 for Each Referral!</h4>
-                    <p>Your unique referral code:</p>
-                    <p style="font-size: 1.5em; font-weight: bold; color: #3498db; margin: 10px 0;" id="referralCode">NODI12345</p>
-                    <button class="btn btn-success" onclick="copyReferralCode()">Copy Referral Code</button>
-                </div>
-                <div class="nav-buttons">
-                    <button class="btn btn-secondary" onclick="showDashboard()">Back to Dashboard</button>
-                </div>
-            </div>
-        </div>
-
+        
         <div class="footer">
-            <p>&copy; 2024 Nodinopro. Official SA Learner's Licence Preparation</p>
-            <p style="font-size: 0.9em; margin-top: 5px; opacity: 0.8;">Featuring 500+ authentic South African road signs</p>
+            <p>© 2023 NODINOPRO. All rights reserved. This application is for educational purposes.</p>
         </div>
     </div>
 
     <script>
-// ==================== COMPLETE ROAD SIGNS DATABASE ====================
-const roadSignsDatabase = [
-    // Regulatory Signs (R1-R200 series)
-    {code: "R1", name: "Stop", description: "Stop and yield right of way to vehicles approaching from any direction", category: "Regulatory", imageUrl: "https://www.arrivealive.co.za/images/traffic_signs/R1.gif"},
-    {code: "R2", name: "Yield", description: "Yield right of way to vehicles on the major road", category: "Regulatory", imageUrl: "https://www.arrivealive.co.za/images/traffic_signs/R2.gif"},
-    {code: "R3", name: "No Entry", description: "No entry for all vehicles", category: "Regulatory", imageUrl: "https://www.arrivealive.co.za/images/traffic_signs/R3.gif"},
-    {code: "R4", name: "No Left Turn", description: "No left turn permitted", category: "Regulatory", imageUrl: "https://www.arrivealive.co.za/images/traffic_signs/R4.gif"},
-    {code: "R5", name: "No Right Turn", description: "No right turn permitted", category: "Regulatory", imageUrl: "https://www.arrivealive.co.za/images/traffic_signs/R5.gif"},
-    {code: "R6", name: "No U-Turn", description: "No U-turn permitted", category: "Regulatory", imageUrl: "https://www.arrivealive.co.za/images/traffic_signs/R6.gif"},
-    {code: "R7", name: "No Overtaking", description: "No overtaking allowed", category: "Regulatory", imageUrl: "https://www.arrivealive.co.za/images/traffic_signs/R7.gif"},
-    
-    // Speed Limit Signs
-    {code: "R8", name: "Speed Limit 60", description: "Maximum speed limit 60 km/h", category: "Regulatory", imageUrl: "https://www.arrivealive.co.za/images/traffic_signs/R8-1.gif"},
-    {code: "R9", name: "Speed Limit 80", description: "Maximum speed limit 80 km/h", category: "Regulatory", imageUrl: "https://www.arrivealive.co.za/images/traffic_signs/R8-2.gif"},
-    {code: "R10", name: "Speed Limit 100", description: "Maximum speed limit 100 km/h", category: "Regulatory", imageUrl: "https://www.arrivealive.co.za/images/traffic_signs/R8-3.gif"},
-    {code: "R11", name: "Speed Limit 120", description: "Maximum speed limit 120 km/h", category: "Regulatory", imageUrl: "https://www.arrivealive.co.za/images/traffic_signs/R8-4.gif"},
-    
-    // Warning Signs (W series)
-    {code: "W1", name: "Dangerous Curve Right", description: "Warning for a dangerous curve to the right ahead", category: "Warning", imageUrl: "https://www.arrivealive.co.za/images/traffic_signs/W1-1.gif"},
-    {code: "W2", name: "Dangerous Curve Left", description: "Warning for a dangerous curve to the left ahead", category: "Warning", imageUrl: "https://www.arrivealive.co.za/images/traffic_signs/W1-2.gif"},
-    {code: "W3", name: "Winding Road", description: "Warning for a winding road ahead", category: "Warning", imageUrl: "https://www.arrivealive.co.za/images/traffic_signs/W1-3.gif"},
-    {code: "W4", name: "Crossroads", description: "Warning for crossroads ahead", category: "Warning", imageUrl: "https://www.arrivealive.co.za/images/traffic_signs/W2-1.gif"},
-    {code: "W5", name: "T-Junction", description: "Warning for T-junction ahead", category: "Warning", imageUrl: "https://www.arrivealive.co.za/images/traffic_signs/W2-2.gif"},
-    {code: "W6", name: "Y-Junction", description: "Warning for Y-junction ahead", category: "Warning", imageUrl: "https://www.arrivealive.co.za/images/traffic_signs/W2-3.gif"},
-    {code: "W7", name: "Staggered Intersection", description: "Warning for staggered intersection ahead", category: "Warning", imageUrl: "https://www.arrivealive.co.za/images/traffic_signs/W2-4.gif"},
-    {code: "W8", name: "Roundabout", description: "Warning for roundabout ahead", category: "Warning", imageUrl: "https://www.arrivealive.co.za/images/traffic_signs/W2-5.gif"},
-    
-    // Command Signs (C series)
-    {code: "C1", name: "Turn Left", description: "Command to turn left ahead", category: "Command", imageUrl: "https://www.arrivealive.co.za/images/traffic_signs/C1.gif"},
-    {code: "C2", name: "Turn Right", description: "Command to turn right ahead", category: "Command", imageUrl: "https://www.arrivealive.co.za/images/traffic_signs/C2.gif"},
-    {code: "C3", name: "Proceed Straight", description: "Command to proceed straight ahead", category: "Command", imageUrl: "https://www.arrivealive.co.za/images/traffic_signs/C3.gif"},
-    {code: "C4", name: "Turn Left or Straight", description: "Command to turn left or proceed straight", category: "Command", imageUrl: "https://www.arrivealive.co.za/images/traffic_signs/C4.gif"},
-    {code: "C5", name: "Turn Right or Straight", description: "Command to turn right or proceed straight", category: "Command", imageUrl: "https://www.arrivealive.co.za/images/traffic_signs/C5.gif"},
-    {code: "C6", name: "Keep Left", description: "Command to keep left", category: "Command", imageUrl: "https://www.arrivealive.co.za/images/traffic_signs/C6.gif"},
-    {code: "C7", name: "Keep Right", description: "Command to keep right", category: "Command", imageUrl: "https://www.arrivealive.co.za/images/traffic_signs/C7.gif"},
-    
-    // Information Signs (I series)
-    {code: "I1", name: "Parking", description: "Information for parking area", category: "Information", imageUrl: "https://www.arrivealive.co.za/images/traffic_signs/I1.gif"},
-    {code: "I2", name: "Hospital", description: "Information for hospital ahead", category: "Information", imageUrl: "https://www.arrivealive.co.za/images/traffic_signs/I2.gif"},
-    {code: "I3", name: "Telephone", description: "Information for telephone facility", category: "Information", imageUrl: "https://www.arrivealive.co.za/images/traffic_signs/I3.gif"},
-    {code: "I4", name: "Fuel Station", description: "Information for fuel station ahead", category: "Information", imageUrl: "https://www.arrivealive.co.za/images/traffic_signs/I4.gif"},
-    {code: "I5", name: "Restaurant", description: "Information for restaurant ahead", category: "Information", imageUrl: "https://www.arrivealive.co.za/images/traffic_signs/I5.gif"}
-];
+        // Sample data for road signs (in a real app, this would come from a database)
+        const roadSigns = [
+            {
+                id: 1,
+                name: "Stop Sign",
+                category: "regulatory",
+                icon: "🛑",
+                description: "Come to a complete stop. Yield to all other traffic and pedestrians.",
+                meaning: "You must bring your vehicle to a complete halt at the stop line. If there is no stop line, stop before entering the intersection. You may proceed only when it is safe to do so.",
+                example: "At a four-way stop, the first vehicle to arrive has the right of way. If two vehicles arrive at the same time, the vehicle on the right has the right of way."
+            },
+            {
+                id: 2,
+                name: "Yield Sign",
+                category: "regulatory",
+                icon: "⚠️",
+                description: "Slow down and give way to traffic on the major road.",
+                meaning: "You must slow down and be prepared to stop if necessary. Yield to all traffic on the road you are entering or crossing.",
+                example: "When approaching a yield sign at a roundabout, you must yield to traffic already in the roundabout."
+            },
+            {
+                id: 3,
+                name: "Speed Limit 60",
+                category: "regulatory",
+                icon: "60",
+                description: "Maximum speed limit is 60 km/h.",
+                meaning: "You must not drive faster than the indicated speed under ideal conditions.",
+                example: "This sign is commonly found in urban areas where lower speeds are necessary for safety."
+            },
+            {
+                id: 4,
+                name: "No Entry",
+                category: "regulatory",
+                icon: "🚫",
+                description: "Do not enter this road.",
+                meaning: "You are not allowed to enter the road beyond this sign.",
+                example: "This sign is often placed at the exit of one-way streets to prevent wrong-way entry."
+            },
+            {
+                id: 5,
+                name: "No Parking",
+                category: "regulatory",
+                icon: "🅿️",
+                description: "Parking is prohibited.",
+                meaning: "You may not park your vehicle in this area.",
+                example: "This sign is used in areas where parking would obstruct traffic flow or create safety hazards."
+            },
+            {
+                id: 6,
+                name: "Dangerous Curves Ahead",
+                category: "warning",
+                icon: "↩️",
+                description: "Warning for dangerous curves ahead.",
+                meaning: "There are sharp curves ahead. Reduce your speed and be prepared for the change in road direction.",
+                example: "Common on mountain roads or highways with sharp bends."
+            },
+            {
+                id: 7,
+                name: "Pedestrian Crossing",
+                category: "warning",
+                icon: "🚶",
+                description: "Watch for pedestrians crossing the road.",
+                meaning: "There is a pedestrian crossing ahead. Be prepared to stop for pedestrians.",
+                example: "Often found near schools, shopping areas, or other places with high pedestrian traffic."
+            },
+            {
+                id: 8,
+                name: "School Zone",
+                category: "warning",
+                icon: "🏫",
+                description: "You are approaching a school zone.",
+                meaning: "Reduce speed and watch for children. Special speed limits often apply during school hours.",
+                example: "Speed limits in school zones are typically lower and enforced during specific times."
+            },
+            {
+                id: 9,
+                name: "Road Works Ahead",
+                category: "temporary",
+                icon: "🚧",
+                description: "Road construction or maintenance ahead.",
+                meaning: "Be prepared for changes in road conditions, possible lane closures, and workers on the road.",
+                example: "Reduce speed and follow instructions from traffic controllers or signs in work zones."
+            },
+            {
+                id: 10,
+                name: "Slippery Road",
+                category: "warning",
+                icon: "🌧️",
+                description: "Road may be slippery, especially when wet.",
+                meaning: "Reduce speed and increase following distance. The road surface may provide less traction.",
+                example: "Common in areas prone to ice, oil spills, or when road surfaces are new."
+            },
+            {
+                id: 11,
+                name: "Wild Animals",
+                category: "warning",
+                icon: "🐘",
+                description: "Warning for wild animals crossing.",
+                meaning: "Be alert for animals crossing the road, especially at dawn and dusk.",
+                example: "Common in game reserves and rural areas with high animal populations."
+            },
+            {
+                id: 12,
+                name: "Roundabout Ahead",
+                category: "warning",
+                icon: "⭕",
+                description: "Roundabout ahead.",
+                meaning: "Prepare to enter a roundabout. Yield to traffic already in the roundabout.",
+                example: "In South Africa, you yield to traffic from your right when entering a roundabout."
+            }
+        ];
 
-// Generate additional signs to reach 500+
-for (let i = 12; i <= 200; i++) {
-    roadSignsDatabase.push({
-        code: `R${i}`,
-        name: `Regulatory Sign ${i}`,
-        description: `Regulatory road sign description ${i}`,
-        category: "Regulatory",
-        imageUrl: `https://www.arrivealive.co.za/images/traffic_signs/R${Math.min(i, 11)}.gif`
-    });
-}
+        // Sample assessment questions
+        const assessmentQuestions = {
+            roadSigns: [
+                {
+                    id: 1,
+                    question: "What does this sign mean? 🛑",
+                    options: [
+                        "Slow down and proceed with caution",
+                        "Come to a complete stop",
+                        "Yield to traffic on the right",
+                        "No stopping allowed"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "This is a stop sign. You must come to a complete stop and yield to all other traffic and pedestrians."
+                },
+                {
+                    id: 2,
+                    question: "When you see this sign ⚠️, you should:",
+                    options: [
+                        "Maintain your speed",
+                        "Speed up to merge quickly",
+                        "Slow down and be prepared to yield",
+                        "Come to a complete stop"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "This is a yield sign. You must slow down and be prepared to stop if necessary to yield to traffic."
+                },
+                {
+                    id: 3,
+                    question: "What is the meaning of this sign? 🚫",
+                    options: [
+                        "No stopping",
+                        "No entry",
+                        "No overtaking",
+                        "No U-turns"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "This is a no entry sign. You are not allowed to enter the road beyond this point."
+                },
+                {
+                    id: 4,
+                    question: "This sign 🚧 indicates:",
+                    options: [
+                        "Road narrows ahead",
+                        "Road works ahead",
+                        "Slippery road",
+                        "Dangerous curves"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "This sign warns of road construction or maintenance ahead. Be prepared for changes in road conditions."
+                },
+                {
+                    id: 5,
+                    question: "When you see this sign 🚶, you should:",
+                    options: [
+                        "Speed up to clear the area quickly",
+                        "Slow down and watch for pedestrians",
+                        "Sound your horn to alert pedestrians",
+                        "Ignore it if no pedestrians are visible"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "This sign indicates a pedestrian crossing ahead. Be prepared to stop for pedestrians."
+                }
+            ],
+            rules: [
+                {
+                    id: 1,
+                    question: "What is the legal blood alcohol concentration (BAC) limit for drivers in South Africa?",
+                    options: [
+                        "0.05%",
+                        "0.08%",
+                        "0.10%",
+                        "0.02%"
+                    ],
+                    correctAnswer: 0,
+                    explanation: "The legal BAC limit for drivers in South Africa is 0.05%."
+                },
+                {
+                    id: 2,
+                    question: "When approaching a traffic light that changes to yellow, you should:",
+                    options: [
+                        "Speed up to get through the intersection",
+                        "Stop if it is safe to do so",
+                        "Continue at the same speed",
+                        "Sound your horn and proceed"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "A yellow light means prepare to stop. You should stop if it is safe to do so."
+                },
+                {
+                    id: 3,
+                    question: "What is the minimum following distance you should maintain behind another vehicle?",
+                    options: [
+                        "1 second",
+                        "2 seconds",
+                        "3 seconds",
+                        "4 seconds"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "The recommended minimum following distance is 3 seconds in good conditions, increasing in poor conditions."
+                }
+            ]
+        };
 
-for (let i = 9; i <= 150; i++) {
-    roadSignsDatabase.push({
-        code: `W${i}`,
-        name: `Warning Sign ${i}`,
-        description: `Warning road sign description ${i}`,
-        category: "Warning",
-        imageUrl: `https://www.arrivealive.co.za/images/traffic_signs/W${Math.min(i, 8)}.gif`
-    });
-}
+        // Application state
+        let currentPage = 'home';
+        let currentCategory = 'all';
+        let currentTest = null;
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let testScore = 0;
 
-for (let i = 8; i <= 100; i++) {
-    roadSignsDatabase.push({
-        code: `C${i}`,
-        name: `Command Sign ${i}`,
-        description: `Command road sign description ${i}`,
-        category: "Command",
-        imageUrl: `https://www.arrivealive.co.za/images/traffic_signs/C${Math.min(i, 7)}.gif`
-    });
-}
+        // DOM Elements
+        const pages = document.querySelectorAll('.page');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const categoryButtons = document.querySelectorAll('.category-btn');
+        const signsContainer = document.getElementById('signsContainer');
+        const signSearch = document.getElementById('signSearch');
+        const signModal = document.getElementById('signModal');
+        const closeModal = document.getElementById('closeModal');
+        const modalContent = document.getElementById('modalContent');
+        const exploreSignsBtn = document.getElementById('exploreSignsBtn');
+        const takeTestBtn = document.getElementById('takeTestBtn');
+        const roadSignsTestBtn = document.getElementById('roadSignsTest');
+        const rulesTestBtn = document.getElementById('rulesTest');
+        const fullTestBtn = document.getElementById('fullTest');
+        const testContainer = document.getElementById('testContainer');
+        const questionArea = document.getElementById('questionArea');
+        const prevQuestionBtn = document.getElementById('prevQuestion');
+        const nextQuestionBtn = document.getElementById('nextQuestion');
+        const submitTestBtn = document.getElementById('submitTest');
+        const testProgress = document.getElementById('testProgress');
+        const resultsArea = document.getElementById('resultsArea');
 
-for (let i = 6; i <= 50; i++) {
-    roadSignsDatabase.push({
-        code: `I${i}`,
-        name: `Information Sign ${i}`,
-        description: `Information road sign description ${i}`,
-        category: "Information",
-        imageUrl: `https://www.arrivealive.co.za/images/traffic_signs/I${Math.min(i, 5)}.gif`
-    });
-}
-
-console.log(`✅ Nodinopro: Successfully loaded ${roadSignsDatabase.length} South African road signs!`);
-
-// ==================== PAYMENT VERIFICATION SYSTEM ====================
-const PAYMENT_CONFIG = {
-    adminPhone: '0628010124',
-    adminEmail: 'nodinopro@gmail.com',
-    fee: 289,
-    bankAccount: '63152615523',
-    bankName: 'FNB'
-};
-
-class PaymentProcessor {
-    constructor() {
-        this.verificationCodes = new Map();
-    }
-
-    generateVerificationCode(phone) {
-        const code = Math.floor(100000 + Math.random() * 900000).toString();
-        const expiry = Date.now() + (24 * 60 * 60 * 1000);
-        this.verificationCodes.set(phone, { code, expiry, verified: false });
-        console.log(`✅ Generated verification code ${code} for ${phone}`);
-        return code;
-    }
-
-    validateVerificationCode(phone, enteredCode) {
-        const stored = this.verificationCodes.get(phone);
-        if (!stored) {
-            console.log(`❌ No verification code found for ${phone}`);
-            return false;
-        }
-        if (Date.now() > stored.expiry) {
-            this.verificationCodes.delete(phone);
-            console.log(`❌ Verification code expired for ${phone}`);
-            return false;
-        }
-        if (stored.code === enteredCode) {
-            stored.verified = true;
-            console.log(`✅ Verification code validated for ${phone}`);
-            return true;
-        }
-        console.log(`❌ Invalid verification code for ${phone}`);
-        return false;
-    }
-
-    async sendPaymentNotification(userData, verificationCode) {
-        const message = `
-🎉 NEW PAYMENT RECEIVED - NODINOPRO
-
-👤 Customer Details:
-• Name: ${userData.name}
-• Phone: ${userData.phone}
-• Email: ${userData.email}
-
-💰 Payment Information:
-• Amount: R${PAYMENT_CONFIG.fee}
-• Reference: ${userData.phone}
-• Verification Code: ${verificationCode}
-
-⏰ Generated: ${new Date().toLocaleString()}
-
-✅ Please verify payment and activate account.
-        `.trim();
-
-        console.log("📤 Sending payment notification...");
-
-        const whatsappUrl = `https://wa.me/${PAYMENT_CONFIG.adminPhone}?text=${encodeURIComponent(message)}`;
-        const emailUrl = `mailto:${PAYMENT_CONFIG.adminEmail}?subject=New Payment - Nodinopro&body=${encodeURIComponent(message)}`;
-
-        try {
-            window.open(whatsappUrl, '_blank');
-            setTimeout(() => {
-                window.open(emailUrl, '_blank');
-            }, 1000);
+        // Initialize the application
+        function init() {
+            // Load road signs
+            renderRoadSigns(roadSigns);
             
-            console.log("✅ Payment notifications sent successfully");
-            return true;
-        } catch (error) {
-            console.error("❌ Error sending notifications:", error);
-            return false;
+            // Set up event listeners
+            setupEventListeners();
         }
-    }
 
-    async processPaymentProof(file) {
-        return new Promise((resolve, reject) {
-            if (!file) {
-                reject('Please select proof of payment file');
-                return;
-            }
-
-            const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf'];
-            if (!validTypes.includes(file.type)) {
-                reject('Please upload JPEG, PNG, or PDF files only');
-                return;
-            }
-
-            if (file.size > 5 * 1024 * 1024) {
-                reject('File size must be less than 5MB');
-                return;
-            }
-
-            setTimeout(() => {
-                resolve({
-                    success: true,
-                    filename: file.name,
-                    message: 'Proof of payment uploaded successfully'
+        // Set up all event listeners
+        function setupEventListeners() {
+            // Navigation
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const page = link.getAttribute('data-page');
+                    navigateToPage(page);
                 });
-            }, 2000);
-        });
-    }
-}
+            });
 
-const paymentProcessor = new PaymentProcessor();
+            // Category filters
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    currentCategory = button.getAttribute('data-category');
+                    filterRoadSigns();
+                });
+            });
 
-// ==================== ASSESSMENT GENERATION ====================
-function generateAssessmentQuestions() {
-    const questions = [];
-    const usedSigns = new Set();
-    
-    for (let i = 0; i < 25; i++) {
-        let randomSign;
-        
-        do {
-            randomSign = roadSignsDatabase[Math.floor(Math.random() * roadSignsDatabase.length)];
-        } while (usedSigns.has(randomSign.code) && usedSigns.size < roadSignsDatabase.length);
-        
-        usedSigns.add(randomSign.code);
-        
-        const wrongAnswers = [];
-        const sameTypeSigns = roadSignsDatabase.filter(s => 
-            s.category === randomSign.category && s.code !== randomSign.code
-        );
-        
-        for (let j = 0; j < 3; j++) {
-            if (sameTypeSigns.length > 0) {
-                const wrongSign = sameTypeSigns[Math.floor(Math.random() * sameTypeSigns.length)];
-                wrongAnswers.push(wrongSign.description);
-            }
+            // Search functionality
+            signSearch.addEventListener('input', filterRoadSigns);
+
+            // Modal
+            closeModal.addEventListener('click', () => {
+                signModal.style.display = 'none';
+            });
+
+            // Home page buttons
+            exploreSignsBtn.addEventListener('click', () => {
+                navigateToPage('road-signs');
+            });
+
+            takeTestBtn.addEventListener('click', () => {
+                navigateToPage('assessments');
+            });
+
+            // Assessment buttons
+            roadSignsTestBtn.addEventListener('click', () => {
+                startTest('roadSigns');
+            });
+
+            rulesTestBtn.addEventListener('click', () => {
+                startTest('rules');
+            });
+
+            fullTestBtn.addEventListener('click', () => {
+                startTest('full');
+            });
+
+            // Test navigation
+            prevQuestionBtn.addEventListener('click', showPreviousQuestion);
+            nextQuestionBtn.addEventListener('click', showNextQuestion);
+            submitTestBtn.addEventListener('click', submitTest);
         }
-        
-        while (wrongAnswers.length < 3) {
-            const otherSigns = roadSignsDatabase.filter(s => 
-                s.code !== randomSign.code && !wrongAnswers.includes(s.description)
-            );
-            if (otherSigns.length > 0) {
-                const wrongSign = otherSigns[Math.floor(Math.random() * otherSigns.length)];
-                wrongAnswers.push(wrongSign.description);
+
+        // Navigate to a specific page
+        function navigateToPage(page) {
+            // Update navigation
+            navLinks.forEach(link => {
+                if (link.getAttribute('data-page') === page) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+
+            // Show the selected page
+            pages.forEach(p => {
+                if (p.id === page) {
+                    p.classList.add('active');
+                } else {
+                    p.classList.remove('active');
+                }
+            });
+
+            currentPage = page;
+        }
+
+        // Render road signs to the page
+        function renderRoadSigns(signs) {
+            signsContainer.innerHTML = '';
+            
+            signs.forEach(sign => {
+                const signCard = document.createElement('div');
+                signCard.className = 'road-sign-card';
+                signCard.setAttribute('data-category', sign.category);
+                signCard.innerHTML = `
+                    <div class="sign-icon">${sign.icon}</div>
+                    <div class="sign-name">${sign.name}</div>
+                    <div class="sign-description">${sign.description}</div>
+                `;
+                
+                signCard.addEventListener('click', () => {
+                    showSignDetails(sign);
+                });
+                
+                signsContainer.appendChild(signCard);
+            });
+        }
+
+        // Filter road signs based on category and search term
+        function filterRoadSigns() {
+            const searchTerm = signSearch.value.toLowerCase();
+            const signCards = document.querySelectorAll('.road-sign-card');
+            
+            signCards.forEach(card => {
+                const category = card.getAttribute('data-category');
+                const name = card.querySelector('.sign-name').textContent.toLowerCase();
+                const description = card.querySelector('.sign-description').textContent.toLowerCase();
+                
+                const categoryMatch = currentCategory === 'all' || category === currentCategory;
+                const searchMatch = name.includes(searchTerm) || description.includes(searchTerm);
+                
+                if (categoryMatch && searchMatch) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Show detailed information about a road sign
+        function showSignDetails(sign) {
+            modalContent.innerHTML = `
+                <div class="sign-icon" style="font-size: 4rem; text-align: center;">${sign.icon}</div>
+                <h2 style="text-align: center; margin: 15px 0; color: var(--accent);">${sign.name}</h2>
+                <p><strong>Category:</strong> ${sign.category.charAt(0).toUpperCase() + sign.category.slice(1)}</p>
+                <p><strong>Description:</strong> ${sign.description}</p>
+                <p><strong>Meaning:</strong> ${sign.meaning}</p>
+                <p><strong>Example:</strong> ${sign.example}</p>
+            `;
+            
+            signModal.style.display = 'flex';
+        }
+
+        // Start a test
+        function startTest(testType) {
+            currentTest = testType;
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            testScore = 0;
+            
+            // Hide test selection buttons and show test container
+            document.querySelector('.btn-group').style.display = 'none';
+            testContainer.style.display = 'block';
+            resultsArea.style.display = 'none';
+            
+            // Load the first question
+            loadQuestion();
+        }
+
+        // Load the current question
+        function loadQuestion() {
+            const questions = getCurrentTestQuestions();
+            
+            if (currentQuestionIndex >= questions.length) {
+                submitTest();
+                return;
+            }
+            
+            const question = questions[currentQuestionIndex];
+            
+            // Update progress bar
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            testProgress.style.width = `${progress}%`;
+            
+            // Create question HTML
+            questionArea.innerHTML = `
+                <div class="question-card">
+                    <div class="question-text">${currentQuestionIndex + 1}. ${question.question}</div>
+                    <div class="options-container">
+                        ${question.options.map((option, index) => `
+                            <div class="option ${userAnswers[currentQuestionIndex] === index ? 'selected' : ''}" data-index="${index}">
+                                ${option}
+                            </div>
+                        `).join('')}
+                    </div>
+                    ${userAnswers[currentQuestionIndex] !== undefined ? 
+                        `<div class="explanation" style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 5px;">
+                            <strong>Explanation:</strong> ${question.explanation}
+                        </div>` : ''
+                    }
+                </div>
+            `;
+            
+            // Add event listeners to options
+            const options = questionArea.querySelectorAll('.option');
+            options.forEach(option => {
+                option.addEventListener('click', () => {
+                    // Remove selected class from all options
+                    options.forEach(opt => opt.classList.remove('selected'));
+                    
+                    // Add selected class to clicked option
+                    option.classList.add('selected');
+                    
+                    // Store the answer
+                    userAnswers[currentQuestionIndex] = parseInt(option.getAttribute('data-index'));
+                });
+            });
+            
+            // Update navigation buttons
+            prevQuestionBtn.disabled = currentQuestionIndex === 0;
+            nextQuestionBtn.textContent = currentQuestionIndex === questions.length - 1 ? 'Finish' : 'Next';
+        }
+
+        // Get questions for the current test
+        function getCurrentTestQuestions() {
+            if (currentTest === 'roadSigns') {
+                return assessmentQuestions.roadSigns;
+            } else if (currentTest === 'rules') {
+                return assessmentQuestions.rules;
             } else {
-                break;
+                // For full test, combine questions from both categories
+                return [...assessmentQuestions.roadSigns, ...assessmentQuestions.rules];
             }
         }
-        
-        const allOptions = [
-            randomSign.description,
-            ...wrongAnswers
-        ].sort(() => Math.random() - 0.5);
-        
-        const correctIndex = allOptions.indexOf(randomSign.description);
-        
-        questions.push({
-            question: "What does this South African road sign mean?",
-            image: randomSign.imageUrl,
-            options: allOptions,
-            correct: correctIndex,
-            explanation: randomSign.description,
-            signCode: randomSign.code,
-            signName: randomSign.name,
-            category: randomSign.category
-        });
-    }
-    
-    return questions;
-}
 
-// ==================== ASSESSMENTS CONFIGURATION ====================
-const assessments = {
-    roadSigns: {
-        title: "SA Road Signs Master Test",
-        questions: generateAssessmentQuestions()
-    },
-    rules: {
-        title: "Rules of the Road",
-        questions: [
-            {
-                question: "What is the speed limit in urban areas unless otherwise indicated?",
-                image: "",
-                options: ["60 km/h", "80 km/h", "100 km/h", "120 km/h"],
-                correct: 0,
-                explanation: "The general speed limit in urban areas is 60 km/h"
+        // Show the previous question
+        function showPreviousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion();
             }
-        ]
-    },
-    vehicle: {
-        title: "Vehicle Controls",
-        questions: [
-            {
-                question: "What does the brake pedal do?",
-                image: "",
-                options: ["Slows or stops the vehicle", "Increases speed", "Changes gears", "Opens windows"],
-                correct: 0,
-                explanation: "The brake pedal slows down or stops the vehicle"
+        }
+
+        // Show the next question
+        function showNextQuestion() {
+            const questions = getCurrentTestQuestions();
+            
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+            } else {
+                submitTest();
             }
-        ]
-    }
-};
+        }
 
-// ==================== APPLICATION STATE ====================
-let currentUser = null;
-let currentTest = null;
-let currentQuestionIndex = 0;
-let userAnswers = [];
-let testScore = 0;
-let testResults = [];
-
-// ==================== SCREEN MANAGEMENT ====================
-function showWelcomeOverlay() {
-    hideAllScreens();
-    document.getElementById('welcomeOverlay').classList.remove('hidden');
-}
-
-function startGuidedTour() {
-    console.log("🚗 Starting guided tour...");
-    document.getElementById('welcomeOverlay').classList.add('hidden');
-    showLogin();
-}
-
-function showLogin() {
-    hideAllScreens();
-    document.getElementById('loginScreen').classList.remove('hidden');
-}
-
-function showRegister() {
-    hideAllScreens();
-    document.getElementById('registerScreen').classList.remove('hidden');
-}
-
-function showForgotPassword() {
-    hideAllScreens();
-    document.getElementById('forgotPasswordScreen').classList.remove('hidden');
-}
-
-function showDashboard() {
-    hideAllScreens();
-    document.getElementById('dashboardScreen').classList.remove('hidden');
-    updateUserInfo();
-}
-
-function showAssessmentScreen() {
-    hideAllScreens();
-    document.getElementById('assessmentScreen').classList.remove('hidden');
-    loadQuestion();
-}
-
-function showResultsScreen() {
-    hideAllScreens();
-    document.getElementById('resultsScreen').classList.remove('hidden');
-    displayResults();
-}
-
-function showPracticeMode() {
-    hideAllScreens();
-    document.getElementById('practiceScreen').classList.remove('hidden');
-    loadPracticeContent();
-}
-
-function showProgress() {
-    hideAllScreens();
-    document.getElementById('progressScreen').classList.remove('hidden');
-}
-
-function showAffiliate() {
-    hideAllScreens();
-    document.getElementById('affiliateScreen').classList.remove('hidden');
-}
-
-function hideAllScreens() {
-    const screens = [
-        'welcomeOverlay', 'loginScreen', 'registerScreen', 'paymentScreen', 'forgotPasswordScreen',
-        'dashboardScreen', 'assessmentScreen', 'resultsScreen', 
-        'practiceScreen', 'progressScreen', 'affiliateScreen'
-    ];
-    screens.forEach(screen => {
-        const element = document.getElementById(screen);
-        if (element) element.classList.add('hidden');
-    });
-}
-
-// ==================== USER MANAGEMENT ====================
-function handleLogin() {
-    const phone = document.getElementById('loginPhone').value;
-    const password = document.getElementById('loginPassword').value;
-
-    if (!phone || !password) {
-        alert('Please enter your phone number and password');
-        return;
-    }
-
-    currentUser = {
-        name: 'Vusi Mahlangu',
-        phone: phone,
-        email: 'nodinopro@gmail.com',
-        referralCode: 'NODI' + Math.floor(10000 + Math.random() * 90000),
-        paymentVerified: true,
-        accessGranted: true
-    };
-
-    localStorage.setItem('currentUser', JSON.stringify(currentUser));
-
-    alert('Login successful! Welcome to Nodinopro!');
-    showDashboard();
-}
-
-function handlePasswordReset() {
-    const phone = document.getElementById('resetPhone').value;
-    
-    if (!phone) {
-        alert('Please enter your cellphone number');
-        return;
-    }
-    
-    alert(`Password reset code has been sent to ${phone}. Please check your messages.`);
-    showLogin();
-}
-
-function updateUserInfo() {
-    if (currentUser) {
-        document.getElementById('userInfo').classList.remove('hidden');
-        document.getElementById('userName').textContent = currentUser.name;
-        document.getElementById('referralCode').textContent = currentUser.referralCode;
-    }
-}
-
-// ==================== ASSESSMENT SYSTEM ====================
-function startAssessment(testType) {
-    console.log(`🎯 Starting assessment: ${testType}`);
-    currentTest = assessments[testType];
-    currentQuestionIndex = 0;
-    userAnswers = [];
-    testScore = 0;
-    testResults = [];
-    
-    showAssessmentScreen();
-}
-
-function loadQuestion() {
-    if (!currentTest || !currentTest.questions[currentQuestionIndex]) {
-        console.error('❌ No question data available');
-        return;
-    }
-
-    const question = currentTest.questions[currentQuestionIndex];
-    const totalQuestions = currentTest.questions.length;
-    
-    const progress = ((currentQuestionIndex + 1) / totalQuestions) * 100;
-    document.getElementById('progressFill').style.width = progress + '%';
-    
-    document.getElementById('questionNumber').textContent = 
-        `Question ${currentQuestionIndex + 1} of ${totalQuestions}`;
-    document.getElementById('questionText').textContent = question.question;
-    
-    const signImage = document.getElementById('signImage');
-    signImage.src = question.image;
-    signImage.alt = question.question;
-    signImage.onerror = function() {
-        console.log(`🖼️ Image failed to load: ${this.src}`);
-        this.style.display = 'none';
-        document.getElementById('questionText').textContent = 
-            `What does the "${question.signName}" road sign mean?`;
-    };
-    
-    const optionsContainer = document.getElementById('optionsContainer');
-    optionsContainer.innerHTML = '';
-    
-    question.options.forEach((option, index) => {
-        const isSelected = userAnswers[currentQuestionIndex] === index;
-        const optionBtn = document.createElement('div');
-        optionBtn.className = `option-btn ${isSelected ? 'selected' : ''}`;
-        optionBtn.textContent = option;
-        optionBtn.onclick = () => selectOption(index);
-        optionsContainer.appendChild(optionBtn);
-    });
-    
-    document.getElementById('nextButton').classList.remove('hidden');
-    document.getElementById('finishButton').classList.add('hidden');
-    
-    if (currentQuestionIndex === totalQuestions - 1) {
-        document.getElementById('nextButton').classList.add('hidden');
-        document.getElementById('finishButton').classList.remove('hidden');
-    }
-}
-
-function selectOption(optionIndex) {
-    const options = document.querySelectorAll('.option-btn');
-    options.forEach(opt => opt.classList.remove('selected'));
-    options[optionIndex].classList.add('selected');
-    userAnswers[currentQuestionIndex] = optionIndex;
-}
-
-function nextQuestion() {
-    if (currentQuestionIndex < currentTest.questions.length - 1) {
-        currentQuestionIndex++;
-        loadQuestion();
-    }
-}
-
-function previousQuestion() {
-    if (currentQuestionIndex > 0) {
-        currentQuestionIndex--;
-        loadQuestion();
-    }
-}
-
-function finishTest() {
-    calculateScore();
-    showResultsScreen();
-}
-
-function calculateScore() {
-    testScore = 0;
-    testResults = [];
-    
-    currentTest.questions.forEach((question, index) => {
-        const userAnswer = userAnswers[index];
-        const isCorrect = userAnswer === question.correct;
-        
-        if (isCorrect) testScore++;
-        
-        testResults.push({
-            question: question.question,
-            userAnswer: question.options[userAnswer],
-            correctAnswer: question.options[question.correct],
-            isCorrect: isCorrect,
-            explanation: question.explanation
-        });
-    });
-}
-
-function displayResults() {
-    const scorePercent = Math.round((testScore / currentTest.questions.length) * 100);
-    const passed = testScore >= 22;
-    
-    document.getElementById('scoreCircle').textContent = scorePercent + '%';
-    document.getElementById('scoreValue').textContent = testScore;
-    document.getElementById('correctCount').textContent = testScore;
-    document.getElementById('incorrectCount').textContent = currentTest.questions.length - testScore;
-    
-    const passFailElement = document.getElementById('passFail');
-    const resultMessage = document.getElementById('resultMessage');
-    
-    if (passed) {
-        passFailElement.textContent = 'PASSED - Congratulations! 🎉';
-        passFailElement.className = 'score-text pass';
-        resultMessage.textContent = 'You are ready for your official learner\'s licence test!';
-        document.getElementById('scoreCircle').style.background = 'linear-gradient(135deg, #27ae60, #2ecc71)';
-    } else {
-        passFailElement.textContent = 'NOT PASSED - Keep Practicing';
-        passFailElement.className = 'score-text fail';
-        resultMessage.textContent = 'Review the road signs and try again. You need 22/25 to pass.';
-        document.getElementById('scoreCircle').style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
-    }
-}
-
-function reviewTest() {
-    alert('Detailed answer review coming in the next update!');
-}
-
-function retakeTest() {
-    assessments.roadSigns.questions = generateAssessmentQuestions();
-    startAssessment('roadSigns');
-}
-
-// ==================== PRACTICE MODE ====================
-function loadPracticeContent() {
-    const practiceContent = document.getElementById('practiceContent');
-    
-    let html = `
-        <div style="text-align: center; margin-bottom: 30px;">
-            <h3>All South African Road Signs (${roadSignsDatabase.length} Total)</h3>
-            <p>Study these official road signs for your learner's licence test</p>
-        </div>
-        <div class="road-signs-grid">`;
-    
-    roadSignsDatabase.forEach(sign => {
-        html += `
-            <div class="road-sign-card ${sign.category.toLowerCase()}" data-category="${sign.category}">
-                <div>
-                    <span class="sign-code">${sign.code}</span>
-                    <span class="sign-category ${sign.category.toLowerCase()}">${sign.category}</span>
+        // Submit the test and show results
+        function submitTest() {
+            const questions = getCurrentTestQuestions();
+            let correctAnswers = 0;
+            
+            // Calculate score
+            questions.forEach((question, index) => {
+                if (userAnswers[index] === question.correctAnswer) {
+                    correctAnswers++;
+                }
+            });
+            
+            testScore = Math.round((correctAnswers / questions.length) * 100);
+            
+            // Display results
+            resultsArea.style.display = 'block';
+            testContainer.style.display = 'none';
+            
+            let resultMessage = '';
+            if (testScore >= 80) {
+                resultMessage = 'Excellent! You are well prepared for your learner\'s licence test.';
+            } else if (testScore >= 70) {
+                resultMessage = 'Good job! You have a solid understanding but could use more practice.';
+            } else if (testScore >= 60) {
+                resultMessage = 'You passed, but consider reviewing the material before taking the actual test.';
+            } else {
+                resultMessage = 'You need more practice. Review the road signs and rules before trying again.';
+            }
+            
+            resultsArea.innerHTML = `
+                <h2>Test Results</h2>
+                <div class="score-display">${testScore}%</div>
+                <div class="result-message">${resultMessage}</div>
+                <p>You answered ${correctAnswers} out of ${questions.length} questions correctly.</p>
+                <div class="btn-group">
+                    <button class="btn btn-primary" id="reviewTest">Review Answers</button>
+                    <button class="btn btn-accent" id="retakeTest">Retake Test</button>
+                    <button class="btn btn-secondary" id="newTest">Take Another Test</button>
                 </div>
-                <div class="sign-image-container">
-                    <img 
-                        src="${sign.imageUrl}" 
-                        alt="${sign.name}" 
-                        class="sign-image"
-                        onerror="this.style.display='none'"
-                    >
-                </div>
-                <div class="sign-name">${sign.name}</div>
-                <div class="sign-description">${sign.description}</div>
-            </div>
-        `;
-    });
-    
-    html += `</div>`;
-    practiceContent.innerHTML = html;
-}
-
-function filterSigns(category) {
-    const signs = document.querySelectorAll('.road-sign-card');
-    signs.forEach(sign => {
-        if (category === 'all' || sign.dataset.category === category) {
-            sign.style.display = 'block';
-        } else {
-            sign.style.display = 'none';
-        }
-    });
-}
-
-// ==================== PAYMENT FUNCTIONS ====================
-async function completeRegistration() {
-    console.log("🔄 Starting registration completion...");
-    
-    const verificationCode = document.getElementById('verificationCode').value.trim();
-    const paymentProof = document.getElementById('paymentProof').files[0];
-    
-    if (!verificationCode) {
-        alert('❌ Please enter the 6-digit verification code');
-        return;
-    }
-
-    if (!paymentProof) {
-        alert('❌ Please upload proof of payment');
-        return;
-    }
-
-    if (verificationCode.length !== 6 || !/^\d+$/.test(verificationCode)) {
-        alert('❌ Please enter a valid 6-digit verification code');
-        return;
-    }
-
-    try {
-        const button = document.querySelector('#paymentScreen .btn-success');
-        const originalText = button.textContent;
-        button.textContent = 'Processing...';
-        button.disabled = true;
-
-        console.log("📁 Processing payment proof upload...");
-        
-        const uploadResult = await paymentProcessor.processPaymentProof(paymentProof);
-        if (!uploadResult.success) {
-            throw new Error(uploadResult.message);
+            `;
+            
+            // Add event listeners to result buttons
+            document.getElementById('reviewTest').addEventListener('click', reviewTest);
+            document.getElementById('retakeTest').addEventListener('click', () => startTest(currentTest));
+            document.getElementById('newTest').addEventListener('click', () => {
+                document.querySelector('.btn-group').style.display = 'flex';
+                resultsArea.style.display = 'none';
+            });
         }
 
-        const userData = {
-            name: document.getElementById('regName').value,
-            phone: document.getElementById('regPhone').value,
-            email: document.getElementById('regEmail').value
-        };
-
-        console.log("🔐 Validating verification code...");
-        
-        const isValid = paymentProcessor.validateVerificationCode(userData.phone, verificationCode);
-        if (!isValid) {
-            throw new Error('Invalid or expired verification code. Please contact support.');
+        // Review test answers
+        function reviewTest() {
+            currentQuestionIndex = 0;
+            testContainer.style.display = 'block';
+            resultsArea.style.display = 'none';
+            loadQuestion();
+            
+            // Disable option selection during review
+            const options = questionArea.querySelectorAll('.option');
+            options.forEach(option => {
+                option.style.pointerEvents = 'none';
+                
+                const index = parseInt(option.getAttribute('data-index'));
+                const question = getCurrentTestQuestions()[currentQuestionIndex];
+                
+                if (index === question.correctAnswer) {
+                    option.classList.add('correct');
+                } else if (userAnswers[currentQuestionIndex] === index && index !== question.correctAnswer) {
+                    option.classList.add('incorrect');
+                }
+            });
         }
 
-        currentUser = {
-            name: userData.name,
-            phone: userData.phone,
-            email: userData.email,
-            referralCode: 'NODI' + Math.floor(10000 + Math.random() * 90000),
-            registrationDate: new Date().toISOString(),
-            paymentVerified: true,
-            accessGranted: true
-        };
-
-        localStorage.setItem('currentUser', JSON.stringify(currentUser));
-
-        console.log("✅ User registration completed successfully");
-
-        alert('✅ Registration Successful! Welcome to Nodinopro! You now have full access to all learning materials and assessments.');
-
-        showDashboard();
-
-    } catch (error) {
-        console.error("❌ Registration error:", error);
-        alert('❌ ' + error.message);
-    } finally {
-        const button = document.querySelector('#paymentScreen .btn-success');
-        if (button) {
-            button.textContent = 'Complete Registration';
-            button.disabled = false;
-        }
-    }
-}
-
-function showPayment() {
-    console.log("🔄 showPayment() function started");
-    
-    const name = document.getElementById('regName').value.trim();
-    const phone = document.getElementById('regPhone').value.trim();
-    const email = document.getElementById('regEmail').value.trim();
-    const password = document.getElementById('regPassword').value;
-
-    if (!name || !phone || !email || !password) {
-        alert('❌ Please fill in all required fields');
-        return;
-    }
-
-    if (!/^0[0-9]{9}$/.test(phone)) {
-        alert('❌ Please enter a valid South African cellphone number (10 digits starting with 0)');
-        return;
-    }
-
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        alert('❌ Please enter a valid email address');
-        return;
-    }
-
-    try {
-        console.log("✅ Form validation passed");
-        
-        const userData = { name, phone, email };
-        const verificationCode = paymentProcessor.generateVerificationCode(phone);
-        
-        console.log("✅ Verification code generated:", verificationCode);
-
-        paymentProcessor.sendPaymentNotification(userData, verificationCode);
-
-        hideAllScreens();
-        document.getElementById('paymentScreen').classList.remove('hidden');
-
-        document.getElementById('dynamicPaymentInfo').innerHTML = `
-            <p><strong>Reference Number:</strong> ${phone}</p>
-            <p><strong>Verification Code:</strong> <span style="color: #e74c3c; font-weight: bold; font-size: 1.2em;">${verificationCode}</span></p>
-            <p style="color: #d35400; font-weight: bold; background: #fff3cd; padding: 10px; border-radius: 5px;">
-            ⚠️ Save this code! You'll need it to complete registration.
-            </p>
-        `;
-
-        alert(`📋 Payment Instructions:\n\n1. Pay R${PAYMENT_CONFIG.fee} to ${PAYMENT_CONFIG.bankName}\n2. Account: ${PAYMENT_CONFIG.bankAccount}\n3. Reference: ${phone}\n4. Upload proof & enter code: ${verificationCode}\n\n📱 WhatsApp proof to: ${PAYMENT_CONFIG.adminPhone}\n✉️ Or email to: ${PAYMENT_CONFIG.adminEmail}`);
-
-        console.log("✅ Payment screen shown successfully");
-
-    } catch (error) {
-        console.error("❌ Error in showPayment:", error);
-        alert('❌ Error processing payment setup. Please try again.');
-    }
-}
-
-// ==================== UTILITY FUNCTIONS ====================
-function copyReferralCode() {
-    const code = document.getElementById('referralCode').textContent;
-    navigator.clipboard.writeText(code).then(() => {
-        alert('Referral code copied to clipboard! Share it with friends.');
-    });
-}
-
-function handleImageError(imgElement) {
-    console.log(`🖼️ Image failed to load: ${imgElement.src}`);
-    imgElement.style.display = 'none';
-    document.getElementById('signPlaceholder').classList.remove('hidden');
-}
-
-function checkExistingLogin() {
-    const savedUser = localStorage.getItem('currentUser');
-    if (savedUser) {
-        currentUser = JSON.parse(savedUser);
-        if (currentUser.paymentVerified && currentUser.accessGranted) {
-            showDashboard();
-            return true;
-        }
-    }
-    return false;
-}
-
-// ==================== INITIALIZE APPLICATION ====================
-function init() {
-    console.log("🚗 Nodinopro Platform Initialized with 500+ Road Signs");
-    console.log("📊 Available assessments:", Object.keys(assessments));
-    console.log("🛣️ Road signs loaded:", roadSignsDatabase.length);
-    
-    if (!checkExistingLogin()) {
-        showWelcomeOverlay();
-    }
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    console.log("📄 DOM fully loaded, initializing Nodinopro...");
-    init();
-});
-
-window.onload = init;
+        // Initialize the application when the DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
